@@ -30,9 +30,10 @@ public class Application {
         Properties props = new Properties();
         //Path for the file
         String fileName = "src/main/resources/db.properties";
-
+        //Loading in properties file
         try (FileInputStream in = new FileInputStream(fileName)) {
             props.load(in);
+            System.out.println(in);
         } catch (Exception e) {
             System.out.println(e);
         }
