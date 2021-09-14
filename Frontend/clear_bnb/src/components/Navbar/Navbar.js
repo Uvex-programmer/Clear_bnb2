@@ -8,6 +8,7 @@ export default function Navbar() {
         <Link to="/">Home</Link>
         <Link to="/Something">Something</Link>
         <Link to="/Search">Search</Link>
+        <Link to="/addProperty">addProperty</Link>
         <Link to="/Login">Login</Link>
       </div>
     </>

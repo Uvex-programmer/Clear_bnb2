@@ -1,0 +1,12 @@
+.add-property-container form {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(70, 70, 70, 0.466);
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.add-property-container input {
+  margin-bottom: 10px;
+  width: 300px;
+}

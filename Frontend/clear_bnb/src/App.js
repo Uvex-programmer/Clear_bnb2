@@ -2,6 +2,7 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import FrontPage from "./components/Frontpage/Frontpage";
 import Login from "./components/Login/Login";
+import AddProperty from "./components/RentalObject/AddProperty";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
@@ -18,13 +19,18 @@ function App() {
                 return <FrontPage />;
               }}
             />
-          </Switch>
-          <Switch>
             <Route
               exact
               path="/login"
               render={() => {
                 return <Login />;
+              }}
+            />
+            <Route
+              exact
+              path="/addProperty"
+              render={() => {
+                return <AddProperty />;
               }}
             />
           </Switch>
