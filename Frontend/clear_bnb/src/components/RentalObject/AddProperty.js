@@ -17,27 +17,24 @@ export default function AddProperty() {
   const submitHandler = async (e) => {
     e.preventDefault();
     let propertyObj = {
-      user_id: 1,
+      user_id: 5,
       description: description,
       title: title,
-      address_city: city,
-      address_street: address,
-      address_zipcode: zipcode,
-      bed_count: beds,
-      bathroom_count: bathrooms,
-      guest_max: guests,
-      start_date: startDate,
-      end_date: endDate,
-      daily_price: price,
+      beds: beds,
+      bathrooms: bathrooms,
+      guests: guests,
+      startDate: startDate,
+      endDate: endDate,
+      dailyPrice: price,
     };
 
     console.log(`propertyObj`, propertyObj);
-    let res = await fetch("/property", {
+    await fetch("/api/addProperty", {
       method: "POST",
       body: JSON.stringify(propertyObj),
     });
-    console.log(res);
   };
+
   return (
     <>
       <div className="add-property-container">
