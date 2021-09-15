@@ -7,7 +7,7 @@ import java.sql.Date;
 @Table (name = "properties")
 public class Property {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int user_id;
     private String title;
