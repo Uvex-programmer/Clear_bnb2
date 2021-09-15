@@ -1,3 +1,4 @@
+import express.Express;
 import models.User;
 
 import javax.persistence.EntityManager;
@@ -7,9 +8,11 @@ import java.util.Optional;
 public class UserRepository {
 
     private final EntityManager entityManager;
+    private final Express app;
 
-    public UserRepository(EntityManager entityManager) {
+    public UserRepository(EntityManager entityManager, Express app) {
         this.entityManager = entityManager;
+        this.app = app;
     }
 
     public Optional<User> findById(Integer id) {
@@ -23,13 +26,6 @@ public class UserRepository {
 
     public Optional<User> findByName(String name) {
         User user = entityManager.createQuery("SELECT u FROM User u WHERE u.firstName = :name", User.class)
-                .setParameter("name", name)
-                .getSingleResult();
-        return user != null ? Optional.of(user) : Optional.empty();
-    }
-
-    public Optional<User> findByNameNamedQuery(String name) {
-        User user = entityManager.createNamedQuery("User.findByName", User.class)
                 .setParameter("name", name)
                 .getSingleResult();
         return user != null ? Optional.of(user) : Optional.empty();

@@ -5,15 +5,9 @@ import java.sql.Date;
 
 @Entity
 @Table (name = "users")
-@NamedQueries({
-        @NamedQuery(name = "User.findByName",
-                query = "SELECT u FROM User u WHERE u.firstName = :name"),
-        @NamedQuery(name = "User.findAll",
-                query = "SELECT u FROM User u")
-})
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column (name = "first_name")
     private String firstName;
