@@ -3,14 +3,19 @@ import java.io.FileInputStream;
 import java.sql.*;
 import java.util.Properties;
 
-public class Application {
-    Connection con;
+public class ConnectMysql {
+    public static Connection con;
 
-    Application() {
+    ConnectMysql() {
         this.connectToDB();
         if (con == null) {
             System.out.println("Can't connect to server...");
         }
+    }
+    public Connection getConnection(){
+        if(con == null)
+            con = (Connection) new ConnectMysql();
+        return con;
     }
 
     private void connectToDB() {

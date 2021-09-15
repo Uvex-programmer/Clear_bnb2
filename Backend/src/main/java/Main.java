@@ -1,24 +1,19 @@
-import models.User;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.List;
+import express.Express;
 
 public class Main {
 
     public static void main(String[] args) {
-        new Application();
+        Express app = new Express();
+        new ConnectMysql();
+        app.listen(4000);
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        UserRepository userRepository = new UserRepository(entityManager);
-        var user = userRepository.findByName("else");
-       // users.forEach(System.out::println);
-        System.out.println(user.toString());
-
-        entityManager.close();
-        entityManagerFactory.close();
+        new UserRepository(entityManager, app);
+        new PropertyRepository(entityManager, app);
     }
 }
