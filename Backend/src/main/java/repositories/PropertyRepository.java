@@ -1,3 +1,5 @@
+package repositories;
+
 import express.Express;
 import models.Property;
 import javax.persistence.EntityManager;
@@ -17,8 +19,8 @@ public class PropertyRepository {
 
     public void propertyMethods(){
         app.post("/api/addProperty", (req, res) -> {
-            Property user = req.body(Property.class);
-            save(user);
+            Property property = req.body(Property.class);
+            save(property);
         });
     }
 

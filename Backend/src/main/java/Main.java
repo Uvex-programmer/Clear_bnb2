@@ -2,6 +2,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import express.Express;
+import repositories.PropertyRepository;
+import repositories.UserRepository;
 
 public class Main {
 

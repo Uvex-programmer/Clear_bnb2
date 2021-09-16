@@ -1,3 +1,5 @@
+package repositories;
+
 import express.Express;
 import models.User;
 
@@ -13,6 +15,26 @@ public class UserRepository {
     public UserRepository(EntityManager entityManager, Express app) {
         this.entityManager = entityManager;
         this.app = app;
+        this.userMethods();
+    }
+
+    public void userMethods(){
+        app.post("/api/findUser",(req, res) ->{
+            User user = req.body(User.class);
+            Optional<User> user1 = Optional.empty();
+            try {
+            user1 = findByNameAndPassword(user.getFirstName(), user.getPassword());
+            }catch (Exception e){
+                res.json("wrong login");
+                return;
+            }
+            req.session("current user", "hej");
+            res.json(user1.toString());
+        });
+
+        app.get("/api/whoami", (req, res)-> {   //Control logged in user
+            res.json(req.session("current-user"));
+        });
     }
 
     public Optional<User> findById(Integer id) {
@@ -24,9 +46,11 @@ public class UserRepository {
         return entityManager.createQuery("from User").getResultList();
     }
 
-    public Optional<User> findByName(String name) {
-        User user = entityManager.createQuery("SELECT u FROM User u WHERE u.firstName = :name", User.class)
+    public Optional<User> findByNameAndPassword(String name, String password) {
+        User user = entityManager.createQuery("SELECT u FROM User u WHERE u.firstName = :name" +
+                " AND u.password = :password", User.class)
                 .setParameter("name", name)
+                .setParameter("password", password)
                 .getSingleResult();
         return user != null ? Optional.of(user) : Optional.empty();
     }
