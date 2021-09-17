@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "properties")
@@ -30,6 +31,9 @@ public class Property {
     private Address address;
     @OneToOne(mappedBy = "images")
     private Images images;
+    @OneToMany
+    @JoinColumn(name = "property_id", referencedColumnName = "id")
+    private List<Review> reviews;
     
     public Property() {
     }

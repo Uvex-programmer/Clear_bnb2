@@ -4,6 +4,7 @@ import jdk.jfr.Timestamp;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,6 +22,9 @@ public class User {
     private Date created_at;
     @OneToOne(mappedBy = "account")
     private BankAccount account;
+    @OneToMany
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private List<Review> reviews;
     
     public User() {
     }
