@@ -37,6 +37,13 @@ public class Property {
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Booking> bookings;
+    @ManyToMany
+    @JoinTable(
+            name = "properties_x_amenities",
+            joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
+    )
+    private List<Amenity> amenities;
     
     public Property() {
     }
@@ -53,6 +60,46 @@ public class Property {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyPrice = dailyPrice;
+    }
+    
+    public Address getAddress() {
+        return address;
+    }
+    
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+    
+    public Images getImages() {
+        return images;
+    }
+    
+    public void setImages(Images images) {
+        this.images = images;
+    }
+    
+    public List<Review> getReviews() {
+        return reviews;
+    }
+    
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+    
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+    
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+    
+    public List<Amenity> getAmenities() {
+        return amenities;
+    }
+    
+    public void setAmenities(List<Amenity> amenities) {
+        this.amenities = amenities;
     }
     
     public int getId() {

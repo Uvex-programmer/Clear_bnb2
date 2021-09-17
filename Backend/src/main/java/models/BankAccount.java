@@ -25,6 +25,7 @@ public class BankAccount {
         this.user = user;
     }
     
+    
     public int getId() {
         return id;
     }

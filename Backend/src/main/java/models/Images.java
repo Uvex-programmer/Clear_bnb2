@@ -26,6 +26,14 @@ public class Images {
         this.primary = primary;
     }
     
+    public Property getProperty() {
+        return property;
+    }
+    
+    public void setProperty(Property property) {
+        this.property = property;
+    }
+    
     public int getId() {
         return id;
     }

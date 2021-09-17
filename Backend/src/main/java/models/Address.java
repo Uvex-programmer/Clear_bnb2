@@ -30,6 +30,7 @@ public class Address {
         this.property = property;
     }
     
+    
     public int getId() {
         return id;
     }

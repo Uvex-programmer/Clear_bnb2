@@ -47,6 +47,54 @@ public class User {
         this.created_at = created_at;
     }
     
+    public BankAccount getAccount() {
+        return account;
+    }
+    
+    public void setAccount(BankAccount account) {
+        this.account = account;
+    }
+    
+    public List<Review> getReviews() {
+        return reviews;
+    }
+    
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+    
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+    
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+    
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+    
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+    
+    public List<Transaction> getReceivedTransactions() {
+        return receivedTransactions;
+    }
+    
+    public void setReceivedTransactions(List<Transaction> receivedTransactions) {
+        this.receivedTransactions = receivedTransactions;
+    }
+    
+    public List<Property> getProperties() {
+        return properties;
+    }
+    
+    public void setProperties(List<Property> properties) {
+        this.properties = properties;
+    }
+    
     public Integer getId() {
         return id;
     }

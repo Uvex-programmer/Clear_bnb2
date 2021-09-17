@@ -20,6 +20,7 @@ public class Amenity {
     @Enumerated
     private Amenities amenity;
     
+    
     public Amenity() {
     }
     
@@ -27,6 +28,7 @@ public class Amenity {
         this.id = id;
         this.amenity = amenity;
     }
+    
     
     public int getId() {
         return id;

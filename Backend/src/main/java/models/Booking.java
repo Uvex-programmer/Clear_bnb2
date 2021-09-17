@@ -32,6 +32,14 @@ public class Booking {
         this.endDate = endDate;
     }
     
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+    
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+    
     public int getId() {
         return id;
     }
