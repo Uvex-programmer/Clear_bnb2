@@ -18,7 +18,8 @@ public class Property {
     private int bathrooms;
     @Column(name = "guest_max")
     private int guests;
-    private Date created_at;
+    @Column(name = "created_at")
+    private Date createdAt;
     @Column(name = "start_date")
     private Date startDate;
     @Column(name = "end_date")
@@ -27,11 +28,13 @@ public class Property {
     private int dailyPrice;
     @OneToOne(mappedBy = "address")
     private Address address;
+    @OneToOne(mappedBy = "images")
+    private Images images;
     
     public Property() {
     }
     
-    public Property(int id, int user_id, String title, String description, int beds, int bathrooms, int guests, Date created_at, Date startDate, Date endDate, int dailyPrice) {
+    public Property(int id, int user_id, String title, String description, int beds, int bathrooms, int guests, Date createdAt, Date startDate, Date endDate, int dailyPrice) {
         this.id = id;
         this.user_id = user_id;
         this.title = title;
@@ -39,7 +42,7 @@ public class Property {
         this.beds = beds;
         this.bathrooms = bathrooms;
         this.guests = guests;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyPrice = dailyPrice;
@@ -101,12 +104,12 @@ public class Property {
         this.guests = guests;
     }
     
-    public Date getCreated_at() {
-        return created_at;
+    public Date getCreatedAt() {
+        return createdAt;
     }
     
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
     
     public Date getStartDate() {
@@ -143,7 +146,7 @@ public class Property {
                 ", beds=" + beds +
                 ", bathrooms=" + bathrooms +
                 ", guests=" + guests +
-                ", created_at=" + created_at +
+                ", created_at=" + createdAt +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", dailyPrice=" + dailyPrice +
