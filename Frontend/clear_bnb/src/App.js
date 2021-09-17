@@ -3,22 +3,25 @@ import Navbar from "./components/Navbar/Navbar";
 import FrontPage from "./components/Frontpage/Frontpage";
 import Login from "./components/Login/Login";
 import AddProperty from "./components/RentalObject/AddProperty";
+import ProfilePage from "./components/Views/ProfilePage/ProfilePage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { login } from "./slicers/LoginSlicer";
 
 function App() {
-  const userOnline = useSelector((state) => state.loginUser.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function whoAmI() {
       let res = await fetch("/api/whoami");
       let userLoggedIn = JSON.parse(await res.json());
       const user = JSON.parse(userLoggedIn);
+      dispatch(login(user));
       console.log("user logged in: ", user);
     }
     whoAmI();
-  }, [userOnline]);
+  }, [dispatch]);
 
   return (
     <Router>
@@ -45,6 +48,13 @@ function App() {
               path="/addProperty"
               render={() => {
                 return <AddProperty />;
+              }}
+            />
+            <Route
+              exact
+              path="/profilePage"
+              render={() => {
+                return <ProfilePage />;
               }}
             />
           </Switch>
