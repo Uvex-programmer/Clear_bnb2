@@ -43,7 +43,7 @@ public class UserRepository {
            res.json("Ok, logged out");
         });
 
-        app.get("/api/whoami", (req, res)-> {   //Control logged in user
+        app.get("/api/whoami", (req, res)-> {
             res.json(mapper.writeValueAsString((req.session("current-user"))));
         });
     }
@@ -63,6 +63,8 @@ public class UserRepository {
                 .setParameter("email", email)
                 .setParameter("password", password)
                 .getSingleResult();
+        if(user != null)
+            user.setPassword(null);
         return user != null ? Optional.of(user) : Optional.empty();
     }
 

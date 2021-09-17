@@ -1,6 +1,6 @@
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
-import FrontPage from "./components/Frontpage/Frontpage";
+import FrontPage from "./components/Views/Frontpage/Frontpage";
 import Login from "./components/Login/Login";
 import AddProperty from "./components/RentalObject/AddProperty";
 import ProfilePage from "./components/Views/ProfilePage/ProfilePage";

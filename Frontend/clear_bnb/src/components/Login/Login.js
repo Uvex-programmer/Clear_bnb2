@@ -20,12 +20,12 @@ export default function Login() {
     });
 
     let userLoggedIn = await res.json();
+    const userObject = JSON.parse(userLoggedIn);
     if (userLoggedIn === "wrong login") {
       console.log("Wrong login");
       return;
     }
-    dispatch(login(userLoggedIn));
-    e.preventDefault();
+    dispatch(login(JSON.parse(userObject)));
   };
 
   return (
@@ -33,7 +33,7 @@ export default function Login() {
       <div className="login-container">
         <div className="login-header">Login</div>
         <div className="login-form">
-          <form onSubmit={submitHandler}>
+          <form>
             <label>
               username
               <input
@@ -53,13 +53,10 @@ export default function Login() {
           </form>
         </div>
         <div className="login-buttons">
-          <button type="submit" onClick={submitHandler}>
-            Login
-          </button>
+          <button onClick={submitHandler}>Login</button>
           <button>Register</button>
           <button
-            onClick={async () => {
-              await fetch("/api/logoutUser");
+            onClick={() => {
               dispatch(logout());
             }}
           >
