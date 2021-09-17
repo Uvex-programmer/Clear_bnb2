@@ -28,6 +28,12 @@ public class User {
     @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Booking> bookings;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private List<Transaction> transactions;
+    @JoinColumn(name = "receiver_id", referencedColumnName = "id")
+    private List<Transaction> receivedTransactions;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private List<Property> properties;
     
     public User() {
     }
