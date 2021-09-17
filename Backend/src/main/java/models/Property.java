@@ -34,6 +34,9 @@ public class Property {
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Review> reviews;
+    @OneToMany
+    @JoinColumn(name = "property_id", referencedColumnName = "id")
+    private List<Booking> bookings;
     
     public Property() {
     }
