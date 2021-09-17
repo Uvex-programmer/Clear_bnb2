@@ -28,14 +28,14 @@ public class UserRepository {
             User user = req.body(User.class);
             Optional<User> user1;
             try {
-            user1 = findByNameAndPassword(user.getFirstName(), user.getPassword());
+            user1 = findByEmailAndPassword(user.getEmail(), user.getPassword());
             }catch (Exception e){
                 res.json("wrong login");
                 return;
             }
-            var user2 = mapper.writeValueAsString(user1);
-            req.session("current-user", user2);
-            res.json(mapper.writeValueAsString(user2));
+            var userLoggedIn = mapper.writeValueAsString(user1);
+            req.session("current-user", userLoggedIn);
+            res.json(mapper.writeValueAsString(userLoggedIn));
         });
 
         app.get("/api/logoutUser", (req, res) -> {
@@ -57,10 +57,10 @@ public class UserRepository {
         return entityManager.createQuery("from User").getResultList();
     }
 
-    public Optional<User> findByNameAndPassword(String name, String password) {
-        User user = entityManager.createQuery("SELECT u FROM User u WHERE u.firstName = :name" +
+    public Optional<User> findByEmailAndPassword(String email, String password) {
+        User user = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email" +
                 " AND u.password = :password", User.class)
-                .setParameter("name", name)
+                .setParameter("email", email)
                 .setParameter("password", password)
                 .getSingleResult();
         return user != null ? Optional.of(user) : Optional.empty();

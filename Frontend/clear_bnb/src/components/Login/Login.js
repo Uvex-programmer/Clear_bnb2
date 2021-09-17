@@ -4,13 +4,13 @@ import { login, logout } from "../../slicers/LoginSlicer";
 import "./Login.css";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let dispatch = useDispatch();
 
   const submitHandler = async (e) => {
     const loginCheck = {
-      firstName: username,
+      email: email,
       password: password,
     };
 
@@ -27,6 +27,7 @@ export default function Login() {
     dispatch(login(userLoggedIn));
     e.preventDefault();
   };
+
   return (
     <>
       <div className="login-container">
@@ -37,8 +38,8 @@ export default function Login() {
               username
               <input
                 type="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </label>
             <label>
