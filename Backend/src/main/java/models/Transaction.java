@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "transactions")
@@ -18,6 +19,9 @@ public class Transaction {
     private double price;
     @Column(name = "created_at")
     private Date createdAt;
+    @OneToMany
+    @JoinColumn(name = "bookings_id", referencedColumnName = "id")
+    private List<Transaction> transactions;
     
     public Transaction() {
     }
@@ -31,6 +35,13 @@ public class Transaction {
         this.createdAt = createdAt;
     }
     
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+    
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
     
     public int getId() {
         return id;

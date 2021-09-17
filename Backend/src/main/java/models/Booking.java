@@ -2,7 +2,6 @@ package models;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "bookings")
@@ -18,8 +17,7 @@ public class Booking {
     private Date startDate;
     @Column(name = "end_date")
     private Date endDate;
-    @JoinColumn(name = "bookings_id", referencedColumnName = "id")
-    private List<Transaction> transactions;
+    
     
     public Booking() {
     }
@@ -31,14 +29,14 @@ public class Booking {
         this.startDate = startDate;
         this.endDate = endDate;
     }
-    
-    public List<Transaction> getTransactions() {
-        return transactions;
-    }
-    
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
-    }
+
+//    public List<Transaction> getTransactions() {
+//        return transactions;
+//    }
+//
+//    public void setTransactions(List<Transaction> transactions) {
+//        this.transactions = transactions;
+//    }
     
     public int getId() {
         return id;

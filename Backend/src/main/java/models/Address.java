@@ -14,20 +14,18 @@ public class Address {
     private String street;
     private String zipcode;
     private String city;
-    @OneToOne(optional = false)
-    @JoinColumn(name = "property_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "address")
     private Property property;
     
     
     public Address() {
     }
     
-    public Address(int id, String street, String zipcode, String city, Property property) {
+    public Address(int id, String street, String zipcode, String city) {
         this.id = id;
         this.street = street;
         this.zipcode = zipcode;
         this.city = city;
-        this.property = property;
     }
     
     

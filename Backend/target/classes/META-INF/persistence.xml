@@ -8,6 +8,13 @@
         <!-- Entity classes -->
         <class>models.User</class>
         <class>models.Property</class>
+        <class>models.Address</class>
+        <class>models.BankAccount</class>
+        <class>models.Booking</class>
+        <class>models.Amenity</class>
+        <class>models.Images</class>
+        <class>models.Review</class>
+        <class>models.Transaction</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/bnb_db"/>

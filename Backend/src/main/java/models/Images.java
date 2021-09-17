@@ -13,7 +13,7 @@ public class Images {
     private String url;
     private boolean primary;
     @OneToOne
-    @JoinColumn(name = "property_id", referencedColumnName = "id")
+    @JoinColumn(name = "property_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Property property;
     
     public Images() {

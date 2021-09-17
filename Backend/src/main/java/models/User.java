@@ -20,20 +20,25 @@ public class User {
     private String password;
     @Timestamp
     private Date created_at;
-    @OneToOne(mappedBy = "account")
-    private BankAccount account;
+    
     @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Review> reviews;
     @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Booking> bookings;
+    @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Transaction> transactions;
+    @OneToMany
     @JoinColumn(name = "receiver_id", referencedColumnName = "id")
     private List<Transaction> receivedTransactions;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @OneToMany
+    @JoinColumn(name = "user_id_id", referencedColumnName = "id")
     private List<Property> properties;
+    @OneToOne(optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private BankAccount account;
     
     public User() {
     }

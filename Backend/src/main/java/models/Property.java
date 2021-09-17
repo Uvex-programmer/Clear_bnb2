@@ -10,7 +10,8 @@ public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int user_id;
+    @Column(name = "user_id")
+    private int userId;
     private String title;
     private String description;
     @Column(name = "bed_count")
@@ -27,9 +28,11 @@ public class Property {
     private Date endDate;
     @Column(name = "daily_price")
     private int dailyPrice;
-    @OneToOne(mappedBy = "address")
+    
+    @OneToOne(optional = false)
+    @JoinColumn(name = "property_id", referencedColumnName = "id")
     private Address address;
-    @OneToOne(mappedBy = "images")
+    @OneToOne(mappedBy = "property")
     private Images images;
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
@@ -50,7 +53,7 @@ public class Property {
     
     public Property(int id, int user_id, String title, String description, int beds, int bathrooms, int guests, Date createdAt, Date startDate, Date endDate, int dailyPrice) {
         this.id = id;
-        this.user_id = user_id;
+        this.userId = user_id;
         this.title = title;
         this.description = description;
         this.beds = beds;
@@ -110,12 +113,12 @@ public class Property {
         this.id = id;
     }
     
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
     
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
     
     public String getTitle() {
@@ -194,7 +197,7 @@ public class Property {
     public String toString() {
         return "Property{" +
                 "id=" + id +
-                ", user_id=" + user_id +
+                ", user_id=" + userId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", beds=" + beds +

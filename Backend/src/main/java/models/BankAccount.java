@@ -11,8 +11,7 @@ public class BankAccount {
     @Column(name = "user_id")
     private int userId;
     private double funds;
-    @OneToOne(optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "account")
     private User user;
     
     public BankAccount() {
