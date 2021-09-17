@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../slicers/LoginSlicer";
 import "./Navbar.css";
 
 export default function Navbar() {
   const userOnline = useSelector((state) => state.loginUser.user);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -13,6 +15,16 @@ export default function Navbar() {
         <Link to="/Search">Search</Link>
         <Link to="/addProperty">addProperty</Link>
         {userOnline !== null && <Link to="/profilePage">profilePage</Link>}
+        {userOnline !== null && (
+          <button
+            className="nav-logout-btn"
+            onClick={() => {
+              dispatch(logout());
+            }}
+          >
+            Logout
+          </button>
+        )}
         {userOnline === null && <Link to="/Login">Login</Link>}
       </div>
     </>
