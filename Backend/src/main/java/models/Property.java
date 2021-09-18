@@ -20,6 +20,7 @@ public class Property {
     private int bathrooms;
     @Column(name = "guest_max")
     private int guests;
+    @Transient
     @Column(name = "created_at")
     private Date createdAt;
     @Column(name = "start_date")
@@ -28,9 +29,7 @@ public class Property {
     private Date endDate;
     @Column(name = "daily_price")
     private int dailyPrice;
-    
-    @OneToOne(optional = false)
-    @JoinColumn(name = "property_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
     private Address address;
     @OneToOne(mappedBy = "property")
     private Images images;
@@ -51,9 +50,9 @@ public class Property {
     public Property() {
     }
     
-    public Property(int id, int user_id, String title, String description, int beds, int bathrooms, int guests, Date createdAt, Date startDate, Date endDate, int dailyPrice) {
+    public Property(int id, int userId, String title, String description, int beds, int bathrooms, int guests, Date createdAt, Date startDate, Date endDate, int dailyPrice) {
         this.id = id;
-        this.userId = user_id;
+        this.userId = userId;
         this.title = title;
         this.description = description;
         this.beds = beds;
@@ -63,6 +62,23 @@ public class Property {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyPrice = dailyPrice;
+    }
+    
+    public Property(int userId, String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
+        this.userId = userId;
+        this.title = title;
+        this.description = description;
+        this.beds = beds;
+        this.bathrooms = bathrooms;
+        this.guests = guests;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.dailyPrice = dailyPrice;
+    }
+    
+    public void addAddress(Address address) {
+        this.setAddress(address);
+        address.setProperty(this);
     }
     
     public Address getAddress() {

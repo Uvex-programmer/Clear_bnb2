@@ -9,12 +9,11 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "property_id")
-    private int propertyId;
     private String street;
     private String zipcode;
     private String city;
-    @OneToOne(mappedBy = "address")
+    @OneToOne
+    @JoinColumn(name = "property_id", referencedColumnName = "id")
     private Property property;
     
     
@@ -28,6 +27,12 @@ public class Address {
         this.city = city;
     }
     
+    public Address(String street, String zipcode, String city) {
+        this.street = street;
+        this.zipcode = zipcode;
+        this.city = city;
+    }
+    
     
     public int getId() {
         return id;
@@ -35,14 +40,6 @@ public class Address {
     
     public void setId(int id) {
         this.id = id;
-    }
-    
-    public int getPropertyId() {
-        return propertyId;
-    }
-    
-    public void setPropertyId(int propertyId) {
-        this.propertyId = propertyId;
     }
     
     public String getStreet() {
