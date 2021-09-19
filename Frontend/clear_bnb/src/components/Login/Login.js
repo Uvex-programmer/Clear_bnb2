@@ -1,43 +1,44 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { login, logout } from "../../slicers/LoginSlicer";
-import "./Login.css";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
+import { login, logout } from '../../slicers/LoginSlicer';
+import './Login.css';
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   let dispatch = useDispatch();
+  let history = useHistory();
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (selection = 'login-user', e) => {
+    e.preventDefault();
     const loginCheck = {
       email: email,
       password: password,
     };
 
-    let res = await fetch("/api/loginUser", {
-      method: "POST",
+    fetch(`/api/${selection}`, {
+      method: 'POST',
       body: JSON.stringify(loginCheck),
-    });
-
-    let userLoggedIn = await res.json();
-    if (userLoggedIn === "wrong login") {
-      console.log("Wrong login");
-      return;
-    }
-    dispatch(login(userLoggedIn));
-    e.preventDefault();
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        dispatch(login(data));
+        history.push('/');
+      });
   };
 
   return (
     <>
-      <div className="login-container">
-        <div className="login-header">Login</div>
-        <div className="login-form">
+      <div className='login-container'>
+        <div className='login-header'>Login</div>
+        <div className='login-form'>
           <form onSubmit={submitHandler}>
             <label>
               username
               <input
-                type="username"
+                type='username'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -45,21 +46,26 @@ export default function Login() {
             <label>
               password
               <input
-                type="password"
+                type='password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </label>
           </form>
         </div>
-        <div className="login-buttons">
-          <button type="submit" onClick={submitHandler}>
+        <div className='login-buttons'>
+          <button type='submit' onClick={(e) => submitHandler('login-user', e)}>
             Login
           </button>
-          <button>Register</button>
+          <button
+            type='submit'
+            onClick={(e) => submitHandler('register-user', e)}
+          >
+            Register
+          </button>
           <button
             onClick={async () => {
-              await fetch("/api/logoutUser");
+              await fetch('/api/logoutUser');
               dispatch(logout());
             }}
           >
