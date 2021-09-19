@@ -8,18 +8,16 @@ public class BankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "user_id")
-    private int userId;
     private double funds;
-//    @OneToOne(mappedBy = "account")
-//    private User user;
+    
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
     
     public BankAccount() {
     }
     
-    public BankAccount(int id, int userId, double funds) {
-        this.id = id;
-        this.userId = userId;
+    public BankAccount(double funds) {
         this.funds = funds;
     }
     
@@ -32,14 +30,6 @@ public class BankAccount {
         this.id = id;
     }
     
-    public int getUserId() {
-        return userId;
-    }
-    
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-    
     public double getFunds() {
         return funds;
     }
@@ -47,12 +37,12 @@ public class BankAccount {
     public void setFunds(double funds) {
         this.funds = funds;
     }
-
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    
+    public User getUser() {
+        return user;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

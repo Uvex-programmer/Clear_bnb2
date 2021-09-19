@@ -34,10 +34,10 @@ public class User {
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Property> properties = new ArrayList<>();
-
-//    @OneToOne()
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private BankAccount account;
+    
+    
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private BankAccount account;
     
     public User() {
     }
@@ -53,16 +53,21 @@ public class User {
         properties.add(property);
         property.setUser(this);
     }
-
-//    public BankAccount getAccount() {
-//        return account;
-//    }
-//
-//    public void setAccount(BankAccount account) {
-//        this.account = account;
-//    }
-
-//    public List<Review> getReviews() {
+    
+    public void addAccount(BankAccount account) {
+        account.setUser(this);
+        this.setAccount(account);
+    }
+    
+    public BankAccount getAccount() {
+        return account;
+    }
+    
+    public void setAccount(BankAccount account) {
+        this.account = account;
+    }
+    
+    //    public List<Review> getReviews() {
 //        return reviews;
 //    }
 //
