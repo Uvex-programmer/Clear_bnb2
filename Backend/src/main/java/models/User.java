@@ -1,9 +1,8 @@
 package models;
 
-import jdk.jfr.Timestamp;
-
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,79 +17,82 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    @Timestamp
+    @Transient
     private Date created_at;
+//    @OneToMany
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private List<Review> reviews;
+//    @OneToMany
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private List<Booking> bookings;
+//    @OneToMany
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private List<Transaction> transactions;
+//    @OneToMany
+//    @JoinColumn(name = "receiver_id", referencedColumnName = "id")
+//    private List<Transaction> receivedTransactions;
     
-    @OneToMany
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private List<Review> reviews;
-    @OneToMany
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private List<Booking> bookings;
-    @OneToMany
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private List<Transaction> transactions;
-    @OneToMany
-    @JoinColumn(name = "receiver_id", referencedColumnName = "id")
-    private List<Transaction> receivedTransactions;
-    @OneToMany
-    @JoinColumn(name = "user_id_id", referencedColumnName = "id")
-    private List<Property> properties;
-    @OneToOne(optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private BankAccount account;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Property> properties = new ArrayList<>();
+
+//    @OneToOne()
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private BankAccount account;
     
     public User() {
     }
     
-    public User(Integer id, String firstName, String lastName, String email, String password, Date created_at) {
-        this.id = id;
+    public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.created_at = created_at;
     }
     
-    public BankAccount getAccount() {
-        return account;
+    public void addProperty(Property property) {
+        properties.add(property);
+        property.setUser(this);
     }
-    
-    public void setAccount(BankAccount account) {
-        this.account = account;
-    }
-    
-    public List<Review> getReviews() {
-        return reviews;
-    }
-    
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
-    
-    public List<Booking> getBookings() {
-        return bookings;
-    }
-    
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
-    }
-    
-    public List<Transaction> getTransactions() {
-        return transactions;
-    }
-    
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
-    }
-    
-    public List<Transaction> getReceivedTransactions() {
-        return receivedTransactions;
-    }
-    
-    public void setReceivedTransactions(List<Transaction> receivedTransactions) {
-        this.receivedTransactions = receivedTransactions;
-    }
+
+//    public BankAccount getAccount() {
+//        return account;
+//    }
+//
+//    public void setAccount(BankAccount account) {
+//        this.account = account;
+//    }
+
+//    public List<Review> getReviews() {
+//        return reviews;
+//    }
+//
+//    public void setReviews(List<Review> reviews) {
+//        this.reviews = reviews;
+//    }
+
+//    public List<Booking> getBookings() {
+//        return bookings;
+//    }
+//
+//    public void setBookings(List<Booking> bookings) {
+//        this.bookings = bookings;
+//    }
+//
+//    public List<Transaction> getTransactions() {
+//        return transactions;
+//    }
+//
+//    public void setTransactions(List<Transaction> transactions) {
+//        this.transactions = transactions;
+//    }
+//
+//    public List<Transaction> getReceivedTransactions() {
+//        return receivedTransactions;
+//    }
+//
+//    public void setReceivedTransactions(List<Transaction> receivedTransactions) {
+//        this.receivedTransactions = receivedTransactions;
+//    }
     
     public List<Property> getProperties() {
         return properties;

@@ -11,8 +11,8 @@ public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "user_id")
-    private int userId;
+    //    @Column(name = "user_id")
+//    private int userId;
     private String title;
     private String description;
     @Column(name = "bed_count")
@@ -47,13 +47,16 @@ public class Property {
             inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
     )
     private List<Amenity> amenities;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
     
     public Property() {
     }
     
     public Property(int id, int userId, String title, String description, int beds, int bathrooms, int guests, Date createdAt, Date startDate, Date endDate, int dailyPrice) {
         this.id = id;
-        this.userId = userId;
+//        this.userId = userId;
         this.title = title;
         this.description = description;
         this.beds = beds;
@@ -65,8 +68,7 @@ public class Property {
         this.dailyPrice = dailyPrice;
     }
     
-    public Property(int userId, String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
-        this.userId = userId;
+    public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
         this.title = title;
         this.description = description;
         this.beds = beds;
@@ -85,6 +87,14 @@ public class Property {
     public void addImage(Image image) {
         images.add(image);
         image.setProperty(this);
+    }
+    
+    public User getUser() {
+        return user;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
     }
     
     public Address getAddress() {
@@ -134,14 +144,14 @@ public class Property {
     public void setId(int id) {
         this.id = id;
     }
-    
-    public int getUserId() {
-        return userId;
-    }
-    
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+
+//    public int getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(int userId) {
+//        this.userId = userId;
+//    }
     
     public String getTitle() {
         return title;
@@ -219,7 +229,7 @@ public class Property {
     public String toString() {
         return "Property{" +
                 "id=" + id +
-                ", user_id=" + userId +
+//                ", user_id=" + userId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", beds=" + beds +

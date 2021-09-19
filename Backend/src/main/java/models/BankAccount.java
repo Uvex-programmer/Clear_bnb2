@@ -11,17 +11,16 @@ public class BankAccount {
     @Column(name = "user_id")
     private int userId;
     private double funds;
-    @OneToOne(mappedBy = "account")
-    private User user;
+//    @OneToOne(mappedBy = "account")
+//    private User user;
     
     public BankAccount() {
     }
     
-    public BankAccount(int id, int userId, double funds, User user) {
+    public BankAccount(int id, int userId, double funds) {
         this.id = id;
         this.userId = userId;
         this.funds = funds;
-        this.user = user;
     }
     
     
@@ -48,12 +47,12 @@ public class BankAccount {
     public void setFunds(double funds) {
         this.funds = funds;
     }
-    
-    public User getUser() {
-        return user;
-    }
-    
-    public void setUser(User user) {
-        this.user = user;
-    }
+
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 }
