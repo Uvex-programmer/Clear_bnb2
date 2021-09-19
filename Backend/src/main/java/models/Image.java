@@ -55,4 +55,14 @@ public class Image {
     public void setPrimaryImage(boolean primaryImage) {
         this.primaryImage = primaryImage;
     }
+    
+    @Override
+    public String toString() {
+        return "Image{" +
+                "id=" + id +
+                ", url='" + url + '\'' +
+                ", primaryImage=" + primaryImage +
+                ", property=" + property +
+                '}';
+    }
 }

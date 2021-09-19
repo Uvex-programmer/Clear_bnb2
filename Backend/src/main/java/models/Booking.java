@@ -9,22 +9,23 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "user_id")
-    private int userId;
+    //    @Column(name = "user_id")
+//    private int userId;
     @Column(name = "property_id")
     private int propertyId;
     @Column(name = "start_date")
     private Date startDate;
     @Column(name = "end_date")
     private Date endDate;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
     
     
     public Booking() {
     }
     
-    public Booking(int id, int userId, int propertyId, Date startDate, Date endDate) {
-        this.id = id;
-        this.userId = userId;
+    public Booking(int propertyId, Date startDate, Date endDate) {
         this.propertyId = propertyId;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -46,13 +47,21 @@ public class Booking {
         this.id = id;
     }
     
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
     
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
+    
+    //    public int getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(int userId) {
+//        this.userId = userId;
+//    }
     
     public int getPropertyId() {
         return propertyId;
@@ -76,5 +85,16 @@ public class Booking {
     
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+    
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", propertyId=" + propertyId +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", user=" + user +
+                '}';
     }
 }

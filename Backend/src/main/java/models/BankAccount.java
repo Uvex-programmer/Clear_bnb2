@@ -45,4 +45,12 @@ public class BankAccount {
     public void setUser(User user) {
         this.user = user;
     }
+    
+    @Override
+    public String toString() {
+        return "BankAccount{" +
+                "funds=" + funds +
+                ", user=" + user +
+                '}';
+    }
 }

@@ -1,7 +1,7 @@
 package models;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,13 +18,12 @@ public class User {
     private String email;
     private String password;
     @Transient
-    private Date created_at;
-//    @OneToMany
+    private LocalDateTime created_at;
+    //    @OneToMany
 //    @JoinColumn(name = "user_id", referencedColumnName = "id")
 //    private List<Review> reviews;
-//    @OneToMany
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private List<Booking> bookings;
+    @OneToMany(mappedBy = "user")
+    private List<Booking> bookings = new ArrayList<>();
 //    @OneToMany
 //    @JoinColumn(name = "user_id", referencedColumnName = "id")
 //    private List<Transaction> transactions;
@@ -57,6 +56,19 @@ public class User {
     public void addAccount(BankAccount account) {
         account.setUser(this);
         this.setAccount(account);
+    }
+    
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+        booking.setUser(this);
+    }
+    
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+    
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
     
     public BankAccount getAccount() {
@@ -147,11 +159,11 @@ public class User {
         this.password = password;
     }
     
-    public Date getCreated_at() {
+    public LocalDateTime getCreated_at() {
         return created_at;
     }
     
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
     }
     
@@ -167,4 +179,5 @@ public class User {
                 '}';
     }
 }
+
 
