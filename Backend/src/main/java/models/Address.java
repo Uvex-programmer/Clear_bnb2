@@ -73,4 +73,15 @@ public class Address {
     public void setProperty(Property property) {
         this.property = property;
     }
+    
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", street='" + street + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                ", city='" + city + '\'' +
+                ", property=" + property +
+                '}';
+    }
 }

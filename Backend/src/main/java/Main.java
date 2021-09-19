@@ -37,6 +37,7 @@ public class Main {
 //        Date.valueOf("2021-10-10"), Date.valueOf("2021-12-10"), 999);
 //        BankAccount account = new BankAccount(30000);
 //        Booking booking = new Booking(71, Date.valueOf("2021-11-12"), Date.valueOf("2021-11-18"));
+//        Address address = new Address("Kostigen 48", "123 45", "Kabul");
         
         Image image = new Image("Stens_hus.jpg", true);
         Image image2 = new Image("Vuxenbild.jpg", false);
@@ -46,6 +47,8 @@ public class Main {
         Optional<Property> stensHus = propertyRepository.findById(72);
         Booking stensBooking = bookingRepository.findById(1);
 
+
+//        stensHus.get().addAddress(address);
 //        sten.addBooking(booking);
 //        stensHus.get().addImage(image);
 //        stensHus.get().addImage(image2);
@@ -54,6 +57,7 @@ public class Main {
         
         System.out.println(sten.getBookings());
         System.out.println(stensBooking);
+        System.out.println(stensHus.get().getAddress());
 
 //        bookingRepository.save(stensBooking);
 //        propertyRepository.save(stensHus.get());
