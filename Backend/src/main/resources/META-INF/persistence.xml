@@ -12,7 +12,7 @@
         <class>models.BankAccount</class>
         <class>models.Booking</class>
         <class>models.Amenity</class>
-        <class>models.Images</class>
+        <class>models.Image</class>
         <class>models.Review</class>
         <class>models.Transaction</class>
         <properties>

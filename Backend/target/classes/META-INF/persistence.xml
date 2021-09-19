@@ -2,7 +2,7 @@
              xmlns="http://java.sun.com/xml/ns/persistence"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
-    <persistence-unit name="bnb" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="bnb_db" transaction-type="RESOURCE_LOCAL">
         <!-- Persistence provider -->
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!-- Entity classes -->
@@ -12,7 +12,7 @@
         <class>models.BankAccount</class>
         <class>models.Booking</class>
         <class>models.Amenity</class>
-        <class>models.Images</class>
+        <class>models.Image</class>
         <class>models.Review</class>
         <class>models.Transaction</class>
         <properties>

@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,8 +32,8 @@ public class Property {
     private int dailyPrice;
     @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
     private Address address;
-    @OneToOne(mappedBy = "property")
-    private Images images;
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    private List<Image> images = new ArrayList<>();
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Review> reviews;
@@ -81,6 +82,11 @@ public class Property {
         address.setProperty(this);
     }
     
+    public void addImage(Image image) {
+        images.add(image);
+        image.setProperty(this);
+    }
+    
     public Address getAddress() {
         return address;
     }
@@ -89,11 +95,11 @@ public class Property {
         this.address = address;
     }
     
-    public Images getImages() {
+    public List<Image> getImages() {
         return images;
     }
     
-    public void setImages(Images images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
     
