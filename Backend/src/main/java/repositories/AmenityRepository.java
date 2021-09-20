@@ -1,7 +1,5 @@
 package repositories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import express.Express;
 import models.Amenity;
 
 import javax.persistence.EntityManager;
@@ -9,16 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class AmenityRepository {
-    
-    
     private final EntityManager entityManager;
-    private final Express app;
-    private final ObjectMapper mapper;
     
-    public AmenityRepository(EntityManager entityManager, Express app, ObjectMapper mapper) {
+    public AmenityRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.app = app;
-        this.mapper = mapper;
     }
     
     public Amenity findById(Integer id) {

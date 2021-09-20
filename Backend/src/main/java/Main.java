@@ -3,6 +3,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import express.Express;
 import models.*;
 import repositories.*;
+import routes.UserRoutes;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -21,13 +22,14 @@ public class Main {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new Jdk8Module());
         
-        UserRepository userRepository = new UserRepository(entityManager, app, mapper);
+        UserRepository userRepository = new UserRepository(entityManager);
         PropertyRepository propertyRepository = new PropertyRepository(entityManager, app);
         BankAccountRepository bankRepository = new BankAccountRepository(entityManager, app, mapper);
         BookingRepository bookingRepository = new BookingRepository(entityManager, app, mapper);
         TransactionRepository transResp = new TransactionRepository(entityManager, app, mapper);
-        AmenityRepository amenRep = new AmenityRepository(entityManager, app, mapper);
+        AmenityRepository amenRep = new AmenityRepository(entityManager);
         ReviewRepository revRep = new ReviewRepository(entityManager, app, mapper);
+        new UserRoutes(app, mapper, userRepository);
 
 
 //
@@ -41,6 +43,6 @@ public class Main {
         Transaction stenTrans = transResp.findById(5);
         Review review = revRep.findById(201);
         
-        
+        System.out.println(user.get().getProperties());
     }
 }
