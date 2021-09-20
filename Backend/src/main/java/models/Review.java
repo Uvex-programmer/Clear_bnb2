@@ -9,25 +9,29 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "user_id")
-    private int userId;
-    @Column(name = "property_id")
-    private int propertyId;
+    //    @Column(name = "user_id")
+//    private int userId;
+//    @Column(name = "property_id")
+//    private int propertyId;
     private int rating;
     private String comment;
+    @ManyToOne
+    @JoinColumn(name = "property_id", referencedColumnName = "id")
+    private Property property;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+    
+    @Transient
     @Column(name = "created_at")
     private Date createdAt;
     
     public Review() {
     }
     
-    public Review(int id, int userId, int propertyId, int rating, String comment, Date createdAt) {
-        this.id = id;
-        this.userId = userId;
-        this.propertyId = propertyId;
+    public Review(int rating, String comment) {
         this.rating = rating;
         this.comment = comment;
-        this.createdAt = createdAt;
     }
     
     
@@ -38,21 +42,38 @@ public class Review {
     public void setId(int id) {
         this.id = id;
     }
+
+//    public int getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(int userId) {
+//        this.userId = userId;
+//    }
+//
+//    public int getPropertyId() {
+//        return propertyId;
+//    }
+//
+//    public void setPropertyId(int propertyId) {
+//        this.propertyId = propertyId;
+//    }
     
-    public int getUserId() {
-        return userId;
+    
+    public Property getProperty() {
+        return property;
     }
     
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setProperty(Property property) {
+        this.property = property;
     }
     
-    public int getPropertyId() {
-        return propertyId;
+    public User getUser() {
+        return user;
     }
     
-    public void setPropertyId(int propertyId) {
-        this.propertyId = propertyId;
+    public void setUser(User user) {
+        this.user = user;
     }
     
     public int getRating() {
@@ -77,5 +98,17 @@ public class Review {
     
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+    
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", rating=" + rating +
+                ", comment='" + comment + '\'' +
+                ", property=" + property +
+                ", user=" + user +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

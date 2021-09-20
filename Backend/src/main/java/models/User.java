@@ -19,9 +19,8 @@ public class User {
     private String password;
     @Transient
     private LocalDateTime created_at;
-    //    @OneToMany
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private List<Review> reviews;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Review> reviews;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
     
@@ -61,6 +60,12 @@ public class User {
     public void addBooking(Booking booking) {
         bookings.add(booking);
         booking.setUser(this);
+    }
+    
+    public void addReview(Review review, Property property) {
+        reviews.add(review);
+        review.setUser(this);
+        review.setProperty(property);
     }
     
     public void addTransaction(Transaction transaction, User user, Booking booking) {
