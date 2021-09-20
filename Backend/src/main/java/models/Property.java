@@ -13,6 +13,7 @@ public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
     //    @Column(name = "user_id")
 //    private int userId;
     private String title;
@@ -37,10 +38,8 @@ public class Property {
     private Address address;
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
-    
     @OneToMany(mappedBy = "property")
     private List<Review> reviews;
-    
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Booking> bookings;

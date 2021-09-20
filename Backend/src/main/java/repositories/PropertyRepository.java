@@ -21,6 +21,7 @@ public class PropertyRepository {
     public void propertyMethods() {
         app.post("/api/addProperty", (req, res) -> {
             Property property = req.body(Property.class);
+            // sätta ägare här?
             save(property);
         });
     }

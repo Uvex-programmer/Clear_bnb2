@@ -1,10 +1,8 @@
 package models;
 
-import jdk.jfr.Timestamp;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +12,7 @@ import java.util.List;
 })
 
 @Entity
-@Table(name = "users")
-@Table (
+@Table(
         name = "users",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})}
 )
@@ -27,14 +24,12 @@ public class User {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-
-    @Column (unique = true)
+    
+    @Column(unique = true)
     private String email;
     private String password;
-    @Transient
-    private LocalDateTime created_at;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
     
@@ -51,10 +46,10 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private BankAccount account;
     
-
+    
     @CreationTimestamp
     private java.sql.Timestamp created_at;
-
+    
     public User() {
     }
     
@@ -127,37 +122,13 @@ public class User {
         this.account = account;
     }
     
-    //    public List<Review> getReviews() {
-//        return reviews;
-//    }
-//
-//    public void setReviews(List<Review> reviews) {
-//        this.reviews = reviews;
-//    }
-
-//    public List<Booking> getBookings() {
-//        return bookings;
-//    }
-//
-//    public void setBookings(List<Booking> bookings) {
-//        this.bookings = bookings;
-//    }
-//
-//    public List<Transaction> getTransactions() {
-//        return transactions;
-//    }
-//
-//    public void setTransactions(List<Transaction> transactions) {
-//        this.transactions = transactions;
-//    }
-//
-//    public List<Transaction> getReceivedTransactions() {
-//        return receivedTransactions;
-//    }
-//
-//    public void setReceivedTransactions(List<Transaction> receivedTransactions) {
-//        this.receivedTransactions = receivedTransactions;
-//    }
+    public List<Review> getReviews() {
+        return reviews;
+    }
+    
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
     
     public List<Property> getProperties() {
         return properties;
@@ -207,14 +178,10 @@ public class User {
         this.password = password;
     }
     
-    public LocalDateTime getCreated_at() {
-
     public java.sql.Timestamp getCreated_at() {
         return created_at;
     }
     
-    public void setCreated_at(LocalDateTime created_at) {
-
     public void setCreated_at(java.sql.Timestamp created_at) {
         this.created_at = created_at;
     }
