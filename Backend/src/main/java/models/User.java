@@ -1,12 +1,24 @@
 package models;
 
+import jdk.jfr.Timestamp;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(name = "User.findByEmail",
+                query = "SELECT u FROM User u WHERE u.email = :email")
+})
+
 @Entity
 @Table(name = "users")
+@Table (
+        name = "users",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})}
+)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +27,8 @@ public class User {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
+
+    @Column (unique = true)
     private String email;
     private String password;
     @Transient
@@ -37,6 +51,10 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private BankAccount account;
     
+
+    @CreationTimestamp
+    private java.sql.Timestamp created_at;
+
     public User() {
     }
     
@@ -190,10 +208,14 @@ public class User {
     }
     
     public LocalDateTime getCreated_at() {
+
+    public java.sql.Timestamp getCreated_at() {
         return created_at;
     }
     
     public void setCreated_at(LocalDateTime created_at) {
+
+    public void setCreated_at(java.sql.Timestamp created_at) {
         this.created_at = created_at;
     }
     
@@ -209,5 +231,4 @@ public class User {
                 '}';
     }
 }
-
 
