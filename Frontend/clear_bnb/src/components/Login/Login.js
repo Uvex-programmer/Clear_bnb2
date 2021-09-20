@@ -1,23 +1,27 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
-import { login, logout } from '../../slicers/LoginSlicer';
+import { login } from '../../slicers/LoginSlicer';
 import './Login.css';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [registerMode, setRegisterMode] = useState(false);
   let dispatch = useDispatch();
   let history = useHistory();
 
-  const submitHandler = async (selection = 'login-user', e) => {
-    e.preventDefault();
+  const submitHandler = async (type = 'login-user', e) => {
     const loginCheck = {
       email: email,
       password: password,
+      firstName: firstName,
+      lastName: lastName,
     };
 
-    fetch(`/api/${selection}`, {
+    fetch(`/api/${type}`, {
       method: 'POST',
       body: JSON.stringify(loginCheck),
     })
@@ -29,48 +33,68 @@ export default function Login() {
       });
   };
 
+  const toggleAction = (event, type = '') => {
+    event.preventDefault();
+    console.log(type);
+    !type
+      ? setRegisterMode((prevState) => !prevState)
+      : submitHandler(type, event);
+  };
+
   return (
     <>
       <div className='login-container'>
         <div className='login-header'>Login</div>
         <div className='login-form'>
-          <form onSubmit={submitHandler}>
-            <label>
-              username
-              <input
-                type='username'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </label>
-            <label>
-              password
-              <input
-                type='password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </label>
+          <form className='form-group' onSubmit={submitHandler}>
+            <label>username</label>
+            <input
+              type='username'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <label>password</label>
+            <input
+              type='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {registerMode && (
+              <>
+                <label>first name: </label>
+                <input
+                  type='text'
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+                <label>last name: </label>
+                <input
+                  type='text'
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+              </>
+            )}
+
+            <div className='login-buttons'>
+              <button
+                type='submit'
+                onClick={(event) =>
+                  toggleAction(event, registerMode ? '' : 'login-user')
+                }
+              >
+                Login
+              </button>
+              <button
+                type='submit'
+                onClick={(event) =>
+                  toggleAction(event, registerMode ? 'register-user' : '')
+                }
+              >
+                Register
+              </button>
+            </div>
           </form>
-        </div>
-        <div className='login-buttons'>
-          <button type='submit' onClick={(e) => submitHandler('login-user', e)}>
-            Login
-          </button>
-          <button
-            type='submit'
-            onClick={(e) => submitHandler('register-user', e)}
-          >
-            Register
-          </button>
-          <button
-            onClick={async () => {
-              await fetch('/api/logoutUser');
-              dispatch(logout());
-            }}
-          >
-            logout
-          </button>
         </div>
       </div>
     </>
