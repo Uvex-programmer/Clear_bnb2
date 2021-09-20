@@ -4,36 +4,36 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import express.Express;
 import models.User;
 import util.PasswordHash;
+
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-
 public class UserRepository {
-
+    
+    final PasswordHash passwordHash = new PasswordHash();
     private final EntityManager entityManager;
     private final Express app;
     private final ObjectMapper mapper;
-    final PasswordHash passwordHash = new PasswordHash();
-
+    
     public UserRepository(EntityManager entityManager, Express app, ObjectMapper mapper) {
         this.entityManager = entityManager;
         this.app = app;
         this.mapper = mapper;
         this.userMethods();
     }
-
-    public void userMethods(){
-
-        app.post("/api/login-user",(req, res) ->{
+    
+    public void userMethods() {
+        
+        app.post("/api/login-user", (req, res) -> {
             Optional<User> user1 = findByEmail(req.body().get("email").toString());
-            if(user1.isEmpty()) {
+            if (user1.isEmpty()) {
                 System.out.println("Rad 56: USER DOESNT EXIST!");
                 res.json("User doesnt exist!").status(401);
                 return;
             }
-
-            if(passwordHash.authenticate(user1.get().getPassword().toCharArray(), req.body().get("password").toString())){
+            
+            if (passwordHash.authenticate(user1.get().getPassword().toCharArray(), req.body().get("password").toString())) {
                 //1. Generera Token, antingen här eller i PasswordHash
                 //2. sätt token i .session
                 //      req.session("current-user", user1.token);
@@ -45,65 +45,67 @@ public class UserRepository {
                 res.json("Wrong Password.").status(401);
             }
         });
-
+        
         app.post("/api/register-user", (req, res) -> {
-            Optional <User> userExists = findByEmail(req.body().get("email").toString());
-           if(userExists.isPresent()) {
-               System.out.println("User exists!");
-               res.json("User already exists.").status(401);
-               return;
-           }
+            Optional<User> userExists = findByEmail(req.body().get("email").toString());
+            if (userExists.isPresent()) {
+                System.out.println("User exists!");
+                res.json("User already exists.").status(401);
+                return;
+            }
             User user = req.body(User.class);
             String hashedPass = passwordHash.hash(user.getPassword().toCharArray());
             user.setPassword(hashedPass);
-
-            if(save(user).isPresent()){
+            
+            if (save(user).isPresent()) {
                 System.out.println("Success!");
                 res.json("Success!").status(200);
             } else {
                 System.out.println("Save failed.");
                 res.json("Save failed").status(500);
             }
+            var userLoggedIn = mapper.writeValueAsString(user);
+            req.session("current-user", userLoggedIn);
+            res.json(mapper.writeValueAsString(userLoggedIn));
         });
-
+        
         app.get("/api/logoutUser", (req, res) -> {
-           req.session("current-user", null);
-           res.json("Ok, logged out");
+            req.session("current-user", null);
+            res.json("Ok, logged out");
         });
-
-        app.get("/api/whoami", (req, res)-> {   //Control logged in user
+        
+        app.get("/api/whoami", (req, res) -> {   //Control logged in user
             res.json(mapper.writeValueAsString((req.session("current-user"))));
         });
     }
-
+    
     public Optional<User> findByEmail(String email) {
         try {
             return Optional.of(entityManager.createNamedQuery("User.findByEmail", User.class)
                     .setParameter("email", email).getSingleResult());
-        }catch (Exception e) {
+        } catch (Exception e) {
             return Optional.empty();
         }
     }
-
+    
     public Optional<User> findById(Integer id) {
         User user = entityManager.find(User.class, id);
         return user != null ? Optional.of(user) : Optional.empty();
     }
-
+    
     public List findAll() {
         return entityManager.createQuery("from User").getResultList();
     }
-
+    
     public Optional<User> findByEmailAndPassword(String email, String password) {
         User user = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email" +
-                " AND u.password = :password", User.class)
+                        " AND u.password = :password", User.class)
                 .setParameter("email", email)
                 .setParameter("password", password)
                 .getSingleResult();
-        entityManager.close();
         return user != null ? Optional.of(user) : Optional.empty();
     }
-
+    
     public Optional<User> save(User user) {
         try {
             entityManager.getTransaction().begin();

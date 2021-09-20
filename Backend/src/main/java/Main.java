@@ -1,47 +1,46 @@
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.script.Bindings;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import express.Express;
-import models.User;
-import repositories.PropertyRepository;
-import repositories.UserRepository;
-import util.PasswordHash;
+import models.*;
+import repositories.*;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import java.util.Optional;
 
 public class Main {
-
+    
     public static void main(String[] args) {
         Express app = new Express();
         new ConnectMysql();
-        /*app.use("/api/register-user", (req, res) -> {
-            final PasswordHash passwordHash = new PasswordHash();
-            User user = req.body(User.class);
-            String pass = req.body().get("password").toString();
-            char[] ch = pass.toCharArray();
-            String hashed = passwordHash.hash(ch);
-           // req.body().get("password") = hashed;
-            System.out.println(hashed);
-        });
-
-     */
-
-
         app.listen(4000);
-
-
-
-        //initializa entity managern = den som interagerar med databasen! initialiseras med peristence.xml filen!
+        
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new Jdk8Module());
+        
+        UserRepository userRepository = new UserRepository(entityManager, app, mapper);
+        PropertyRepository propertyRepository = new PropertyRepository(entityManager, app);
+        BankAccountRepository bankRepository = new BankAccountRepository(entityManager, app, mapper);
+        BookingRepository bookingRepository = new BookingRepository(entityManager, app, mapper);
+        TransactionRepository transResp = new TransactionRepository(entityManager, app, mapper);
+        AmenityRepository amenRep = new AmenityRepository(entityManager, app, mapper);
+        ReviewRepository revRep = new ReviewRepository(entityManager, app, mapper);
 
 
-        new UserRepository(entityManager, app, mapper);
-        new PropertyRepository(entityManager, app);
+//
+        Image image = new Image("Stens_hus.jpg", true);
+        Image image2 = new Image("Vuxenbild.jpg", false);
+        Optional<User> user = userRepository.findById(75);
+        Optional<User> jons = userRepository.findById(66);
+        BankAccount account = bankRepository.findById(62);
+        Optional<Property> stensHus = propertyRepository.findById(72);
+        Booking stensBooking = bookingRepository.findById(1);
+        Transaction stenTrans = transResp.findById(5);
+        Review review = revRep.findById(201);
+        
+        
     }
 }
