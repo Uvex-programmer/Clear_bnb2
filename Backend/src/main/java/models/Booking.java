@@ -20,6 +20,8 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+    @OneToOne(mappedBy = "booking")
+    private Transaction transaction;
     
     
     public Booking() {
@@ -38,6 +40,15 @@ public class Booking {
 //    public void setTransactions(List<Transaction> transactions) {
 //        this.transactions = transactions;
 //    }
+    
+    
+    public Transaction getTransaction() {
+        return transaction;
+    }
+    
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
     
     public int getId() {
         return id;

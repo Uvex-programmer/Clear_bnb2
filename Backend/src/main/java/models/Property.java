@@ -1,5 +1,7 @@
 package models;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class Property {
     private int bathrooms;
     @Column(name = "guest_max")
     private int guests;
+    @CreationTimestamp
     @Transient
     @Column(name = "created_at")
     private Date createdAt;

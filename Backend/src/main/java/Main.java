@@ -1,14 +1,8 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import express.Express;
-import models.Booking;
-import models.Image;
-import models.Property;
-import models.User;
-import repositories.BankAccountRepository;
-import repositories.BookingRepository;
-import repositories.PropertyRepository;
-import repositories.UserRepository;
+import models.*;
+import repositories.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -31,6 +25,7 @@ public class Main {
         PropertyRepository propertyRepository = new PropertyRepository(entityManager, app);
         BankAccountRepository bankRepository = new BankAccountRepository(entityManager, app, mapper);
         BookingRepository bookingRepository = new BookingRepository(entityManager, app, mapper);
+        TransactionRepository transResp = new TransactionRepository(entityManager, app, mapper);
 
 //        User user = new User("Jöns", "Hårfager", "jösse@gmail.com", "Tarmvred!");
 //        Property property = new Property("Sten Hus", "Här bor Sten", 4, 3, 7,
@@ -38,7 +33,8 @@ public class Main {
 //        BankAccount account = new BankAccount(30000);
 //        Booking booking = new Booking(71, Date.valueOf("2021-11-12"), Date.valueOf("2021-11-18"));
 //        Address address = new Address("Kostigen 48", "123 45", "Kabul");
-        
+//        Transaction trans = new Transaction(3300);
+//
         Image image = new Image("Stens_hus.jpg", true);
         Image image2 = new Image("Vuxenbild.jpg", false);
         User sten = userRepository.findById(64);
@@ -46,8 +42,10 @@ public class Main {
         bankRepository.findById(62);
         Optional<Property> stensHus = propertyRepository.findById(72);
         Booking stensBooking = bookingRepository.findById(1);
+        Transaction stenTrans = transResp.findById(5);
 
 
+//        sten.addTransaction(trans, jons, stensBooking);
 //        stensHus.get().addAddress(address);
 //        sten.addBooking(booking);
 //        stensHus.get().addImage(image);
@@ -55,11 +53,12 @@ public class Main {
 //        sten.addAccount(account);
 //        sten.addProperty(property);
         
-        System.out.println(sten.getBookings());
-        System.out.println(stensBooking);
-        System.out.println(stensHus.get().getAddress());
+        System.out.println(stenTrans);
+//        System.out.println(sten.getTransactions());
+//        System.out.println(sten.getReceivedTransactions());
 
 //        bookingRepository.save(stensBooking);
 //        propertyRepository.save(stensHus.get());
+//        transResp.save(trans);
     }
 }

@@ -24,12 +24,12 @@ public class User {
 //    private List<Review> reviews;
     @OneToMany(mappedBy = "user")
     private List<Booking> bookings = new ArrayList<>();
-//    @OneToMany
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private List<Transaction> transactions;
-//    @OneToMany
-//    @JoinColumn(name = "receiver_id", referencedColumnName = "id")
-//    private List<Transaction> receivedTransactions;
+    
+    @OneToMany(mappedBy = "user")
+    private List<Transaction> transactions;
+    
+    @OneToMany(mappedBy = "receiver")
+    private List<Transaction> receivedTransactions;
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Property> properties = new ArrayList<>();
@@ -61,6 +61,31 @@ public class User {
     public void addBooking(Booking booking) {
         bookings.add(booking);
         booking.setUser(this);
+    }
+    
+    public void addTransaction(Transaction transaction, User user, Booking booking) {
+        transactions.add(transaction);
+        transaction.setUser(this);
+        user.receivedTransactions.add(transaction);
+        transaction.setReceiver(user);
+        booking.setTransaction(transaction);
+        transaction.setBooking(booking);
+    }
+    
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+    
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+    
+    public List<Transaction> getReceivedTransactions() {
+        return receivedTransactions;
+    }
+    
+    public void setReceivedTransactions(List<Transaction> receivedTransactions) {
+        this.receivedTransactions = receivedTransactions;
     }
     
     public List<Booking> getBookings() {
