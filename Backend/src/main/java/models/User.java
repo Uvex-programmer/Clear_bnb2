@@ -22,13 +22,13 @@ public class User {
     //    @OneToMany
 //    @JoinColumn(name = "user_id", referencedColumnName = "id")
 //    private List<Review> reviews;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
     
-    @OneToMany(mappedBy = "receiver")
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private List<Transaction> receivedTransactions;
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

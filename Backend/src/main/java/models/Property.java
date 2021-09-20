@@ -49,7 +49,7 @@ public class Property {
             joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
     )
-    private List<Amenity> amenities;
+    private List<Amenity> amenities = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
@@ -90,6 +90,11 @@ public class Property {
     public void addImage(Image image) {
         images.add(image);
         image.setProperty(this);
+    }
+    
+    public void addAmenities(Amenity amenity) {
+        amenities.add(amenity);
+        amenity.getProperties().add(this);
     }
     
     public User getUser() {
