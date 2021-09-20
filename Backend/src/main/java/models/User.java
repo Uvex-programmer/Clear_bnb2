@@ -1,10 +1,20 @@
 package models;
 import jdk.jfr.Timestamp;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Date;
 
+@NamedQueries({
+        @NamedQuery(name = "User.findByEmail",
+                query = "SELECT u FROM User u WHERE u.email = :email")
+})
+
 @Entity
-@Table (name = "users")
+@Table (
+        name = "users",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})}
+)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,15 +23,18 @@ public class User {
     private String firstName;
     @Column (name = "last_name")
     private String lastName;
+
+    @Column (unique = true)
     private String email;
     private String password;
-    @Timestamp
-    private Date created_at;
+
+    @CreationTimestamp
+    private java.sql.Timestamp created_at;
 
     public User() {
     }
 
-    public User(Integer id, String firstName, String lastName, String email, String password, Date created_at) {
+    public User(Integer id, String firstName, String lastName, String email, String password, java.sql.Timestamp created_at) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -70,11 +83,11 @@ public class User {
         this.password = password;
     }
 
-    public Date getCreated_at() {
+    public java.sql.Timestamp getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(java.sql.Timestamp created_at) {
         this.created_at = created_at;
     }
 
