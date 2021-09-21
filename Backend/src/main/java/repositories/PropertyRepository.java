@@ -1,29 +1,17 @@
 package repositories;
 
-import express.Express;
 import models.Property;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class PropertyRepository {
+public class PropertyRepository implements PropertyRepoInterface {
     
     private final EntityManager entityManager;
-    private Express app;
     
-    public PropertyRepository(EntityManager entityManager, Express app) {
+    public PropertyRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.app = app;
-        this.propertyMethods();
-    }
-    
-    public void propertyMethods() {
-        app.post("/api/addProperty", (req, res) -> {
-            Property property = req.body(Property.class);
-            // sätta ägare här?
-            save(property);
-        });
     }
     
     public Optional<Property> findById(Integer id) {
