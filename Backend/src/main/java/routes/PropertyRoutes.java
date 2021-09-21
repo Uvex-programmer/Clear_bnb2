@@ -18,8 +18,8 @@ public class PropertyRoutes {
     public void propertyMethods() {
         app.post("/api/addProperty", (req, res) -> {
             Property property = req.body(Property.class);
-            // sätta ägare här på något sätt
             property.addAddress(property.getAddress());
+            property.addUser(property.getUser());
             propertyRepository.save(property);
             System.out.println(property);
         });
