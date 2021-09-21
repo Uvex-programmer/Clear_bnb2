@@ -1,32 +1,27 @@
 package repositories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import express.Express;
 import models.Review;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class ReviewRepository {
+public class ReviewRepository implements ReviewRepoInterface {
     
     
     private final EntityManager entityManager;
-    private final Express app;
-    private final ObjectMapper mapper;
     
-    public ReviewRepository(EntityManager entityManager, Express app, ObjectMapper mapper) {
+    public ReviewRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.app = app;
-        this.mapper = mapper;
     }
     
-    public Review findById(Integer id) {
-        return entityManager.find(Review.class, id);
+    public Optional<Review> findById(Integer id) {
+        Review review = entityManager.find(Review.class, id);
+        return review != null ? Optional.of(review) : Optional.empty();
     }
     
     public List<?> findAll() {
-        return entityManager.createQuery("from User").getResultList();
+        return entityManager.createQuery("from Review").getResultList();
     }
     
     public Optional<Review> save(Review review) {

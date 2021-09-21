@@ -1,31 +1,26 @@
 package repositories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import express.Express;
 import models.Booking;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class BookingRepository {
+public class BookingRepository implements BookingRepoInterface {
     
     private final EntityManager entityManager;
-    private final Express app;
-    private final ObjectMapper mapper;
     
-    public BookingRepository(EntityManager entityManager, Express app, ObjectMapper mapper) {
+    public BookingRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.app = app;
-        this.mapper = mapper;
     }
     
-    public Booking findById(Integer id) {
-        return entityManager.find(Booking.class, id);
+    public Optional<Booking> findById(Integer id) {
+        Booking booking = entityManager.find(Booking.class, id);
+        return booking != null ? Optional.of(booking) : Optional.empty();
     }
     
     public List<?> findAll() {
-        return entityManager.createQuery("from User").getResultList();
+        return entityManager.createQuery("from Booking").getResultList();
     }
     
     public Optional<Booking> save(Booking booking) {

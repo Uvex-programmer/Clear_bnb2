@@ -1,30 +1,25 @@
 package repositories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import express.Express;
 import models.BankAccount;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class BankAccountRepository {
+public class BankAccountRepository implements BankRepoInterface {
     private final EntityManager entityManager;
-    private final Express app;
-    private final ObjectMapper mapper;
     
-    public BankAccountRepository(EntityManager entityManager, Express app, ObjectMapper mapper) {
+    public BankAccountRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.app = app;
-        this.mapper = mapper;
     }
     
-    public BankAccount findById(Integer id) {
-        return entityManager.find(BankAccount.class, id);
+    public Optional<BankAccount> findById(Integer id) {
+        BankAccount bankAccount = entityManager.find(BankAccount.class, id);
+        return bankAccount != null ? Optional.of(bankAccount) : Optional.empty();
     }
     
     public List<?> findAll() {
-        return entityManager.createQuery("from User").getResultList();
+        return entityManager.createQuery("from BankAccount").getResultList();
     }
     
     public Optional<BankAccount> save(BankAccount account) {

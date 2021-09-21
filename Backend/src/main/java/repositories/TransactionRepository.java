@@ -1,32 +1,27 @@
 package repositories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import express.Express;
 import models.Transaction;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class TransactionRepository {
+public class TransactionRepository implements TransactionRepoInterface {
     
     
     private final EntityManager entityManager;
-    private final Express app;
-    private final ObjectMapper mapper;
     
-    public TransactionRepository(EntityManager entityManager, Express app, ObjectMapper mapper) {
+    public TransactionRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.app = app;
-        this.mapper = mapper;
     }
     
-    public Transaction findById(Integer id) {
-        return entityManager.find(Transaction.class, id);
+    public Optional<Transaction> findById(Integer id) {
+        Transaction transaction = entityManager.find(Transaction.class, id);
+        return transaction != null ? Optional.of(transaction) : Optional.empty();
     }
     
     public List<?> findAll() {
-        return entityManager.createQuery("from User").getResultList();
+        return entityManager.createQuery("from Transaction").getResultList();
     }
     
     public Optional<Transaction> save(Transaction transaction) {
