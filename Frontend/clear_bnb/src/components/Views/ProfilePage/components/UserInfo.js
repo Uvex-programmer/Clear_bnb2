@@ -1,20 +1,24 @@
 import { useSelector } from "react-redux";
+import Card from "../../../UI/Card";
 
 export default function ProfilePage() {
   const userOnline = useSelector((state) => state.loginUser.user);
 
+  const style = {
+    color: "black",
+    fontSize: "20px",
+    fontWeight: "700",
+  };
+
   return (
-    <div
-      className="user-info-container"
-      style={{ border: "1px solid black", width: "300px" }}
-    >
-      <h2 className="user-info-header">User Info</h2>
-      <label htmlFor="">Firstname</label>
-      <p className="firstname">{userOnline ? userOnline.firstName : ""}</p>
-      <label htmlFor="">Lastname</label>
-      <p className="lastname">{userOnline ? userOnline.lastName : ""}</p>
-      <label htmlFor="">Email</label>
-      <p className="user-email">{userOnline ? userOnline.email : ""}</p>
-    </div>
+    <Card>
+      <h2 className="user-info-header">User Info:</h2>
+      <label style={style}>Firstname:</label>
+      <p className="firstname">{userOnline ? userOnline.userFirstName : ""}</p>
+      <label style={style}>Lastname:</label>
+      <p className="lastname">{userOnline ? userOnline.userLastName : ""}</p>
+      <label style={style}>Email:</label>
+      <p className="user-email">{userOnline ? userOnline.userEmail : ""}</p>
+    </Card>
   );
 }
