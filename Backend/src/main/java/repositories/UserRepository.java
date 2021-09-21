@@ -43,13 +43,5 @@ public class UserRepository implements UserRepoInterface {
     public List<?> findAll() {
         return entityManager.createQuery("from User").getResultList();
     }
-    
-    public Optional<User> findByEmailAndPassword(String email, String password) {
-        User user = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email" +
-                        " AND u.password = :password", User.class)
-                .setParameter("email", email)
-                .setParameter("password", password)
-                .getSingleResult();
-        return user != null ? Optional.of(user) : Optional.empty();
-    }
+
 }
