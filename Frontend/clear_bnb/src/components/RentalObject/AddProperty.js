@@ -1,5 +1,6 @@
 import './AddProperty.css';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function AddProperty() {
   const [title, setTitle] = useState('');
@@ -14,10 +15,11 @@ export default function AddProperty() {
   const [endDate, setEndDate] = useState('');
   const [price, setPrice] = useState('');
 
+  const userOnline = useSelector((state) => state.loginUser.user);
+
   const submitHandler = async (e) => {
     e.preventDefault();
     let propertyObj = {
-      // user_id: 5,
       description: description,
       title: title,
       beds: beds,
@@ -26,8 +28,18 @@ export default function AddProperty() {
       startDate: startDate,
       endDate: endDate,
       dailyPrice: price,
+      address: {
+        street: address,
+        zipcode: zipcode,
+        city: city,
+      },
+      user: {
+        id: userOnline.userId,
+        firstName: userOnline.userFirstName,
+        lastName: userOnline.userLastName,
+        email: userOnline.userEmail,
+      },
     };
-
     console.log(`propertyObj`, propertyObj);
     await fetch('/api/addProperty', {
       method: 'POST',

@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const loginSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState: {
     user: null,
   },
