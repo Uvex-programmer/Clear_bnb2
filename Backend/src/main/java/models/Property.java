@@ -13,9 +13,6 @@ public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
-    //    @Column(name = "user_id")
-//    private int userId;
     private String title;
     private String description;
     @Column(name = "bed_count")
@@ -25,7 +22,6 @@ public class Property {
     @Column(name = "guest_max")
     private int guests;
     @CreationTimestamp
-    @Transient
     @Column(name = "created_at")
     private Date createdAt;
     @Column(name = "start_date")
@@ -50,7 +46,7 @@ public class Property {
             inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
     )
     private List<Amenity> amenities = new ArrayList<>();
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     
@@ -80,6 +76,11 @@ public class Property {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyPrice = dailyPrice;
+    }
+    
+    public void addUser(User user) {
+        user.getProperties().add(this);
+        this.setUser(user);
     }
     
     public void addAddress(Address address) {

@@ -24,7 +24,7 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
     
     public Optional<Property> findByName(String name) {
-        Property property = entityManager.createQuery("SELECT p FROM properties p WHERE p.title = :name", Property.class)
+        Property property = entityManager.createQuery("FROM Property P WHERE P.title = :name", Property.class)
                 .setParameter("name", name)
                 .getSingleResult();
         return property != null ? Optional.of(property) : Optional.empty();

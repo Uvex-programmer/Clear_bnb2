@@ -24,29 +24,21 @@ public class User {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    
     @Column(unique = true)
     private String email;
     private String password;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Review> reviews = new ArrayList();
+    private List<Review> reviews = new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
-    
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
-    
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private List<Transaction> receivedTransactions;
-    
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Property> properties = new ArrayList<>();
-    
-    
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private BankAccount account;
-    
-    
     @CreationTimestamp
     private java.sql.Timestamp created_at;
     
@@ -60,10 +52,6 @@ public class User {
         this.password = password;
     }
     
-    public void addProperty(Property property) {
-        properties.add(property);
-        property.setUser(this);
-    }
     
     public void addAccount(BankAccount account) {
         account.setUser(this);

@@ -3,12 +3,12 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import express.Express;
 import models.*;
 import repositories.*;
+import routes.PropertyRoutes;
 import routes.UserRoutes;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.List;
 import java.util.Optional;
 
 public class Main {
@@ -33,6 +33,7 @@ public class Main {
         AddressRepository addressRepository = new AddressRepository(entityManager);
         
         new UserRoutes(app, mapper, userRepository);
+        new PropertyRoutes(app, propertyRepository);
 
 
 //
@@ -44,8 +45,6 @@ public class Main {
         Optional<Transaction> stenTrans = transResp.findById(5);
         Optional<Review> review = revRep.findById(201);
         
-        
-        List<?> list = bankRepository.findAll();
-        System.out.println(list);
+        System.out.println(propertyRepository.findByName("Sten Hus"));
     }
 }

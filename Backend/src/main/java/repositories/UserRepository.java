@@ -17,7 +17,11 @@ public class UserRepository implements UserRepoInterface {
     public Optional<User> save(User user) {
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist(user);
+            if (user.getId() == 0) {
+                entityManager.persist(user);
+            } else {
+                entityManager.merge(user);
+            }
             entityManager.getTransaction().commit();
             return Optional.of(user);
         } catch (Exception e) {
