@@ -1,7 +1,5 @@
 package repositories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import express.Express;
 import models.BankAccount;
 
 import javax.persistence.EntityManager;
@@ -10,13 +8,9 @@ import java.util.Optional;
 
 public class BankAccountRepository {
     private final EntityManager entityManager;
-    private final Express app;
-    private final ObjectMapper mapper;
     
-    public BankAccountRepository(EntityManager entityManager, Express app, ObjectMapper mapper) {
+    public BankAccountRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.app = app;
-        this.mapper = mapper;
     }
     
     public BankAccount findById(Integer id) {

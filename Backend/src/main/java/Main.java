@@ -23,12 +23,12 @@ public class Main {
         mapper.registerModule(new Jdk8Module());
         
         UserRepository userRepository = new UserRepository(entityManager);
-        PropertyRepository propertyRepository = new PropertyRepository(entityManager, app);
-        BankAccountRepository bankRepository = new BankAccountRepository(entityManager, app, mapper);
-        BookingRepository bookingRepository = new BookingRepository(entityManager, app, mapper);
-        TransactionRepository transResp = new TransactionRepository(entityManager, app, mapper);
+        PropertyRepository propertyRepository = new PropertyRepository(entityManager);
+        BankAccountRepository bankRepository = new BankAccountRepository(entityManager);
+        BookingRepository bookingRepository = new BookingRepository(entityManager);
+        TransactionRepository transResp = new TransactionRepository(entityManager);
         AmenityRepository amenRep = new AmenityRepository(entityManager);
-        ReviewRepository revRep = new ReviewRepository(entityManager, app, mapper);
+        ReviewRepository revRep = new ReviewRepository(entityManager);
         new UserRoutes(app, mapper, userRepository);
 
 

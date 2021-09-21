@@ -1,7 +1,5 @@
 package repositories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import express.Express;
 import models.Review;
 
 import javax.persistence.EntityManager;
@@ -12,13 +10,9 @@ public class ReviewRepository {
     
     
     private final EntityManager entityManager;
-    private final Express app;
-    private final ObjectMapper mapper;
     
-    public ReviewRepository(EntityManager entityManager, Express app, ObjectMapper mapper) {
+    public ReviewRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.app = app;
-        this.mapper = mapper;
     }
     
     public Review findById(Integer id) {
@@ -26,7 +20,7 @@ public class ReviewRepository {
     }
     
     public List<?> findAll() {
-        return entityManager.createQuery("from User").getResultList();
+        return entityManager.createQuery("from Review").getResultList();
     }
     
     public Optional<Review> save(Review review) {

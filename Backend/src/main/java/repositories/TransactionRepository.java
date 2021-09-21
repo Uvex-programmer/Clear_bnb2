@@ -1,7 +1,5 @@
 package repositories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import express.Express;
 import models.Transaction;
 
 import javax.persistence.EntityManager;
@@ -12,13 +10,9 @@ public class TransactionRepository {
     
     
     private final EntityManager entityManager;
-    private final Express app;
-    private final ObjectMapper mapper;
     
-    public TransactionRepository(EntityManager entityManager, Express app, ObjectMapper mapper) {
+    public TransactionRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.app = app;
-        this.mapper = mapper;
     }
     
     public Transaction findById(Integer id) {
@@ -26,7 +20,7 @@ public class TransactionRepository {
     }
     
     public List<?> findAll() {
-        return entityManager.createQuery("from User").getResultList();
+        return entityManager.createQuery("from Transaction").getResultList();
     }
     
     public Optional<Transaction> save(Transaction transaction) {

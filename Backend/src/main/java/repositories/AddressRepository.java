@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class AddressRepository {
+public class AddressRepository implements RepositoryInterface {
     
     private final EntityManager entityManager;
     

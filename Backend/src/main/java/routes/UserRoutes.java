@@ -13,7 +13,7 @@ public class UserRoutes {
     final PasswordHash passwordHash = new PasswordHash();
     private final Express app;
     private final ObjectMapper mapper;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     
     public UserRoutes(Express app, ObjectMapper mapper, UserRepository userRepository) {
         this.app = app;
