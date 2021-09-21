@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import Card from "../../../UI/Card";
 
-export default function ProfilePage() {
+export default function UserInfo() {
   const userOnline = useSelector((state) => state.loginUser.user);
 
   const style = {

@@ -2,10 +2,12 @@ package routes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import express.Express;
+import models.Property;
 import models.User;
 import repositories.UserRepository;
 import util.PasswordHash;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -73,9 +75,15 @@ public class UserRoutes {
             res.json("Ok, logged out");
         });
         
-        app.get("/api/whoami", (req, res) -> {   //Control logged in user
-            res.json(mapper.writeValueAsString((req.session("current-user"))));
+        app.get("/api/whoami", (req, res) -> {
+           res.json(mapper.writeValueAsString(req.session("current-user")));
         });
-        
+
+        app.get("/api/userGetProperties/:id", (req, res) -> {
+         var user = userRepository.findById(Integer.parseInt(req.params("id")));
+         List<?> properties = user.get().getProperties();
+
+         res.json(mapper.writeValueAsString(properties));
+        });
     }
 }

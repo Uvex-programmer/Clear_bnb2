@@ -1,8 +1,10 @@
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
-import FrontPage from "./components/Views/Frontpage/Frontpage";
 import Login from "./components/Login/Login";
 import AddProperty from "./components/RentalObject/AddProperty";
+import FrontPage from "./components/Views/Frontpage/Frontpage";
+import ProfilePage from "./components/Views/ProfilePage/ProfilePage";
+import { getUserProperties } from "./utils/API";
 import { Switch, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -16,16 +18,15 @@ function App() {
       let res = await fetch("/api/whoami");
       const user = JSON.parse(await res.json());
       if (user === null) return;
-
       const userLoggedIn = {
         userId: user.id,
         userFirstName: user.firstName,
         userLastName: user.lastName,
         userEmail: user.email,
       };
-
       console.log("user logged in: ", userLoggedIn);
       dispatch(login(userLoggedIn));
+      getUserProperties();
     }
     whoAmI();
   }, [dispatch]);
@@ -38,6 +39,7 @@ function App() {
           <Route exact path="/" component={FrontPage} />
           <Route path="/login" component={Login} />
           <Route path="/addProperty" component={AddProperty} />
+          <Route path="/profile-page" component={ProfilePage} />
         </Switch>
       </div>
     </div>
