@@ -26,7 +26,23 @@ export default function AddProperty() {
       startDate: startDate,
       endDate: endDate,
       dailyPrice: price,
+      address: {
+        street: address,
+        zipcode: zipcode,
+        city: city,
+      },
     };
+    //   let addressObj = {
+    //     address = address,
+    //     zipcode = zipcode,
+    //     city = city
+    //   }
+    //   console.log(`addressObj`, addressObj);
+    //   await fetch('/api/addAddress', {
+    //     method: 'POST',
+    //     body: JSON.stringify(addressObj),
+    //   });
+    // };
 
     console.log(`propertyObj`, propertyObj);
     await fetch('/api/addProperty', {
