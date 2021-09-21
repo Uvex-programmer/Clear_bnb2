@@ -6,7 +6,6 @@ import "./Navbar.css";
 export default function Navbar() {
   const userOnline = useSelector((state) => state.loginUser.user);
   const dispatch = useDispatch();
-  //console.log(userOnline);
 
   return (
     <>
