@@ -2,10 +2,13 @@ package routes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import express.Express;
+import models.Session;
 import models.User;
+import repositories.SessionRepository;
 import repositories.UserRepository;
 import util.PasswordHash;
 
+import javax.servlet.http.Cookie;
 import java.util.Optional;
 
 
@@ -14,14 +17,17 @@ public class UserRoutes {
     private final Express app;
     private final ObjectMapper mapper;
     private final UserRepository userRepository;
+    private final SessionRepository sessionRepository;
+
     
-    public UserRoutes(Express app, ObjectMapper mapper, UserRepository userRepository) {
+    public UserRoutes(Express app, ObjectMapper mapper, UserRepository userRepository, SessionRepository sessionRepository) {
         this.app = app;
         this.mapper = mapper;
         this.userRepository = userRepository;
+        this.sessionRepository = sessionRepository;
         this.userMethods();
     }
-    
+
     public void userMethods() {
         app.post("/api/login-user", (req, res) -> {
             Optional<User> user1 = userRepository.findByEmail(req.body().get("email").toString());
@@ -32,16 +38,21 @@ public class UserRoutes {
             }
             
             if (passwordHash.authenticate(user1.get().getPassword().toCharArray(), req.body().get("password").toString())) {
-                //1. Generera Token, antingen här eller i PasswordHash
-                //2. sätt token i .session
-                //      req.session("current-user", user1.token);
-                //2.5. Spara token på usern i databasen!
-                //3. Skicka tillbaka token så browser kan sparar i cookie
-                //  res.json(mapper.writeValueAsString(userLoggedIn));
-                res.json(user1.get().getEmail()).status(201);
+                Session session = new Session(user1.get().getEmail());
+                req.session("current-user", user1);
+                if (sessionRepository.save(session).isPresent()) {
+                    System.out.println("Success!");
+                    res.cookie("min-kaka", "hej").json(user1.get().getEmail()).status(201).redirect("/");
+                } else {
+                    System.out.println("Save failed.");
+                    res.json("Save failed").status(500);
+                }
+
             } else {
                 res.json("Wrong Password.").status(401);
             }
+
+
         });
         
         app.post("/api/register-user", (req, res) -> {
@@ -63,6 +74,7 @@ public class UserRoutes {
                 res.json("Save failed").status(500);
             }
             var userLoggedIn = mapper.writeValueAsString(user);
+            System.out.println("UNDER HÄR SPARAS SESSION: ");
             req.session("current-user", userLoggedIn);
             res.json(mapper.writeValueAsString(userLoggedIn));
         });
@@ -72,8 +84,9 @@ public class UserRoutes {
             res.json("Ok, logged out");
         });
         
-        app.get("/api/whoami", (req, res) -> {   //Control logged in user
-            res.json(mapper.writeValueAsString((req.session("current-user"))));
+        app.get("/api/whoami", (req, res) -> {
+           // res.json(req.session("current-user"));
+            res.json("hej");
         });
         
     }
