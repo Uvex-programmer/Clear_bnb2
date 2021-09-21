@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class ReviewRepository {
+public class ReviewRepository implements ReviewRepoInterface {
     
     
     private final EntityManager entityManager;

@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class BookingRepository {
+public class BookingRepository implements BookingRepoInterface {
     
     private final EntityManager entityManager;
     

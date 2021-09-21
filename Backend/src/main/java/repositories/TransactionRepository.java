@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class TransactionRepository {
+public class TransactionRepository implements TransactionRepoInterface {
     
     
     private final EntityManager entityManager;

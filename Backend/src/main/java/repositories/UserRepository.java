@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class UserRepository {
+public class UserRepository implements UserRepoInterface {
     
     private final EntityManager entityManager;
     

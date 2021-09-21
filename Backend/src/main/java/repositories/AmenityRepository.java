@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class AmenityRepository {
+public class AmenityRepository implements AmenityRepoInterface {
     private final EntityManager entityManager;
     
     public AmenityRepository(EntityManager entityManager) {

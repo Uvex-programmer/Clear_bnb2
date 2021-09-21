@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class BankAccountRepository {
+public class BankAccountRepository implements BankRepoInterface {
     private final EntityManager entityManager;
     
     public BankAccountRepository(EntityManager entityManager) {

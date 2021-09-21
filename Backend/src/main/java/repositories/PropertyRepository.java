@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class PropertyRepository {
+public class PropertyRepository implements PropertyRepoInterface {
     
     private final EntityManager entityManager;
     
