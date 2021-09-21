@@ -14,12 +14,13 @@ public class BookingRepository {
         this.entityManager = entityManager;
     }
     
-    public Booking findById(Integer id) {
-        return entityManager.find(Booking.class, id);
+    public Optional<Booking> findById(Integer id) {
+        Booking booking = entityManager.find(Booking.class, id);
+        return booking != null ? Optional.of(booking) : Optional.empty();
     }
     
     public List<?> findAll() {
-        return entityManager.createQuery("from User").getResultList();
+        return entityManager.createQuery("from Booking").getResultList();
     }
     
     public Optional<Booking> save(Booking booking) {

@@ -15,8 +15,9 @@ public class ReviewRepository {
         this.entityManager = entityManager;
     }
     
-    public Review findById(Integer id) {
-        return entityManager.find(Review.class, id);
+    public Optional<Review> findById(Integer id) {
+        Review review = entityManager.find(Review.class, id);
+        return review != null ? Optional.of(review) : Optional.empty();
     }
     
     public List<?> findAll() {

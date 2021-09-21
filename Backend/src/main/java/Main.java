@@ -8,6 +8,7 @@ import routes.UserRoutes;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.List;
 import java.util.Optional;
 
 public class Main {
@@ -29,20 +30,22 @@ public class Main {
         TransactionRepository transResp = new TransactionRepository(entityManager);
         AmenityRepository amenRep = new AmenityRepository(entityManager);
         ReviewRepository revRep = new ReviewRepository(entityManager);
+        AddressRepository addressRepository = new AddressRepository(entityManager);
+        
         new UserRoutes(app, mapper, userRepository);
 
 
 //
-        Image image = new Image("Stens_hus.jpg", true);
-        Image image2 = new Image("Vuxenbild.jpg", false);
         Optional<User> user = userRepository.findById(75);
         Optional<User> jons = userRepository.findById(66);
-        BankAccount account = bankRepository.findById(62);
+        Optional<BankAccount> account = bankRepository.findById(62);
         Optional<Property> stensHus = propertyRepository.findById(72);
-        Booking stensBooking = bookingRepository.findById(1);
-        Transaction stenTrans = transResp.findById(5);
-        Review review = revRep.findById(201);
+        Optional<Booking> stensBooking = bookingRepository.findById(1);
+        Optional<Transaction> stenTrans = transResp.findById(5);
+        Optional<Review> review = revRep.findById(201);
         
-        System.out.println(user.get().getProperties());
+        
+        List<?> list = bankRepository.findAll();
+        System.out.println(list);
     }
 }

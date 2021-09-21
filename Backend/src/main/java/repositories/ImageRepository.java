@@ -30,7 +30,7 @@ public class ImageRepository {
         return image != null ? Optional.of(image) : Optional.empty();
     }
     
-    public List findAll() {
+    public List<?> findAll() {
         return entityManager.createQuery("from Images").getResultList();
     }
 }

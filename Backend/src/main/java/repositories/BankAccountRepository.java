@@ -13,12 +13,13 @@ public class BankAccountRepository {
         this.entityManager = entityManager;
     }
     
-    public BankAccount findById(Integer id) {
-        return entityManager.find(BankAccount.class, id);
+    public Optional<BankAccount> findById(Integer id) {
+        BankAccount bankAccount = entityManager.find(BankAccount.class, id);
+        return bankAccount != null ? Optional.of(bankAccount) : Optional.empty();
     }
     
     public List<?> findAll() {
-        return entityManager.createQuery("from User").getResultList();
+        return entityManager.createQuery("from BankAccount").getResultList();
     }
     
     public Optional<BankAccount> save(BankAccount account) {

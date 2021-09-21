@@ -15,8 +15,9 @@ public class TransactionRepository {
         this.entityManager = entityManager;
     }
     
-    public Transaction findById(Integer id) {
-        return entityManager.find(Transaction.class, id);
+    public Optional<Transaction> findById(Integer id) {
+        Transaction transaction = entityManager.find(Transaction.class, id);
+        return transaction != null ? Optional.of(transaction) : Optional.empty();
     }
     
     public List<?> findAll() {

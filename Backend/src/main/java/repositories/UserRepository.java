@@ -40,7 +40,7 @@ public class UserRepository {
         return user != null ? Optional.of(user) : Optional.empty();
     }
     
-    public List findAll() {
+    public List<?> findAll() {
         return entityManager.createQuery("from User").getResultList();
     }
     
