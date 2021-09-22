@@ -27,7 +27,7 @@ public class Main {
         PropertyRepository propertyRepository = new PropertyRepository(entityManager);
         
         new UserRoutes(app, mapper, userRepository);
-        new PropertyRoutes(app, propertyRepository);
+        new PropertyRoutes(app, mapper, propertyRepository);
 
     }
 }

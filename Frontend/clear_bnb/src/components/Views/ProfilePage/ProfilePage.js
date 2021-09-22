@@ -6,11 +6,12 @@ export default function ProfilePage() {
   const userProperties = useSelector(
     (state) => state.userProperties.properties
   );
+  console.log(userProperties);
   return (
     <>
       <div className="profile-page-container">
         <UserInfo />
-        {userProperties === [] ? "" : <UserHouse />}
+        <UserHouse />
       </div>
     </>
   );

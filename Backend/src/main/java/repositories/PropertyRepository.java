@@ -29,6 +29,12 @@ public class PropertyRepository implements PropertyRepoInterface {
                 .getSingleResult();
         return property != null ? Optional.of(property) : Optional.empty();
     }
+
+    public List<?> findByUserId(Integer id) {
+        return entityManager.createNamedQuery("Property.findAllByUserId")
+                .setParameter("id", id)
+                .getResultList();
+    }
     
     public Optional<Property> save(Property property) {
         try {

@@ -14,11 +14,11 @@ export default function UserInfo() {
     <Card>
       <h2 className="user-info-header">User Info:</h2>
       <label style={style}>Firstname:</label>
-      <p className="firstname">{userOnline ? userOnline.userFirstName : ""}</p>
+      <p className="firstname">{userOnline ? userOnline.firstName : ""}</p>
       <label style={style}>Lastname:</label>
-      <p className="lastname">{userOnline ? userOnline.userLastName : ""}</p>
+      <p className="lastname">{userOnline ? userOnline.lastName : ""}</p>
       <label style={style}>Email:</label>
-      <p className="user-email">{userOnline ? userOnline.userEmail : ""}</p>
+      <p className="user-email">{userOnline ? userOnline.email : ""}</p>
     </Card>
   );
 }

@@ -19,10 +19,10 @@ function App() {
       const user = JSON.parse(await res.json());
       if (user === null) return;
       const userLoggedIn = {
-        userId: user.id,
-        userFirstName: user.firstName,
-        userLastName: user.lastName,
-        userEmail: user.email,
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
       };
       console.log("user logged in: ", userLoggedIn);
       dispatch(login(userLoggedIn));

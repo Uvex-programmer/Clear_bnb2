@@ -82,7 +82,6 @@ public class UserRoutes {
         app.get("/api/userGetProperties/:id", (req, res) -> {
          var user = userRepository.findById(Integer.parseInt(req.params("id")));
          List<?> properties = user.get().getProperties();
-
          res.json(mapper.writeValueAsString(properties));
         });
     }

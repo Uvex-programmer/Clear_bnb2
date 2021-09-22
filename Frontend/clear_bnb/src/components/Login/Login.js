@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { login } from "../../slicers/LoginSlicer";
 import "./Login.css";
+import { login } from "../../slicers/LoginSlicer";
+import { getUserProperties } from "../../utils/API";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ export default function Login() {
   let dispatch = useDispatch();
   let history = useHistory();
 
-  const submitHandler = async (type = "login-user", e) => {
+  const submitHandler = async (type = "login-user") => {
     const loginCheck = {
       email: email,
       password: password,
@@ -21,15 +22,15 @@ export default function Login() {
       lastName: lastName,
     };
 
-    fetch(`/api/${type}`, {
+    let res = await fetch(`/api/${type}`, {
       method: "POST",
       body: JSON.stringify(loginCheck),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch(login(data));
-        history.push("/");
-      });
+    });
+    let user = JSON.parse(await res.json());
+    dispatch(login(user));
+    getUserProperties();
+    console.log("user", user);
+    history.push("/");
   };
 
   const toggleAction = (event, type = "") => {
