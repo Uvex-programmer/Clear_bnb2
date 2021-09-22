@@ -39,9 +39,9 @@ public class UserRoutes {
             
             if (passwordHash.authenticate(user1.get().getPassword().toCharArray(), req.body().get("password").toString())) {
                 Session session = new Session(user1.get().getEmail());
-                req.session("current-user", user1);
                 if (sessionRepository.save(session).isPresent()) {
                     System.out.println("Success!");
+                    req.session("current-user", session.getId());
                     res.cookie("min-kaka", "hej").json(user1.get().getEmail()).status(201).redirect("/");
                 } else {
                     System.out.println("Save failed.");
@@ -79,7 +79,13 @@ public class UserRoutes {
             res.json(mapper.writeValueAsString(userLoggedIn));
         });
         
-        app.get("/api/logoutUser", (req, res) -> {
+        app.get("/api/logout-user", (req, res) -> {
+            int session_id = Integer.parseInt(mapper.writeValueAsString(req.session("current-user")));
+            System.out.println("sezzion" + session_id);
+
+            Optional <Session> session = sessionRepository.findById(session_id);
+
+            sessionRepository.deleteById(session.get());
             req.session("current-user", null);
             res.json("Ok, logged out");
         });
