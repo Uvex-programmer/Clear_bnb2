@@ -3,6 +3,7 @@ package repositories;
 import models.Property;
 
 import javax.persistence.EntityManager;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,13 +24,20 @@ public class PropertyRepository implements PropertyRepoInterface {
         return entityManager.createQuery("from Property").getResultList();
     }
     
+    public List<?> findAvailableObjects() {
+        Date currentTime = new Date();
+        return entityManager.createQuery("FROM Property P WHERE P.startDate < :currentTime AND P.endDate > :currentTime", Property.class)
+                .setParameter("currentTime", currentTime)
+                .getResultList();
+    }
+    
     public Optional<Property> findByName(String name) {
         Property property = entityManager.createQuery("FROM Property P WHERE P.title = :name", Property.class)
                 .setParameter("name", name)
                 .getSingleResult();
         return property != null ? Optional.of(property) : Optional.empty();
     }
-
+    
     public List<?> findByUserId(Integer id) {
         return entityManager.createNamedQuery("Property.findAllByUserId")
                 .setParameter("id", id)
