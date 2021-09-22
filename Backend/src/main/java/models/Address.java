@@ -1,6 +1,8 @@
 package models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,7 @@ public class Address {
     private String street;
     private String zipcode;
     private String city;
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private Property property;

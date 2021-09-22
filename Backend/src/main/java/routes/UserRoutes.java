@@ -40,7 +40,7 @@ public class UserRoutes {
                 //2.5. Spara token på usern i databasen!
                 //3. Skicka tillbaka token så browser kan sparar i cookie
                 //  res.json(mapper.writeValueAsString(userLoggedIn));
-                res.json(user1.get().getEmail()).status(201);
+                res.json(mapper.writeValueAsString(user1));
                 req.session("current-user", user1);
             } else {
                 res.json("Wrong Password.").status(401);
