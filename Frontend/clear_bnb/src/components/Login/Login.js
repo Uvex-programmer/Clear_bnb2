@@ -29,7 +29,7 @@ export default function Login() {
       .then((data) => {
         console.log(data);
         dispatch(login(data));
-        history.push('/');
+        // history.push('/');
       });
   };
 
@@ -84,6 +84,15 @@ export default function Login() {
                 }
               >
                 Login
+              </button>
+              <button
+                type='submit'
+                onClick={(e) => {
+                  e.preventDefault();
+                  fetch(`/api/logout-user`);
+                }}
+              >
+                Logout
               </button>
               <button
                 type='submit'
