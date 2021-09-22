@@ -1,7 +1,6 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import express.Express;
-import models.*;
 import repositories.*;
 import routes.PropertyRoutes;
 import routes.UserRoutes;
@@ -9,7 +8,6 @@ import routes.UserRoutes;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.Optional;
 
 public class Main {
     
@@ -36,14 +34,6 @@ public class Main {
         new PropertyRoutes(app, mapper, propertyRepository);
 
 //
-        Optional<User> user = userRepository.findById(75);
-        Optional<User> jons = userRepository.findById(66);
-        Optional<BankAccount> account = bankRepository.findById(62);
-        Optional<Property> stensHus = propertyRepository.findById(72);
-        Optional<Booking> stensBooking = bookingRepository.findById(1);
-        Optional<Transaction> stenTrans = transResp.findById(5);
-        Optional<Review> review = revRep.findById(201);
-        
-        System.out.println(propertyRepository.findByName("Sten Hus"));
+        System.out.println(propertyRepository.findAvailableObjects());
     }
 }
