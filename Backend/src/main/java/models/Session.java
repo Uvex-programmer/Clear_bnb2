@@ -15,12 +15,13 @@ import java.util.List;
 @Entity
 @Table(name = "sessions")
 public class Session {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String email;
+
+    private int user_id;
     @CreationTimestamp
     private java.sql.Timestamp created_at;
 //    private java.sql.Timestamp expire_at;
