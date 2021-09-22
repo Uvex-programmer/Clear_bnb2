@@ -33,8 +33,7 @@ public class Main {
         AddressRepository addressRepository = new AddressRepository(entityManager);
         
         new UserRoutes(app, mapper, userRepository);
-        new PropertyRoutes(app, propertyRepository);
-
+        new PropertyRoutes(app, mapper, propertyRepository);
 
 //
         Optional<User> user = userRepository.findById(75);
@@ -45,6 +44,6 @@ public class Main {
         Optional<Transaction> stenTrans = transResp.findById(5);
         Optional<Review> review = revRep.findById(201);
         
-        System.out.println(propertyRepository.findAvailableObjects());
+        System.out.println(propertyRepository.findByName("Sten Hus"));
     }
 }

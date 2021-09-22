@@ -1,5 +1,8 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -9,6 +12,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "properties")
+@NamedQueries({
+        @NamedQuery(name = "Property.findById",
+                query = "SELECT p FROM Property p WHERE p.id = :id"),
+        @NamedQuery(name = "Property.findAllByUserId",
+                query = "SELECT p FROM Property p WHERE p.user.id = :id"),
+})
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +55,8 @@ public class Property {
             inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
     )
     private List<Amenity> amenities = new ArrayList<>();
+
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
@@ -77,12 +88,12 @@ public class Property {
         this.endDate = endDate;
         this.dailyPrice = dailyPrice;
     }
-    
+
     public void addUser(User user) {
         user.getProperties().add(this);
         this.setUser(user);
     }
-    
+
     public void addAddress(Address address) {
         this.setAddress(address);
         address.setProperty(this);
@@ -97,7 +108,6 @@ public class Property {
         amenities.add(amenity);
         amenity.getProperties().add(this);
     }
-    
     public User getUser() {
         return user;
     }
@@ -105,8 +115,7 @@ public class Property {
     public void setUser(User user) {
         this.user = user;
     }
-    
-    public Address getAddress() {
+        public Address getAddress() {
         return address;
     }
     

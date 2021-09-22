@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -35,6 +36,7 @@ public class User {
     private List<Transaction> transactions;
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private List<Transaction> receivedTransactions;
+    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Property> properties = new ArrayList<>();
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
@@ -44,7 +46,7 @@ public class User {
     
     public User() {
     }
-    
+
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -52,6 +54,10 @@ public class User {
         this.password = password;
     }
     
+    public void addProperty(Property property) {
+        properties.add(property);
+        property.setUser(this);
+    }
     
     public void addAccount(BankAccount account) {
         account.setUser(this);
