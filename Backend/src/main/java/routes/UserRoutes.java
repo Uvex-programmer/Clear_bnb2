@@ -76,6 +76,5 @@ public class UserRoutes {
         app.get("/api/whoami", (req, res) -> {   //Control logged in user
             res.json(mapper.writeValueAsString((req.session("current-user"))));
         });
-        
     }
 }

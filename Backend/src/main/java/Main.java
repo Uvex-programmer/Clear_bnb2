@@ -45,6 +45,6 @@ public class Main {
         Optional<Transaction> stenTrans = transResp.findById(5);
         Optional<Review> review = revRep.findById(201);
         
-        System.out.println(propertyRepository.findByName("Sten Hus"));
+        System.out.println(propertyRepository.findAvailableObjects());
     }
 }
