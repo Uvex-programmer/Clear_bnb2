@@ -1,6 +1,7 @@
 package repositories;
 
 import models.Property;
+import models.PropertyView;
 import org.hibernate.Filter;
 import org.hibernate.Session;
 
@@ -23,7 +24,7 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
     
     public List<?> findAll() {
-        return entityManager.createQuery("from Property").getResultList();
+        return entityManager.createQuery("SELECT v FROM PropertyView v", PropertyView.class).getResultList();
     }
     
     public List<?> findAvailableObjects() {

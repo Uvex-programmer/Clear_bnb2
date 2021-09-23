@@ -34,7 +34,7 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-    @JsonManagedReference(value = "user-movement")
+    @JsonManagedReference(value = "user-review")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

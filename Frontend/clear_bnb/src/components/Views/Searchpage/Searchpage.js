@@ -12,7 +12,9 @@ const Searchpage = () => {
   const [startDate, setStartDate] = useState(
     new Date().toISOString().split('T')[0]
   );
-  const [endDate, setEndDate] = useState('2021-09-26');
+  const [endDate, setEndDate] = useState(
+    new Date().toISOString().split('T')[0]
+  );
   const [guests, setMinGuests] = useState(1);
   const dispatch = useDispatch();
   const searchResults = useSelector((state) => state.searchData.results);
@@ -82,7 +84,7 @@ const Searchpage = () => {
           <input
             type='range'
             min='100'
-            max='50000'
+            max='5000'
             name='maxprice'
             value={dailyPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
