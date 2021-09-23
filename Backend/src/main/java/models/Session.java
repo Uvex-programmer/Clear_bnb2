@@ -24,14 +24,19 @@ public class Session {
     private int user_id;
     @CreationTimestamp
     private java.sql.Timestamp created_at;
-//    private java.sql.Timestamp expire_at;
+
+    private java.sql.Timestamp expire_at;
     @UpdateTimestamp
     private java.sql.Timestamp last_modified;
 
+
+
     public Session() {}
 
-    public Session(String email) {
+    public Session(String email, Timestamp expire_at, int user_id) {
+        this.expire_at = expire_at;
         this.email = email;
+        this.user_id = user_id;
     }
 
     public int getId() {
