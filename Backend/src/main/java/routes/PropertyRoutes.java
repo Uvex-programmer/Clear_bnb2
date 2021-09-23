@@ -37,11 +37,9 @@ public class PropertyRoutes {
         
         app.post("/api/search", (req, res) -> {
             Property searchResult = req.body(Property.class);
-            
-            System.out.println(propertyRepository.findObjectsBySearch(searchResult.getBeds(), searchResult.getBathrooms(), searchResult.getGuests(), searchResult.getDailyPrice(),
-                    searchResult.getStartDate(), searchResult.getEndDate()));
-            
-            
+            List<?> bySearch = propertyRepository.findObjectsBySearch(searchResult.getBeds(), searchResult.getBathrooms(), searchResult.getGuests(), searchResult.getDailyPrice(),
+                    searchResult.getStartDate(), searchResult.getEndDate());
+            res.json(mapper.writeValueAsString(bySearch));
         });
     }
 }

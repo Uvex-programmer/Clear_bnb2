@@ -17,7 +17,7 @@ import java.util.List;
         name = "users",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})}
 )
-public class    User {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -25,15 +25,16 @@ public class    User {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-
+    
     @Transient
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JoinColumn(name = "session_id", referencedColumnName = "id")
     private Integer sessionID;
-
+    
     @Column(unique = true)
     private String email;
     private String password;
+    @JsonManagedReference(value = "user-movement")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

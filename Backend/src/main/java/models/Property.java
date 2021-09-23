@@ -1,6 +1,7 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Filters;
@@ -43,8 +44,10 @@ public class Property {
     private int dailyPrice;
     @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
     private Address address;
+    @JsonManagedReference(value = "images")
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
+    @JsonManagedReference
     @OneToMany(mappedBy = "property")
     private List<Review> reviews;
     @Transient

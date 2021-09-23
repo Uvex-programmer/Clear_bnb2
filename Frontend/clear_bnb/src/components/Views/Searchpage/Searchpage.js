@@ -36,7 +36,7 @@ const Searchpage = () => {
       .then((res) => res.json())
       .then((data) => {
         if (!data) return;
-        console.log(data);
+        console.log(JSON.parse(data));
         dispatch(setSearchResults);
       })
       .catch((error) => console.log(error));
