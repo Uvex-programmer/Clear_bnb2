@@ -1,6 +1,8 @@
 package repositories;
 
 import models.Property;
+import org.hibernate.Filter;
+import org.hibernate.Session;
 
 import javax.persistence.EntityManager;
 import java.util.Date;
@@ -30,6 +32,27 @@ public class PropertyRepository implements PropertyRepoInterface {
                 .setParameter("currentTime", currentTime)
                 .getResultList();
     }
+    
+    //    , Date startDate, Date endDate
+    public List<?> findObjectsBySearch(int beds, int bathrooms, String city, int minGuests, int maxPrice) {
+        Session session = entityManager.unwrap(Session.class);
+        Filter bedroomFilter = session.enableFilter("bedroomFilter");
+        bedroomFilter.setParameter("minBeds", beds);
+        Filter bathroomFilter = session.enableFilter("bathroomFilter");
+        bathroomFilter.setParameter("minBath", bathrooms);
+        Filter cityFilter = session.enableFilter("cityFilter");
+        cityFilter.setParameter("city", city);
+//        Filter dateFilter = session.enableFilter("dateFilter");
+//        dateFilter.setParameter("startDate", startDate);
+//        dateFilter.setParameter("endDate", endDate);
+        Filter guestFilter = session.enableFilter("guestFilter");
+        guestFilter.setParameter("minGuests", minGuests);
+        Filter priceFilter = session.enableFilter("priceFilter");
+        priceFilter.setParameter("maxPrice", maxPrice);
+        return entityManager.createQuery("SELECT P FROM Property P inner join P.address", Property.class)
+                .getResultList();
+    }
+    // date guest price
     
     public Optional<Property> findByName(String name) {
         Property property = entityManager.createQuery("FROM Property P WHERE P.title = :name", Property.class)
