@@ -35,7 +35,11 @@ public class Main {
         SessionRepository sessionRepository = new SessionRepository(entityManager);
         UserRepository userRepository = new UserRepository(entityManager);
         PropertyRepository propertyRepository = new PropertyRepository(entityManager);
-        
+        BankAccountRepository bankRepository = new BankAccountRepository(entityManager);
+        BookingRepository bookingRepository = new BookingRepository(entityManager);
+        TransactionRepository transResp = new TransactionRepository(entityManager);
+        ReviewRepository revRep = new ReviewRepository(entityManager);
+
         new UserRoutes(app, mapper, userRepository, sessionRepository);
 
         Optional<User> user = userRepository.findById(75);

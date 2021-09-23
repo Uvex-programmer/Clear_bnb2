@@ -101,12 +101,12 @@ public class UserRoutes {
             }
 
             res.clearCookie("current-user", "/api").clearCookie("JSESSIONID", "/");
-            res.status(201).json("Successfully Logged out!");
+            res.status(201).json("Successfully Logged out!").redirect("/");
         });
 
         
         app.get("/api/whoami", (req, res) -> {
-           res.json(mapper.writeValueAsString(req.session("current-user")));
+           res.json(mapper.writeValueAsString(req.cookie("current-user")));
         });
 
         app.get("/api/user-get-properties/:id", (req, res) -> {
