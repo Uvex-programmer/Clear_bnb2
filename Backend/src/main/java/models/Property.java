@@ -3,8 +3,6 @@ package models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.Filters;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -14,13 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "properties")
-@Filters({
-        @Filter(name = "bedroomFilter", condition = "bed_count >= :minBeds"),
-        @Filter(name = "bathroomFilter", condition = "bathroom_count >= :minBath"),
-        @Filter(name = "dateFilter", condition = "start_date <= :startDate and end_date >= :endDate"),
-        @Filter(name = "guestFilter", condition = "guest_max >= :minGuests"),
-        @Filter(name = "priceFilter", condition = "daily_price <= :maxPrice")
-})
+
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

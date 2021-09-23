@@ -41,6 +41,5 @@ public class Main {
 //        System.out.println(propertyRepository.findObjectsBySearch(1, 1, 1, 500, ts1, ts2));
         
         app.listen(4000);
-        System.out.println(propertyRepository.findAll());
     }
 }

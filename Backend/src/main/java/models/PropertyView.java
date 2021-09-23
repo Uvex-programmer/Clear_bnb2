@@ -1,5 +1,7 @@
 package models;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.Filters;
 import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
@@ -7,6 +9,16 @@ import java.sql.Timestamp;
 
 @Entity
 @Immutable
+@Filters({
+        @Filter(name = "bedroomFilter", condition = "bed_count >= :minBeds"),
+        @Filter(name = "bathroomFilter", condition = "bathroom_count >= :minBath"),
+        @Filter(name = "dateFilter", condition = "start_date <= :startDate and end_date >= :endDate"),
+        @Filter(name = "guestFilter", condition = "guest_max >= :minGuests"),
+        @Filter(name = "priceFilter", condition = "daily_price <= :maxPrice"),
+//        @Filter(name = "cityFilter", condition = "city like '%:city%'")
+        @Filter(name = "cityFilter", condition = "city = :city")
+    
+})
 public class PropertyView {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

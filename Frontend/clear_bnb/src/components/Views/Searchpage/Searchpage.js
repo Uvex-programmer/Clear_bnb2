@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import SearchResults from '../../SearchResults/SearchResults';
 
 const Searchpage = () => {
-  const [search, setSearch] = useState('');
+  const [city, setSearch] = useState('');
   const [beds, setBeds] = useState(1);
-  const [bathrooms, setBathrooms] = useState(1);
+  const [baths, setBathrooms] = useState(1);
   const [dailyPrice, setMaxPrice] = useState(600);
   const [startDate, setStartDate] = useState(
     new Date().toISOString().split('T')[0]
@@ -21,9 +21,9 @@ const Searchpage = () => {
 
   const searchHandler = () => {
     const searchInfo = {
-      // search,
+      city,
       beds,
-      bathrooms,
+      baths,
       dailyPrice,
       startDate,
       endDate,
@@ -49,7 +49,7 @@ const Searchpage = () => {
       <div className={styles['search-controller']}>
         <input
           type='search'
-          value={search}
+          value={city}
           onChange={(e) => setSearch(e.target.value)}
         />
         <button onClick={searchHandler}>Search</button>
@@ -72,12 +72,12 @@ const Searchpage = () => {
           <input
             type='range'
             name='bathrooms'
-            value={bathrooms}
+            value={baths}
             max='10'
             min='1'
             onChange={(e) => setBathrooms(e.target.value)}
           />
-          <p>{bathrooms}</p>
+          <p>{baths}</p>
         </div>
         <div className={styles['amenity-controller']}>
           <label>Max Price: </label>
