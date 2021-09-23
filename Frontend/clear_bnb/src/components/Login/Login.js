@@ -26,7 +26,7 @@ export default function Login() {
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data)
+				// console.log(data)
 				dispatch(login(data))
 				getUserProperties()
 			})
