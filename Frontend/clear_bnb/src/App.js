@@ -1,49 +1,53 @@
-import "./App.css";
-import Navbar from "./components/Navbar/Navbar";
-import Login from "./components/Login/Login";
-import AddProperty from "./components/RentalObject/AddProperty";
-import FrontPage from "./components/Views/Frontpage/Frontpage";
-import ProfilePage from "./components/Views/ProfilePage/ProfilePage";
-import { getUserProperties } from "./utils/API";
-import { Switch, Route } from "react-router-dom";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "./slicers/LoginSlicer";
+import './App.css'
+import Navbar from './components/Navbar/Navbar'
+import Login from './components/Login/Login'
+import AddProperty from './components/RentalObject/AddProperty'
+import Frontpage from './components/Views/Frontpage/Frontpage'
+import Searchpage from './components/Views/Searchpage/Searchpage'
+import ProfilePage from './components/Views/ProfilePage/ProfilePage'
+import { Switch, Route } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { login } from './slicers/LoginSlicer'
+import { getUserProperties } from './utils/API'
+import { useEffect } from 'react'
 
 function App() {
-  const dispatch = useDispatch();
+	const dispatch = useDispatch()
 
-  useEffect(() => {
-    async function whoAmI() {
-      let res = await fetch("/api/whoami");
-      const user = JSON.parse(await res.json());
-      if (user === null) return;
-      const userLoggedIn = {
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-      };
-      console.log("user logged in: ", userLoggedIn);
-      dispatch(login(userLoggedIn));
-      getUserProperties();
-    }
-    whoAmI();
-  }, [dispatch]);
+	useEffect(() => {
+		fetch('/api/whoami')
+			.then((res) => res.json())
+			.then((user) => {
+				if (!user) return console.log('No user currently logged in.')
+				console.log(user)
+				console.log('AAAAAAAAA')
 
-  return (
-    <div id="App">
-      <Navbar />
-      <div className="app-container">
-        <Switch>
-          <Route exact path="/" component={FrontPage} />
-          <Route path="/login" component={Login} />
-          <Route path="/addProperty" component={AddProperty} />
-          <Route path="/profile-page" component={ProfilePage} />
-        </Switch>
-      </div>
-    </div>
-  );
+				const userLoggedIn = {
+					id: user.id,
+					firstName: user.firstName,
+					lastName: user.lastName,
+					email: user.email,
+				}
+				dispatch(login(userLoggedIn))
+				getUserProperties()
+				console.log('user logged in: ', user)
+			})
+	}, [dispatch])
+
+	return (
+		<div id='App'>
+			<Navbar />
+			<div className='app-container'>
+				<Switch>
+					<Route exact path='/' component={Frontpage} />
+					<Route path='/login' component={Login} />
+					<Route path='/add-property' component={AddProperty} />
+					<Route path='/search' component={Searchpage} />
+					<Route path='/profile-page' component={ProfilePage} />
+				</Switch>
+			</div>
+		</div>
+	)
 }
 
-export default App;
+export default App

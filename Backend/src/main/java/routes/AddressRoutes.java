@@ -14,7 +14,7 @@ public class AddressRoutes {
     }
     
     public void propertyMethods() {
-        app.post("/api/addAddress", (req, res) -> {
+        app.post("/api/add-address", (req, res) -> {
             Address address = req.body(Address.class);
             // sätta ägare här på något sätt
             addressRepository.save(address);
