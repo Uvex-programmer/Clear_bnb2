@@ -28,11 +28,12 @@ public class PropertyRoutes {
             propertyRepository.save(property);
             System.out.println(property);
         });
-
+        
         app.get("/api/getUserProperties/:id", (req, res) -> {
             List<?> properties = propertyRepository.findByUserId(Integer.parseInt(req.params("id")));
             res.json(mapper.writeValueAsString(properties));
             System.out.println(properties);
         });
+        
     }
 }
