@@ -1,22 +1,38 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.*;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+@FilterDefs({
+        @FilterDef(name = "bedroomFilter", parameters = @ParamDef(name = "minBeds", type = "int")),
+        @FilterDef(name = "bathroomFilter", parameters = @ParamDef(name = "minBath", type = "int")),
+        @FilterDef(name = "cityFilter", parameters = @ParamDef(name = "city", type = "string"))
+//        @FilterDef(name = "dateFilter", parameters = {
+//                @ParamDef(name = "startDate", type = "Date"),
+//                @ParamDef(name = "endDate", type = "Date")
+//        })
+        ,
+        @FilterDef(name = "guestFilter", parameters = @ParamDef(name = "minGuests", type = "int")),
+        @FilterDef(name = "priceFilter", parameters = @ParamDef(name = "maxPrice", type = "int")),
+//        @FilterDef(name = "reviewFilter", parameters = @ParamDef(name = "minReview", type = "int"))
+})
 @Entity
 @Table(name = "properties")
-@NamedQueries({
-        @NamedQuery(name = "Property.findById",
-                query = "SELECT p FROM Property p WHERE p.id = :id"),
-        @NamedQuery(name = "Property.findAllByUserId",
-                query = "SELECT p FROM Property p WHERE p.user.id = :id"),
+@Filters({
+        @Filter(name = "bedroomFilter", condition = "bed_count >= :minBeds"),
+        @Filter(name = "bathroomFilter", condition = "bathroom_count >= :minBath"),
+//        @Filter(name = "dateFilter", condition = "start_date <= : startDate and end_date >= :endDate"),
+        @Filter(name = "guestFilter", condition = "guest_max >= :minGuests"),
+        @Filter(name = "priceFilter", condition = "daily_price <= :maxPrice"),
+//        @Filter(name = "reviewFilter", condition = "review >= :minReview")
 })
 public class Property {
     @Id
@@ -40,6 +56,7 @@ public class Property {
     @Column(name = "daily_price")
     private int dailyPrice;
     @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
+    @FilterJoinTable(name = "cityFilter", condition = "city == :city")
     private Address address;
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
@@ -55,7 +72,7 @@ public class Property {
             inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
     )
     private List<Amenity> amenities = new ArrayList<>();
-
+    
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -88,12 +105,12 @@ public class Property {
         this.endDate = endDate;
         this.dailyPrice = dailyPrice;
     }
-
+    
     public void addUser(User user) {
         user.getProperties().add(this);
         this.setUser(user);
     }
-
+    
     public void addAddress(Address address) {
         this.setAddress(address);
         address.setProperty(this);
@@ -108,6 +125,7 @@ public class Property {
         amenities.add(amenity);
         amenity.getProperties().add(this);
     }
+    
     public User getUser() {
         return user;
     }
@@ -115,7 +133,8 @@ public class Property {
     public void setUser(User user) {
         this.user = user;
     }
-        public Address getAddress() {
+    
+    public Address getAddress() {
         return address;
     }
     
