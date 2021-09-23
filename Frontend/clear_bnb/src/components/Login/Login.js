@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { login } from '../../slicers/LoginSlicer'
+import { getUserProperties } from '../../utils/API'
 import './Login.css'
 
 export default function Login() {
@@ -27,6 +28,7 @@ export default function Login() {
 			.then((data) => {
 				console.log(data)
 				dispatch(login(data))
+				getUserProperties()
 			})
 	}
 

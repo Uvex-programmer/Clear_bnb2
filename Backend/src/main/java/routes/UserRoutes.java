@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import express.Express;
 import express.http.Response;
 import models.Session;
+import models.Property;
 import models.User;
 import repositories.SessionRepository;
 import repositories.UserRepository;
@@ -24,9 +25,6 @@ public class UserRoutes {
     private final ObjectMapper mapper;
     private final UserRepository userRepository;
     private final SessionRepository sessionRepository;
-
-
-
 
     
     public UserRoutes(Express app, ObjectMapper mapper, UserRepository userRepository, SessionRepository sessionRepository) {
@@ -108,7 +106,13 @@ public class UserRoutes {
 
         
         app.get("/api/whoami", (req, res) -> {
-            res.json("hej");
+           res.json(mapper.writeValueAsString(req.session("current-user")));
+        });
+
+        app.get("/api/user-get-properties/:id", (req, res) -> {
+         var user = userRepository.findById(Integer.parseInt(req.params("id")));
+         List<?> properties = user.get().getProperties();
+         res.json(mapper.writeValueAsString(properties));
         });
     }
 }

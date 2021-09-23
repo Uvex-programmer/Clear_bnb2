@@ -20,7 +20,11 @@
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/bnb_db2"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
+<<<<<<< HEAD
             <property name="javax.persistence.jdbc.password" value="Dannemaniman991!"/>
+=======
+            <property name="javax.persistence.jdbc.password" value="Earthair93"/>
+>>>>>>> 6615a3b59b861030f1c8ae93198521ab4c6fc84f
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
 
             <property name="show_sql" value="true"/>

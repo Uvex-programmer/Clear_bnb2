@@ -3,6 +3,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import express.Express;
 import models.*;
 import repositories.*;
+import routes.PropertyRoutes;
 import routes.UserRoutes;
 
 import javax.persistence.EntityManager;
@@ -19,8 +20,7 @@ public class Main {
         new ConnectMysql();
 
         app.use((req, res) -> {
-//            System.out.println("HÄR KOMMER MIN SESSION: ");
-            System.out.println(req.session());
+            //System.out.println("HÄR KOMMER MIN SESSION: ");
             //Session ska vara i 15-30 minuter
             // Set an cookie (you can call setCookie how often you want)
             //res.setCookie(new Cookie("my-cookie", "Hello World!"));
@@ -35,17 +35,9 @@ public class Main {
         SessionRepository sessionRepository = new SessionRepository(entityManager);
         UserRepository userRepository = new UserRepository(entityManager);
         PropertyRepository propertyRepository = new PropertyRepository(entityManager);
-        BankAccountRepository bankRepository = new BankAccountRepository(entityManager);
-        BookingRepository bookingRepository = new BookingRepository(entityManager);
-        TransactionRepository transResp = new TransactionRepository(entityManager);
-        AmenityRepository amenRep = new AmenityRepository(entityManager);
-        ReviewRepository revRep = new ReviewRepository(entityManager);
-        AddressRepository addressRepository = new AddressRepository(entityManager);
         
         new UserRoutes(app, mapper, userRepository, sessionRepository);
 
-
-//
         Optional<User> user = userRepository.findById(75);
         Optional<User> jons = userRepository.findById(66);
         Optional<BankAccount> account = bankRepository.findById(62);
@@ -54,9 +46,10 @@ public class Main {
         Optional<Transaction> stenTrans = transResp.findById(5);
         Optional<Review> review = revRep.findById(201);
         
-        
         List<?> list = bankRepository.findAll();
         System.out.println(list);
+        new PropertyRoutes(app, mapper, propertyRepository);
+        
         app.listen(4000);
     }
 }

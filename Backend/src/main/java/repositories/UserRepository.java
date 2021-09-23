@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserRepository implements UserRepoInterface {
-    
+
     private final EntityManager entityManager;
-    
+
     public UserRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
@@ -17,7 +17,11 @@ public class UserRepository implements UserRepoInterface {
     public Optional<User> save(User user) {
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist(user);
+            if (user.getId() == 0) {
+                entityManager.persist(user);
+            } else {
+                entityManager.merge(user);
+            }
             entityManager.getTransaction().commit();
             return Optional.of(user);
         } catch (Exception e) {
@@ -43,13 +47,5 @@ public class UserRepository implements UserRepoInterface {
     public List<?> findAll() {
         return entityManager.createQuery("from User").getResultList();
     }
-    
-    public Optional<User> findByEmailAndPassword(String email, String password) {
-        User user = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email" +
-                        " AND u.password = :password", User.class)
-                .setParameter("email", email)
-                .setParameter("password", password)
-                .getSingleResult();
-        return user != null ? Optional.of(user) : Optional.empty();
-    }
+
 }
