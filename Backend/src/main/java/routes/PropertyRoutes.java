@@ -28,11 +28,20 @@ public class PropertyRoutes {
             propertyRepository.save(property);
             System.out.println(property);
         });
-
+        
         app.get("/api/getUserProperties/:id", (req, res) -> {
             List<?> properties = propertyRepository.findByUserId(Integer.parseInt(req.params("id")));
             res.json(mapper.writeValueAsString(properties));
             System.out.println(properties);
+        });
+        
+        app.post("/api/search", (req, res) -> {
+            Property searchResult = req.body(Property.class);
+            
+            System.out.println(propertyRepository.findObjectsBySearch(searchResult.getBeds(), searchResult.getBathrooms(), searchResult.getGuests(), searchResult.getDailyPrice(),
+                    searchResult.getStartDate(), searchResult.getEndDate()));
+            
+            
         });
     }
 }
