@@ -2,7 +2,7 @@ import './App.css'
 import Navbar from './components/Navbar/Navbar'
 import Login from './components/Login/Login'
 import AddProperty from './components/RentalObject/AddProperty'
-import Frontpage from './components/Frontpage/Frontpage'
+import Frontpage from './components/Views/Frontpage/Frontpage'
 import Searchpage from './components/Views/Searchpage/Searchpage'
 import ProfilePage from './components/Views/ProfilePage/ProfilePage'
 import { Switch, Route } from 'react-router-dom'
@@ -19,6 +19,8 @@ function App() {
 			.then((res) => res.json())
 			.then((user) => {
 				if (!user) return console.log('No user currently logged in.')
+				console.log(user)
+				console.log('AAAAAAAAA')
 
 				const userLoggedIn = {
 					id: user.id,

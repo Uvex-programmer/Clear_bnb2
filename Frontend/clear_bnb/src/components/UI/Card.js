@@ -4,11 +4,11 @@ const Card = ({ userOnline }) => {
 	return (
 		<div className={classes.card}>
 			<h2 className='user-info-header'>User Info:</h2>
-			<label style={classes['card-label']}>Firstname:</label>
+			<label className={classes['card-label']}>Firstname:</label>
 			<p className='firstname'>{userOnline ? userOnline.firstName : ''}</p>
-			<label style={classes['card-label']}>Lastname:</label>
+			<label className={classes['card-label']}>Lastname:</label>
 			<p className='lastname'>{userOnline ? userOnline.lastName : ''}</p>
-			<label style={classes['card-label']}>Email:</label>
+			<label className={classes['card-label']}>Email:</label>
 			<p className='user-email'>{userOnline ? userOnline.email : ''}</p>
 		</div>
 	)

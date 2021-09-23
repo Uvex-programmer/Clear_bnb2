@@ -1,14 +1,19 @@
 import { useState } from 'react'
 import styles from './Searchpage.module.css'
+import { setSearchResults } from '../../../slicers/SearchSlicer'
+import { useDispatch, useSelector } from 'react-redux'
+import SearchResults from '../../SearchResults/SearchResults'
 
 const Searchpage = () => {
 	const [search, setSearch] = useState('')
 	const [beds, setBeds] = useState(1)
 	const [bathrooms, setBathrooms] = useState(1)
 	const [maxPrice, setMaxPrice] = useState(1)
-	const [startDate, setStartDate] = useState('YYYY-MM-DD')
-	const [endDate, setEndDate] = useState('YYYY-MM-DD')
+	const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0])
+	const [endDate, setEndDate] = useState('2022-03-25')
 	const [minGuests, setMinGuests] = useState(1)
+	const dispatch = useDispatch()
+	const searchResults = useSelector((state) => state.searchData.results)
 
 	const searchHandler = () => {
 		const searchInfo = {
@@ -27,7 +32,9 @@ const Searchpage = () => {
 		})
 			.then((res) => res.json())
 			.then((data) => {
+				if (!data) return
 				console.log(data)
+				dispatch(setSearchResults)
 			})
 			.catch((error) => console.log(error))
 	}
@@ -108,6 +115,7 @@ const Searchpage = () => {
 					<p>{minGuests}</p>
 				</div>
 			</div>
+			{searchResults && <SearchResults results={searchResults} />}
 		</div>
 	)
 }
