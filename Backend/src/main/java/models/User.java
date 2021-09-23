@@ -17,7 +17,7 @@ import java.util.List;
         name = "users",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})}
 )
-public class User {
+public class    User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -25,6 +25,12 @@ public class User {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
+
+    @Transient
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JoinColumn(name = "session_id", referencedColumnName = "id")
+    private Integer sessionID;
+
     @Column(unique = true)
     private String email;
     private String password;
@@ -46,10 +52,11 @@ public class User {
     
     public User() {
     }
-
-    public User(String firstName, String lastName, String email, String password) {
+    
+    public User(String firstName, String lastName, Integer sessionID, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.sessionID = sessionID;
         this.email = email;
         this.password = password;
     }
