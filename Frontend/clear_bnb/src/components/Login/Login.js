@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router'
 import { login } from '../../slicers/LoginSlicer'
 import './Login.css'
 
@@ -11,7 +10,6 @@ export default function Login() {
 	const [lastName, setLastName] = useState('')
 	const [registerMode, setRegisterMode] = useState(false)
 	let dispatch = useDispatch()
-	let history = useHistory()
 
 	const submitHandler = async (type = 'login-user', e) => {
 		const loginCheck = {
@@ -29,7 +27,6 @@ export default function Login() {
 			.then((data) => {
 				console.log(data)
 				dispatch(login(data))
-				// history.push('/');
 			})
 	}
 
