@@ -1,33 +1,22 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.Filters;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-@FilterDefs({
-        @FilterDef(name = "bedroomFilter", parameters = @ParamDef(name = "minBeds", type = "int")),
-        @FilterDef(name = "bathroomFilter", parameters = @ParamDef(name = "minBath", type = "int"))
-//        @FilterDef(name = "dateFilter", parameters = {
-//                @ParamDef(name = "startDate", type = "Date"),
-//                @ParamDef(name = "endDate", type = "Date")
-//        })
-        ,
-        @FilterDef(name = "guestFilter", parameters = @ParamDef(name = "minGuests", type = "int")),
-        @FilterDef(name = "priceFilter", parameters = @ParamDef(name = "maxPrice", type = "int"))
-})
 @Entity
 @Table(name = "properties")
 @Filters({
         @Filter(name = "bedroomFilter", condition = "bed_count >= :minBeds"),
         @Filter(name = "bathroomFilter", condition = "bathroom_count >= :minBath"),
-//        @Filter(name = "dateFilter", condition = "start_date <= : startDate and end_date >= :endDate"),
+        @Filter(name = "dateFilter", condition = "start_date <= :startDate and end_date >= :endDate"),
         @Filter(name = "guestFilter", condition = "guest_max >= :minGuests"),
         @Filter(name = "priceFilter", condition = "daily_price <= :maxPrice")
 })
@@ -47,9 +36,9 @@ public class Property {
     @Column(name = "created_at")
     private Date createdAt;
     @Column(name = "start_date")
-    private Date startDate;
+    private java.sql.Timestamp startDate;
     @Column(name = "end_date")
-    private Date endDate;
+    private java.sql.Timestamp endDate;
     @Column(name = "daily_price")
     private int dailyPrice;
     @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
@@ -92,7 +81,7 @@ public class Property {
 //        this.dailyPrice = dailyPrice;
 //    }
     
-    public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
+    public Property(String title, String description, int beds, int bathrooms, int guests, Timestamp startDate, Timestamp endDate, int dailyPrice) {
         this.title = title;
         this.description = description;
         this.beds = beds;
@@ -253,19 +242,19 @@ public class Property {
         this.createdAt = createdAt;
     }
     
-    public Date getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
     
-    public void setStartDate(Date startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
     
-    public Date getEndDate() {
+    public Timestamp getEndDate() {
         return endDate;
     }
     
-    public void setEndDate(Date endDate) {
+    public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
     

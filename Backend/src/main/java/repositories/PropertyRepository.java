@@ -34,7 +34,7 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
     
     //    , Date startDate, Date endDate
-    public List<?> findObjectsBySearch(int beds, int bathrooms, int minGuests, int maxPrice) {
+    public List<?> findObjectsBySearch(int beds, int bathrooms, int minGuests, int maxPrice, Date startDate, Date endDate) {
         Session session = entityManager.unwrap(Session.class);
         Filter bedroomFilter = session.enableFilter("bedroomFilter");
         Filter bathroomFilter = session.enableFilter("bathroomFilter");
@@ -44,11 +44,12 @@ public class PropertyRepository implements PropertyRepoInterface {
         bathroomFilter.setParameter("minBath", bathrooms);
         guestFilter.setParameter("minGuests", minGuests);
         priceFilter.setParameter("maxPrice", maxPrice);
-//        Filter dateFilter = session.enableFilter("dateFilter");
-//        dateFilter.setParameter("startDate", startDate);
-//        dateFilter.setParameter("endDate", endDate);
-        return entityManager.createQuery("SELECT P FROM Property P inner join P.address", Property.class)
-                .getResultList();
+        Filter dateFilter = session.enableFilter("dateFilter");
+        dateFilter.setParameter("startDate", startDate);
+        dateFilter.setParameter("endDate", endDate);
+        List<?> list = this.findAll();
+        // Convert list, Vad behövs skickas till frontend?
+        return list;
     }
     
     public Optional<Property> findByName(String name) {
