@@ -13,16 +13,14 @@ import java.util.List;
 
 @FilterDefs({
         @FilterDef(name = "bedroomFilter", parameters = @ParamDef(name = "minBeds", type = "int")),
-        @FilterDef(name = "bathroomFilter", parameters = @ParamDef(name = "minBath", type = "int")),
-        @FilterDef(name = "cityFilter", parameters = @ParamDef(name = "city", type = "string"))
+        @FilterDef(name = "bathroomFilter", parameters = @ParamDef(name = "minBath", type = "int"))
 //        @FilterDef(name = "dateFilter", parameters = {
 //                @ParamDef(name = "startDate", type = "Date"),
 //                @ParamDef(name = "endDate", type = "Date")
 //        })
         ,
         @FilterDef(name = "guestFilter", parameters = @ParamDef(name = "minGuests", type = "int")),
-        @FilterDef(name = "priceFilter", parameters = @ParamDef(name = "maxPrice", type = "int")),
-//        @FilterDef(name = "reviewFilter", parameters = @ParamDef(name = "minReview", type = "int"))
+        @FilterDef(name = "priceFilter", parameters = @ParamDef(name = "maxPrice", type = "int"))
 })
 @Entity
 @Table(name = "properties")
@@ -31,8 +29,7 @@ import java.util.List;
         @Filter(name = "bathroomFilter", condition = "bathroom_count >= :minBath"),
 //        @Filter(name = "dateFilter", condition = "start_date <= : startDate and end_date >= :endDate"),
         @Filter(name = "guestFilter", condition = "guest_max >= :minGuests"),
-        @Filter(name = "priceFilter", condition = "daily_price <= :maxPrice"),
-//        @Filter(name = "reviewFilter", condition = "review >= :minReview")
+        @Filter(name = "priceFilter", condition = "daily_price <= :maxPrice")
 })
 public class Property {
     @Id
@@ -56,12 +53,13 @@ public class Property {
     @Column(name = "daily_price")
     private int dailyPrice;
     @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
-    @FilterJoinTable(name = "cityFilter", condition = "city == :city")
     private Address address;
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
     @OneToMany(mappedBy = "property")
     private List<Review> reviews;
+    @Transient
+    private double avgReview;
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Booking> bookings;
@@ -80,20 +78,19 @@ public class Property {
     
     public Property() {
     }
-    
-    public Property(int id, int userId, String title, String description, int beds, int bathrooms, int guests, Date createdAt, Date startDate, Date endDate, int dailyPrice) {
-        this.id = id;
-//        this.userId = userId;
-        this.title = title;
-        this.description = description;
-        this.beds = beds;
-        this.bathrooms = bathrooms;
-        this.guests = guests;
-        this.createdAt = createdAt;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.dailyPrice = dailyPrice;
-    }
+
+//    public Property(int id, int userId, String title, String description, int beds, int bathrooms, int guests, Date createdAt, Date startDate, Date endDate, int dailyPrice) {
+//        this.id = id;
+//        this.title = title;
+//        this.description = description;
+//        this.beds = beds;
+//        this.bathrooms = bathrooms;
+//        this.guests = guests;
+//        this.createdAt = createdAt;
+//        this.startDate = startDate;
+//        this.endDate = endDate;
+//        this.dailyPrice = dailyPrice;
+//    }
     
     public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
         this.title = title;
@@ -124,6 +121,24 @@ public class Property {
     public void addAmenities(Amenity amenity) {
         amenities.add(amenity);
         amenity.getProperties().add(this);
+    }
+    
+    public double avgReview() {
+        double result = 0;
+        for (Review review : this.reviews) {
+            result += review.getRating();
+        }
+        result = result / reviews.size();
+        
+        return result;
+    }
+    
+    public double getAvgReview() {
+        return avgReview;
+    }
+    
+    public void setAvgReview(double avgReview) {
+        this.avgReview = avgReview;
     }
     
     public User getUser() {

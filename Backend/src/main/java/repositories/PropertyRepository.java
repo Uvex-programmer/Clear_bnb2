@@ -34,25 +34,22 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
     
     //    , Date startDate, Date endDate
-    public List<?> findObjectsBySearch(int beds, int bathrooms, String city, int minGuests, int maxPrice) {
+    public List<?> findObjectsBySearch(int beds, int bathrooms, int minGuests, int maxPrice) {
         Session session = entityManager.unwrap(Session.class);
         Filter bedroomFilter = session.enableFilter("bedroomFilter");
-        bedroomFilter.setParameter("minBeds", beds);
         Filter bathroomFilter = session.enableFilter("bathroomFilter");
+        Filter guestFilter = session.enableFilter("guestFilter");
+        Filter priceFilter = session.enableFilter("priceFilter");
+        bedroomFilter.setParameter("minBeds", beds);
         bathroomFilter.setParameter("minBath", bathrooms);
-        Filter cityFilter = session.enableFilter("cityFilter");
-        cityFilter.setParameter("city", city);
+        guestFilter.setParameter("minGuests", minGuests);
+        priceFilter.setParameter("maxPrice", maxPrice);
 //        Filter dateFilter = session.enableFilter("dateFilter");
 //        dateFilter.setParameter("startDate", startDate);
 //        dateFilter.setParameter("endDate", endDate);
-        Filter guestFilter = session.enableFilter("guestFilter");
-        guestFilter.setParameter("minGuests", minGuests);
-        Filter priceFilter = session.enableFilter("priceFilter");
-        priceFilter.setParameter("maxPrice", maxPrice);
         return entityManager.createQuery("SELECT P FROM Property P inner join P.address", Property.class)
                 .getResultList();
     }
-    // date guest price
     
     public Optional<Property> findByName(String name) {
         Property property = entityManager.createQuery("FROM Property P WHERE P.title = :name", Property.class)
