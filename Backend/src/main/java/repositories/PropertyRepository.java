@@ -35,17 +35,17 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
     
     //    , Date startDate, Date endDate
-    public List<?> findObjectsBySearch(String city, int beds, int bathrooms, int minGuests, int maxPrice, java.sql.Timestamp startDate, java.sql.Timestamp endDate) {
+    public List<?> findObjectsBySearch(String freeSearch, int beds, int bathrooms, int minGuests, int maxPrice, java.sql.Timestamp startDate, java.sql.Timestamp endDate) {
         Session session = entityManager.unwrap(Session.class);
         Filter bedroomFilter = session.enableFilter("bedroomFilter");
         Filter bathroomFilter = session.enableFilter("bathroomFilter");
         Filter guestFilter = session.enableFilter("guestFilter");
         Filter priceFilter = session.enableFilter("priceFilter");
         Filter dateFilter = session.enableFilter("dateFilter");
-        Filter cityFilter = session.enableFilter("cityFilter");
-        cityFilter.setParameter("city", city);
-        cityFilter.setParameter("description", city);
-        cityFilter.setParameter("street", city);
+        Filter freeSearchFilter = session.enableFilter("freeSearchFilter");
+        freeSearchFilter.setParameter("city", freeSearch);
+        freeSearchFilter.setParameter("description", freeSearch);
+        freeSearchFilter.setParameter("street", freeSearch);
         bedroomFilter.setParameter("minBeds", beds);
         bathroomFilter.setParameter("minBath", bathrooms);
         guestFilter.setParameter("minGuests", minGuests);

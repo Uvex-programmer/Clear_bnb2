@@ -12,7 +12,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "properties")
-
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

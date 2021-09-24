@@ -8,8 +8,7 @@
         ,
         @FilterDef(name = "guestFilter", parameters = @ParamDef(name = "minGuests", type = "int")),
         @FilterDef(name = "priceFilter", parameters = @ParamDef(name = "maxPrice", type = "int")),
-//        @FilterDef(name = "cityFilter", parameters = @ParamDef(name = "city", type = "string"))
-        @FilterDef(name = "cityFilter", parameters = {
+        @FilterDef(name = "freeSearchFilter", parameters = {
                 @ParamDef(name = "city", type = "string"),
                 @ParamDef(name = "description", type = "string"),
                 @ParamDef(name = "street", type = "string")
