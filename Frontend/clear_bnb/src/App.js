@@ -19,8 +19,6 @@ function App() {
 			.then((res) => res.json())
 			.then((user) => {
 				if (!user) return console.log('No user currently logged in.')
-				console.log(user)
-				console.log('AAAAAAAAA')
 
 				const userLoggedIn = {
 					id: user.id,

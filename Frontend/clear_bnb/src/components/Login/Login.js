@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../slicers/LoginSlicer'
 import { getUserProperties } from '../../utils/API'
 import './Login.css'
+import { useHistory } from 'react-router-dom'
 
 export default function Login() {
 	const [email, setEmail] = useState('')
@@ -11,6 +12,7 @@ export default function Login() {
 	const [lastName, setLastName] = useState('')
 	const [registerMode, setRegisterMode] = useState(false)
 	let dispatch = useDispatch()
+	let history = useHistory()
 
 	const submitHandler = async (type = 'login-user', e) => {
 		const loginCheck = {
@@ -25,10 +27,11 @@ export default function Login() {
 			body: JSON.stringify(loginCheck),
 		})
 			.then((res) => res.json())
+			.then((data) => JSON.parse(data))
 			.then((data) => {
-				// console.log(data)
+				console.log(data)
 				dispatch(login(data))
-				getUserProperties()
+				history.push('/')
 			})
 	}
 
