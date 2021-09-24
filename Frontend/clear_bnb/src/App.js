@@ -10,8 +10,9 @@ import { useDispatch } from 'react-redux'
 import { login } from './slicers/LoginSlicer'
 import { getUserProperties } from './utils/API'
 import { useEffect } from 'react'
+import Detailpage from './components/Views/Detailpage/Detailpage'
 
-function App() {
+const App = () => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
@@ -42,6 +43,7 @@ function App() {
 					<Route path='/add-property' component={AddProperty} />
 					<Route path='/search' component={Searchpage} />
 					<Route path='/profile-page' component={ProfilePage} />
+					<Route path='/detail-page/:id' component={Detailpage} />
 				</Switch>
 			</div>
 		</div>
