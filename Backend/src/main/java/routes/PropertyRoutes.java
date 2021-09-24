@@ -6,6 +6,7 @@ import models.Property;
 import repositories.PropertyRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PropertyRoutes {
     
@@ -35,7 +36,7 @@ public class PropertyRoutes {
         });
 
         app.get("/api/properties/:id" , (req, res) -> {
-            List <?> propertyById = propertyRepository.findByUserId(Integer.parseInt(req.params("id")));
+            Optional<Property> propertyById = propertyRepository.findById(Integer.parseInt(req.params("id")));
             res.json(mapper.writeValueAsString(propertyById)).status(200);
         });
 
