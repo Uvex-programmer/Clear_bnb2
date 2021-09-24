@@ -104,7 +104,14 @@ public class UserRoutes {
 
         
         app.get("/api/whoami", (req, res) -> {
-           res.json(mapper.writeValueAsString(req.cookie("current-user")));
+            String session_id = req.cookie("current-user");
+            if(session_id == null) {
+                res.json(req.cookie("current-user"));
+                return;
+            }
+            Optional <Session> session = sessionRepository.findById(Integer.parseInt(session_id));
+            Optional <User> user = userRepository.findById(session.get().getUser_id());
+           res.json(mapper.writeValueAsString(user));
         });
 
         app.get("/api/user-get-properties/:id", (req, res) -> {

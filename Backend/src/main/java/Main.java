@@ -38,7 +38,7 @@ public class Main {
         PropertyRepository propertyRepository = new PropertyRepository(entityManager);
         BookingRepository bookingRepository = new BookingRepository(entityManager);
 
-        new UserRoutes(app, mapper, userRepository);
+        new UserRoutes(app, mapper, userRepository, sessionRepository);
         new PropertyRoutes(app, mapper, propertyRepository);
         new BookingRoutes(app, mapper, bookingRepository);
 
