@@ -4,7 +4,7 @@ import Login from "./components/Login/Login";
 import AddProperty from "./components/RentalObject/AddProperty";
 import FrontPage from "./components/Views/Frontpage/Frontpage";
 import ProfilePage from "./components/Views/ProfilePage/ProfilePage";
-import { getUserProperties } from "./utils/API";
+import { getUserProperties, getUserBookings } from "./utils/API";
 import { Switch, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -27,6 +27,7 @@ function App() {
       console.log("user logged in: ", userLoggedIn);
       dispatch(login(userLoggedIn));
       getUserProperties();
+      getUserBookings();
     }
     whoAmI();
   }, [dispatch]);
