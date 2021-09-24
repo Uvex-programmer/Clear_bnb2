@@ -58,18 +58,12 @@ public class UserRoutes {
             
             if (passwordHash.authenticate(user.get().getPassword().toCharArray(), req.body().get("password").toString())) {
                 Optional <Cookie> cookie = setupSession(user.get().getEmail(), user.get().getId());
-               // Session session = new Session(user.get().getEmail(), new Timestamp(System.currentTimeMillis()), user.get().getId());
-               // if (sessionRepository.save(session).isPresent()) {
-                 //   var today = Calendar.getInstance().getTime();;
-                   // var expiry = new Date(today.getTime() + 3600 * 1000);
-                //res.set("Set-Cookie", cookie);
                 if(cookie.isPresent()) {
-                    res.cookie(cookie.get()).json(user.get().getEmail()).status(201).redirect("/");
+                    res.cookie(cookie.get());
+                    res.json(mapper.writeValueAsString(user.get())).status(201);
                 } else {
                     res.status(401).json("Sorry, could not log in..");
                 }
-                  //  res.set("Set-Cookie", "current-user=" + session.getId() + "; expires=" + expiry + "; HttpOnly; SameSite=strict");
-
             } else {
                 res.json("Wrong Password.").status(401);
             }
@@ -86,21 +80,25 @@ public class UserRoutes {
             user.setPassword(hashedPass);
             
             if (userRepository.save(user).isPresent()) {
-                res.json("Success!").status(200);
+                Optional <Cookie> cookie = setupSession(user.getEmail(), user.getId());
+                if(cookie.isPresent()) {
+                    res.cookie(cookie.get());
+                    res.json(mapper.writeValueAsString(user)).status(201);
             } else {
                 res.json("Save failed").status(500);
             }
-            res.status(201).redirect("/api/login-user");
-        });
+        }});
+
         
         app.get("/api/logout-user", (req, res) -> {
             String session_id = req.cookie("current-user");
+            System.out.println("session_id: " + session_id);
             Optional <Session> session = sessionRepository.findById(Integer.parseInt(session_id));
             if(session.isPresent()) {
                 sessionRepository.deleteById(session.get());
             }
 
-            res.clearCookie("current-user", "/api").clearCookie("JSESSIONID", "/");
+            res.clearCookie("current-user", "/").clearCookie("JSESSIONID", "/");
             res.status(201).json("Successfully Logged out!").redirect("/");
         });
 
