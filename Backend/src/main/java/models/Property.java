@@ -1,6 +1,7 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -12,6 +13,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "properties")
+@NamedQueries({
+        @NamedQuery(name = "Property.findById",
+                query = "SELECT p FROM Property p WHERE p.id = :id"),
+        @NamedQuery(name = "Property.findAllByUserId",
+                query = "SELECT p FROM Property p WHERE p.user.id = :id"),
+})
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,25 +35,26 @@ public class Property {
     @Column(name = "created_at")
     private Date createdAt;
     @Column(name = "start_date")
-    private java.sql.Timestamp startDate;
+    private Date startDate;
     @Column(name = "end_date")
-    private java.sql.Timestamp endDate;
+    private Date endDate;
     @Column(name = "daily_price")
     private int dailyPrice;
     @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
     private Address address;
-    @JsonManagedReference(value = "images")
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "Property-Images")
     private List<Image> images = new ArrayList<>();
     @JsonManagedReference
     @OneToMany(mappedBy = "property")
     private List<Review> reviews;
-    @Transient
-    private double avgReview;
+    @JsonBackReference
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Booking> bookings;
     @ManyToMany(cascade = CascadeType.ALL)
+    
+    @JsonBackReference(value = "amenity-property")
     @JoinTable(
             name = "properties_x_amenities",
             joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
@@ -54,7 +62,7 @@ public class Property {
     )
     private List<Amenity> amenities = new ArrayList<>();
     
-    @JsonBackReference
+    @JsonBackReference(value = "User - Properties")
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
@@ -75,7 +83,7 @@ public class Property {
 //        this.dailyPrice = dailyPrice;
 //    }
     
-    public Property(String title, String description, int beds, int bathrooms, int guests, Timestamp startDate, Timestamp endDate, int dailyPrice) {
+    public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
         this.title = title;
         this.description = description;
         this.beds = beds;
@@ -83,14 +91,14 @@ public class Property {
         this.guests = guests;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.dailyPrice = (int) (dailyPrice * 1.15);
+        this.dailyPrice = dailyPrice;
     }
-    
+
     public void addUser(User user) {
         user.getProperties().add(this);
         this.setUser(user);
     }
-    
+
     public void addAddress(Address address) {
         this.setAddress(address);
         address.setProperty(this);
@@ -105,25 +113,6 @@ public class Property {
         amenities.add(amenity);
         amenity.getProperties().add(this);
     }
-    
-    public double avgReview() {
-        double result = 0;
-        for (Review review : this.reviews) {
-            result += review.getRating();
-        }
-        result = result / reviews.size();
-        
-        return result;
-    }
-    
-    public double getAvgReview() {
-        return avgReview;
-    }
-    
-    public void setAvgReview(double avgReview) {
-        this.avgReview = avgReview;
-    }
-    
     public User getUser() {
         return user;
     }
@@ -131,8 +120,7 @@ public class Property {
     public void setUser(User user) {
         this.user = user;
     }
-    
-    public Address getAddress() {
+        public Address getAddress() {
         return address;
     }
     
@@ -236,19 +224,19 @@ public class Property {
         this.createdAt = createdAt;
     }
     
-    public Timestamp getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
     
-    public void setStartDate(Timestamp startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
     
-    public Timestamp getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
     
-    public void setEndDate(Timestamp endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
     

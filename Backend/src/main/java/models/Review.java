@@ -21,7 +21,7 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private Property property;
-    @JsonBackReference(value = "user-review")
+    @JsonBackReference (value="User - Review")
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

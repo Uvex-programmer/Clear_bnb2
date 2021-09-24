@@ -16,6 +16,7 @@ public class Image {
     private boolean primaryImage;
     @JsonBackReference(value = "images")
     @ManyToOne
+    @JsonBackReference(value = "Property-Images")
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private Property property;
     
