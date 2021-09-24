@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { login } from '../../slicers/LoginSlicer'
-import { getUserProperties } from '../../utils/API'
 import './Login.css'
 import { useHistory } from 'react-router-dom'
 

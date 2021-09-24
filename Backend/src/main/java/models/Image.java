@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,7 @@ public class Image {
     @Column(name = "primary_image")
     private boolean primaryImage;
     @ManyToOne
+    @JsonBackReference(value = "Property-Images")
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private Property property;
     

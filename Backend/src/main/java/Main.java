@@ -42,6 +42,7 @@ public class Main {
 
         new UserRoutes(app, mapper, userRepository, sessionRepository);
 
+        /*
         Optional<User> user = userRepository.findById(75);
         Optional<User> jons = userRepository.findById(66);
         Optional<BankAccount> account = bankRepository.findById(62);
@@ -51,7 +52,7 @@ public class Main {
         Optional<Review> review = revRep.findById(201);
         
         List<?> list = bankRepository.findAll();
-        System.out.println(list);
+        System.out.println(list);*/
         new PropertyRoutes(app, mapper, propertyRepository);
         
         app.listen(4000);
