@@ -1,22 +1,21 @@
-import './App.css'
-import Navbar from './components/Navbar/Navbar'
-import Login from './components/Login/Login'
-import AddProperty from './components/RentalObject/AddProperty'
-import Frontpage from './components/Views/Frontpage/Frontpage'
-import Searchpage from './components/Views/Searchpage/Searchpage'
-import ProfilePage from './components/Views/ProfilePage/ProfilePage'
-import { Switch, Route } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { login } from './slicers/LoginSlicer'
-import { getUserProperties } from './utils/API'
-import { useEffect } from 'react'
+import "./App.css";
+import Navbar from "./components/Navbar/Navbar";
+import Login from "./components/Login/Login";
+import AddProperty from "./components/RentalObject/AddProperty";
+import FrontPage from "./components/Views/Frontpage/Frontpage";
+import ProfilePage from "./components/Views/ProfilePage/ProfilePage";
+import { getUserProperties, getUserBookings } from "./utils/API";
+import { Switch, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "./slicers/LoginSlicer";
 
 function App() {
-	const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
 	useEffect(() => {
 		fetch('/api/whoami')
-			.then((res) => res.json())
+			.then((res) => JSON.parse(await res.json())
 			.then((user) => {
 				if (!user) return console.log('No user currently logged in.')
 
@@ -28,6 +27,7 @@ function App() {
 				}
 				dispatch(login(userLoggedIn))
 				getUserProperties()
+				getUserBookings();
 				console.log('user logged in: ', user)
 			})
 	}, [dispatch])

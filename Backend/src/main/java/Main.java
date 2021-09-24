@@ -3,6 +3,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import express.Express;
 import models.*;
 import repositories.*;
+import routes.BookingRoutes;
 import routes.PropertyRoutes;
 import routes.UserRoutes;
 
@@ -35,25 +36,13 @@ public class Main {
         SessionRepository sessionRepository = new SessionRepository(entityManager);
         UserRepository userRepository = new UserRepository(entityManager);
         PropertyRepository propertyRepository = new PropertyRepository(entityManager);
-        BankAccountRepository bankRepository = new BankAccountRepository(entityManager);
         BookingRepository bookingRepository = new BookingRepository(entityManager);
-        TransactionRepository transResp = new TransactionRepository(entityManager);
-        ReviewRepository revRep = new ReviewRepository(entityManager);
 
-        new UserRoutes(app, mapper, userRepository, sessionRepository);
-
-        Optional<User> user = userRepository.findById(75);
-        Optional<User> jons = userRepository.findById(66);
-        Optional<BankAccount> account = bankRepository.findById(62);
-        Optional<Property> stensHus = propertyRepository.findById(72);
-        Optional<Booking> stensBooking = bookingRepository.findById(1);
-        Optional<Transaction> stenTrans = transResp.findById(5);
-        Optional<Review> review = revRep.findById(201);
-        
-        List<?> list = bankRepository.findAll();
-        System.out.println(list);
+        new UserRoutes(app, mapper, userRepository);
         new PropertyRoutes(app, mapper, propertyRepository);
-        
+        new BookingRoutes(app, mapper, bookingRepository);
+
+
         app.listen(4000);
     }
 }

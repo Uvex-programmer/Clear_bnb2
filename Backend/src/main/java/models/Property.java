@@ -115,7 +115,7 @@ public class Property {
     public void setUser(User user) {
         this.user = user;
     }
-        public Address getAddress() {
+    public Address getAddress() {
         return address;
     }
     

@@ -1,10 +1,19 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
 @Table(name = "bookings")
+@NamedQueries({
+        @NamedQuery(name = "Booking.findById",
+                query = "SELECT b FROM Booking b WHERE b.id = :id"),
+        @NamedQuery(name = "Booking.findAllByUserId",
+                query = "SELECT b FROM Booking b WHERE b.user.id = :id"),
+})
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +26,7 @@ public class Booking {
     private Date startDate;
     @Column(name = "end_date")
     private Date endDate;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
