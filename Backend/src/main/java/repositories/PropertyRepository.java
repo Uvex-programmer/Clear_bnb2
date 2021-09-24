@@ -16,8 +16,9 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
     
     public Optional<Property> findById(Integer id) {
-        Property property = entityManager.find(Property.class, id);
-        return property != null ? Optional.of(property) : Optional.empty();
+        return (Optional<Property>) entityManager.createNamedQuery("Property.findAllByUserId")
+                .setParameter("id", id)
+                .getSingleResult();
     }
     
     public List<Property> findAll() {

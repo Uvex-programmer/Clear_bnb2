@@ -34,6 +34,11 @@ public class PropertyRoutes {
            res.json(mapper.writeValueAsString(properties)).status(200);
         });
 
+        app.get("/api/properties/:id" , (req, res) -> {
+            List <?> propertyById = propertyRepository.findByUserId(Integer.parseInt(req.params("id")));
+            res.json(mapper.writeValueAsString(propertyById)).status(200);
+        });
+
         app.get("/api/get-user-properties/:id", (req, res) -> {
             List<?> properties = propertyRepository.findByUserId(Integer.parseInt(req.params("id")));
             res.json(mapper.writeValueAsString(properties));
