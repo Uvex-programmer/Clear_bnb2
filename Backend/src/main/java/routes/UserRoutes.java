@@ -50,7 +50,6 @@ public class UserRoutes {
 
     public void userMethods() {
         app.post("/api/login-user", (req, res) -> {
-            System.out.println("HEj");
             Optional<User> user = userRepository.findByEmail(req.body().get("email").toString());
             if (user.isEmpty()) {
                 res.json("User doesnt exist!").status(401);
