@@ -50,7 +50,6 @@ public class PropertyRepository implements PropertyRepoInterface {
         priceFilter.setParameter("maxPrice", maxPrice);
         dateFilter.setParameter("startDate", startDate);
         dateFilter.setParameter("endDate", endDate);
-        
         return this.findAll();
     }
     

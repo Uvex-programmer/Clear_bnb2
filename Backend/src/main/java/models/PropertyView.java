@@ -16,7 +16,7 @@ import java.sql.Timestamp;
         @Filter(name = "guestFilter", condition = "guest_max >= :minGuests"),
         @Filter(name = "priceFilter", condition = "daily_price <= :maxPrice"),
 //        @Filter(name = "cityFilter", condition = "city like '%:city%'")
-        @Filter(name = "cityFilter", condition = "city = :city")
+        @Filter(name = "cityFilter", condition = "city LIKE '%' :city '%'")
     
 })
 public class PropertyView {
