@@ -21,7 +21,6 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-    
     @Transient
     @Column(name = "created_at")
     private Date createdAt;

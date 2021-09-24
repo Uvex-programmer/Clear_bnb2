@@ -3,7 +3,7 @@ import UserHouse from "./components/UserHouses";
 import UserBookings from "./components/UserBookings";
 import { useSelector } from "react-redux";
 import CardOld from "../../UI/CardOld/CardOld";
-
+import ReviewPost from "../../Review/ReviewPost";
 export default function ProfilePage() {
   const userProperties = useSelector(
     (state) => state.userProperties.properties
@@ -34,6 +34,9 @@ export default function ProfilePage() {
             <UserBookings />
           </div>
         </CardOld>
+        <div className="review-container">
+          <ReviewPost />
+        </div>
       </div>
     </>
   );

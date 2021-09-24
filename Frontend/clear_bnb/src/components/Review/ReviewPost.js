@@ -1,4 +1,4 @@
-import "./Review.css";
+import "./ReviewPost.css";
 import { useState } from "react";
 
 const Review = () => {
@@ -7,7 +7,13 @@ const Review = () => {
 
   const sendReview = (e) => {
     e.preventDefault();
+
+    let obj = {
+      text: reviewText,
+      point: reviewPoint,
+    };
     console.log("press post", reviewText);
+    console.log(obj);
   };
 
   return (
@@ -17,15 +23,45 @@ const Review = () => {
           <div className="text">Review the user!</div>
         </div>
         <div className="star-widget">
-          <input type="radio" name="rate" id="rate-5" />
+          <input
+            value={5}
+            onChange={(e) => setPoint(parseInt(e.target.value))}
+            type="radio"
+            name="rate"
+            id="rate-5"
+          />
           <label htmlFor="rate-5" className="fas fa-star"></label>
-          <input type="radio" name="rate" id="rate-4" />
+          <input
+            value={4}
+            onChange={(e) => setPoint(parseInt(e.target.value))}
+            type="radio"
+            name="rate"
+            id="rate-4"
+          />
           <label htmlFor="rate-4" className="fas fa-star"></label>
-          <input type="radio" name="rate" id="rate-3" />
+          <input
+            value={3}
+            onChange={(e) => setPoint(parseInt(e.target.value))}
+            type="radio"
+            name="rate"
+            id="rate-3"
+          />
           <label htmlFor="rate-3" className="fas fa-star"></label>
-          <input type="radio" name="rate" id="rate-2" />
+          <input
+            value={2}
+            onChange={(e) => setPoint(parseInt(e.target.value))}
+            type="radio"
+            name="rate"
+            id="rate-2"
+          />
           <label htmlFor="rate-2" className="fas fa-star"></label>
-          <input type="radio" name="rate" id="rate-1" />
+          <input
+            value={1}
+            onChange={(e) => setPoint(parseInt(e.target.value))}
+            type="radio"
+            name="rate"
+            id="rate-1"
+          />
           <label htmlFor="rate-1" className="fas fa-star"></label>
           <form action="#">
             <header></header>
@@ -38,9 +74,7 @@ const Review = () => {
               ></textarea>
             </div>
             <div className="btn">
-              <button type="submit" onClick={sendReview}>
-                Post
-              </button>
+              <button onClick={sendReview}>Post</button>
             </div>
           </form>
         </div>
