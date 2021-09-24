@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const propertySlicer = createSlice({
+export const userInfoSlicer = createSlice({
   name: "user-properties",
   initialState: {
     properties: [],
     bookings: [],
+    rating: 0,
+    reviews: [],
   },
 
   reducers: {
@@ -20,10 +22,22 @@ export const propertySlicer = createSlice({
     addBookings: (state, action) => {
       state.bookings = [...state, action.payload];
     },
+    getReviewRating: (state, action) => {
+      state.rating = action.payload;
+    },
+    getUserReview: (state, action) => {
+      state.reviews = [action.payload];
+    },
   },
 });
 
-export const { getProperties, addProperties, getBookings, addBookings } =
-  propertySlicer.actions;
+export const {
+  getProperties,
+  addProperties,
+  getBookings,
+  addBookings,
+  getReviewRating,
+  getUserReview,
+} = userInfoSlicer.actions;
 
-export default propertySlicer.reducer;
+export default userInfoSlicer.reducer;
