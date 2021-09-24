@@ -6,7 +6,7 @@ export default function UserProperties() {
   return state1.map((prop, index) => {
     return (
       <div className="property" key={index} style={{ width: "350px" }}>
-        <Card>
+        <CardOld>
           <div>id: {prop.id}</div>
           <div>title: {prop.title}</div>
           <div>Description: {prop.description}</div>
@@ -15,7 +15,7 @@ export default function UserProperties() {
           <div>city: {prop.address.city}</div>
           <div>street: {prop.address.street}</div>
           <div>Zipcode: {prop.address.zipcode}</div>
-        </Card>
+        </CardOld>
       </div>
     );
   });

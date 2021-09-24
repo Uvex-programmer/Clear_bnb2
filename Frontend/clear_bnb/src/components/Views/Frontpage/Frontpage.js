@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import CardOld from '../../UI/CardOld/CardOld';
+import { useEffect, useState } from "react";
+import CardOld from "../../UI/CardOld/CardOld";
 
 export default function FrontPage() {
   const [properties, setProperties] = useState();
   let cards;
 
   useEffect(() => {
-    fetch('/api/properties')
+    fetch("/api/properties")
       .then(async (res) => await JSON.parse(await res.json()))
       .then((data) => {
         console.log(data);
@@ -17,12 +17,12 @@ export default function FrontPage() {
   if (properties) {
     cards = properties.map((property) => {
       const style = {
-        display: 'flex',
-        width: '50%',
+        display: "flex",
+        width: "50%",
       };
 
       return (
-        <CardOld>
+        <CardOld key={property.id}>
           <p>{property.title}</p>
           <p>Price: {property.dailyPrice} kr</p>
         </CardOld>
@@ -32,7 +32,7 @@ export default function FrontPage() {
 
   return (
     <>
-      <div className='frontpage'>
+      <div className="frontpage">
         <p>HOMEPAGE</p>
         {cards}
       </div>

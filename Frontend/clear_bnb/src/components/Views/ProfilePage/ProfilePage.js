@@ -3,6 +3,7 @@ import UserHouse from "./components/UserHouses";
 import UserBookings from "./components/UserBookings";
 import { useSelector } from "react-redux";
 import Card from "../../UI/Card";
+import CardOld from "../../UI/CardOld/CardOld";
 
 export default function ProfilePage() {
   const userProperties = useSelector(
@@ -13,7 +14,7 @@ export default function ProfilePage() {
     <>
       <div className="profile-page-container">
         <UserInfo />
-        <Card>
+        <CardOld>
           <label
             htmlFor=""
             style={{ fontWeight: "700", fontSize: "25px", marginLeft: "10px" }}
@@ -23,8 +24,8 @@ export default function ProfilePage() {
           <div className="user-container" style={{ display: "flex" }}>
             <UserHouse />
           </div>
-        </Card>
-        <Card>
+        </CardOld>
+        <CardOld>
           <label
             style={{ fontWeight: "700", fontSize: "25px", marginLeft: "10px" }}
           >
@@ -33,7 +34,7 @@ export default function ProfilePage() {
           <div className="user-bookings" style={{ display: "flex" }}>
             <UserBookings />
           </div>
-        </Card>
+        </CardOld>
       </div>
     </>
   );
