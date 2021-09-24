@@ -1,11 +1,13 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,13 +45,15 @@ public class Property {
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "Property-Images")
     private List<Image> images = new ArrayList<>();
+    @JsonManagedReference
     @OneToMany(mappedBy = "property")
     private List<Review> reviews;
     @JsonBackReference
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Booking> bookings;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    
     @JsonBackReference(value = "amenity-property")
     @JoinTable(
             name = "properties_x_amenities",
@@ -65,20 +69,19 @@ public class Property {
     
     public Property() {
     }
-    
-    public Property(int id, int userId, String title, String description, int beds, int bathrooms, int guests, Date createdAt, Date startDate, Date endDate, int dailyPrice) {
-        this.id = id;
-//        this.userId = userId;
-        this.title = title;
-        this.description = description;
-        this.beds = beds;
-        this.bathrooms = bathrooms;
-        this.guests = guests;
-        this.createdAt = createdAt;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.dailyPrice = dailyPrice;
-    }
+
+//    public Property(int id, int userId, String title, String description, int beds, int bathrooms, int guests, Date createdAt, Date startDate, Date endDate, int dailyPrice) {
+//        this.id = id;
+//        this.title = title;
+//        this.description = description;
+//        this.beds = beds;
+//        this.bathrooms = bathrooms;
+//        this.guests = guests;
+//        this.createdAt = createdAt;
+//        this.startDate = startDate;
+//        this.endDate = endDate;
+//        this.dailyPrice = dailyPrice;
+//    }
     
     public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
         this.title = title;
@@ -90,12 +93,12 @@ public class Property {
         this.endDate = endDate;
         this.dailyPrice = dailyPrice;
     }
-    
+
     public void addUser(User user) {
         user.getProperties().add(this);
         this.setUser(user);
     }
-    
+
     public void addAddress(Address address) {
         this.setAddress(address);
         address.setProperty(this);
@@ -110,7 +113,6 @@ public class Property {
         amenities.add(amenity);
         amenity.getProperties().add(this);
     }
-    
     public User getUser() {
         return user;
     }
@@ -118,8 +120,7 @@ public class Property {
     public void setUser(User user) {
         this.user = user;
     }
-    
-    public Address getAddress() {
+        public Address getAddress() {
         return address;
     }
     

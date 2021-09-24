@@ -3,6 +3,7 @@ package routes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import express.Express;
 import models.Property;
+import models.PropertyView;
 import repositories.PropertyRepository;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class PropertyRoutes {
         });
         
         app.get("/api/properties", (req, res) -> {
-            List<Property> properties = propertyRepository.findAll();
+            List<PropertyView> properties = propertyRepository.findAll();
             res.json(mapper.writeValueAsString(properties)).status(200);
         });
         
@@ -44,6 +45,13 @@ public class PropertyRoutes {
             List<?> properties = propertyRepository.findByUserId(Integer.parseInt(req.params("id")));
             res.json(mapper.writeValueAsString(properties));
             System.out.println(properties);
+        });
+        
+        app.post("/api/search", (req, res) -> {
+            PropertyView searchResult = req.body(PropertyView.class);
+            List<?> bySearch = propertyRepository.findObjectsBySearch(searchResult.getCity(), searchResult.getBeds(), searchResult.getBaths(), searchResult.getGuests(), searchResult.getDailyPrice(),
+                    searchResult.getStartDate(), searchResult.getEndDate());
+            res.json(mapper.writeValueAsString(bySearch));
         });
     }
 }
