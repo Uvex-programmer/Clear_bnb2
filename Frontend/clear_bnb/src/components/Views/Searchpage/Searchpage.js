@@ -47,12 +47,12 @@ const Searchpage = () => {
   return (
     <div className={styles['searchpage_container']}>
       <div className={styles['search-controller']}>
+        <label>Free search</label>
         <input
           type='search'
           value={city}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <button onClick={searchHandler}>Search</button>
       </div>
       <div className={styles['amenity-controls']}>
         <div className={styles['amenity-controller']}>
@@ -123,6 +123,7 @@ const Searchpage = () => {
           />
           <p>{guests}</p>
         </div>
+        <button onClick={searchHandler}>Search</button>
       </div>
       {searchResults && <SearchResults results={searchResults} />}
     </div>
