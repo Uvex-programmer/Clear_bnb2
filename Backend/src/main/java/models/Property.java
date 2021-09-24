@@ -45,6 +45,7 @@ public class Property {
     private List<Image> images = new ArrayList<>();
     @OneToMany(mappedBy = "property")
     private List<Review> reviews;
+    @JsonBackReference
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Booking> bookings;
