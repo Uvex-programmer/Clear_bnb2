@@ -1,7 +1,6 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -42,6 +41,7 @@ public class Property {
     @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
     private Address address;
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "Property-Images")
     private List<Image> images = new ArrayList<>();
     @OneToMany(mappedBy = "property")
     private List<Review> reviews;
@@ -50,14 +50,15 @@ public class Property {
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Booking> bookings;
     @ManyToMany
+    @JsonBackReference(value = "amenity-property")
     @JoinTable(
             name = "properties_x_amenities",
             joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
     )
     private List<Amenity> amenities = new ArrayList<>();
-
-    @JsonBackReference (value="User - Properties")
+    
+    @JsonBackReference(value = "User - Properties")
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
@@ -89,12 +90,12 @@ public class Property {
         this.endDate = endDate;
         this.dailyPrice = dailyPrice;
     }
-
+    
     public void addUser(User user) {
         user.getProperties().add(this);
         this.setUser(user);
     }
-
+    
     public void addAddress(Address address) {
         this.setAddress(address);
         address.setProperty(this);
@@ -109,6 +110,7 @@ public class Property {
         amenities.add(amenity);
         amenity.getProperties().add(this);
     }
+    
     public User getUser() {
         return user;
     }
@@ -116,7 +118,8 @@ public class Property {
     public void setUser(User user) {
         this.user = user;
     }
-        public Address getAddress() {
+    
+    public Address getAddress() {
         return address;
     }
     

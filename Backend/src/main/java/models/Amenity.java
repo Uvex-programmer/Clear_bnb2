@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ public class Amenity {
     @Column(name = "amenity")
     private Amenities amenity;
     @ManyToMany(mappedBy = "amenities", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "amenity - property")
     private List<Property> properties = new ArrayList<>();
     
     
