@@ -1,10 +1,20 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "reviews")
+@NamedQueries({
+        @NamedQuery(name = "Review.findById",
+                query = "SELECT r FROM Review r WHERE r.id = :id"),
+        @NamedQuery(name = "Review.findAllByReviewUsedId",
+                query = "SELECT r FROM Review r WHERE r.reviewUser.id = :id"),
+        @NamedQuery(name = "Review.findAllReviewsByUserId",
+                query = "SELECT r FROM Review r WHERE r.user.id = :id"),
+})
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,11 +23,16 @@ public class Review {
 //    private int userId;
 //    @Column(name = "property_id")
 //    private int propertyId;
+    @ManyToOne
+    @JoinColumn(name = "review_user_id", referencedColumnName = "id")
+    private User reviewUser;
     private int rating;
     private String comment;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private Property property;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

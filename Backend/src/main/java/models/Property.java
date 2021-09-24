@@ -43,6 +43,7 @@ public class Property {
     private Address address;
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
+    @JsonManagedReference
     @OneToMany(mappedBy = "property")
     private List<Review> reviews;
     @OneToMany

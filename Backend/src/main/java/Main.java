@@ -5,6 +5,7 @@ import models.*;
 import repositories.*;
 import routes.BookingRoutes;
 import routes.PropertyRoutes;
+import routes.ReviewRoutes;
 import routes.UserRoutes;
 
 import javax.persistence.EntityManager;
@@ -37,10 +38,12 @@ public class Main {
         UserRepository userRepository = new UserRepository(entityManager);
         PropertyRepository propertyRepository = new PropertyRepository(entityManager);
         BookingRepository bookingRepository = new BookingRepository(entityManager);
+        ReviewRepository reviewRepository = new ReviewRepository((entityManager));
 
         new UserRoutes(app, mapper, userRepository, sessionRepository);
         new PropertyRoutes(app, mapper, propertyRepository);
         new BookingRoutes(app, mapper, bookingRepository);
+        new ReviewRoutes(app, mapper, reviewRepository);
 
 
         app.listen(4000);
