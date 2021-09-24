@@ -3,6 +3,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import express.Express;
 import models.*;
 import repositories.*;
+import routes.BookingRoutes;
 import routes.PropertyRoutes;
 import routes.UserRoutes;
 
@@ -25,9 +26,11 @@ public class Main {
         
         UserRepository userRepository = new UserRepository(entityManager);
         PropertyRepository propertyRepository = new PropertyRepository(entityManager);
+        BookingRepository bookingRepository = new BookingRepository(entityManager);
         
         new UserRoutes(app, mapper, userRepository);
         new PropertyRoutes(app, mapper, propertyRepository);
+        new BookingRoutes(app, mapper, bookingRepository);
 
     }
 }
