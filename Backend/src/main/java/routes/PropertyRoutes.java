@@ -7,6 +7,7 @@ import models.PropertyView;
 import repositories.PropertyRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PropertyRoutes {
     
@@ -31,7 +32,7 @@ public class PropertyRoutes {
         });
         
         app.get("/api/properties", (req, res) -> {
-            List<Property> properties = propertyRepository.findAll();
+            List<PropertyView> properties = propertyRepository.findAll();
             res.json(mapper.writeValueAsString(properties)).status(200);
         });
         

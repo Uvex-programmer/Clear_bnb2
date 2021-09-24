@@ -23,7 +23,7 @@ public class PropertyRepository implements PropertyRepoInterface {
         return property != null ? Optional.of(property) : Optional.empty();
     }
     
-    public List<?> findAll() {
+    public List<PropertyView> findAll() {
         return entityManager.createQuery("SELECT v FROM PropertyView v", PropertyView.class).getResultList();
     }
     

@@ -14,7 +14,6 @@ public class Image {
     private String url;
     @Column(name = "primary_image")
     private boolean primaryImage;
-    @JsonBackReference(value = "images")
     @ManyToOne
     @JsonBackReference(value = "Property-Images")
     @JoinColumn(name = "property_id", referencedColumnName = "id")
