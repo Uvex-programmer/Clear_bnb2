@@ -46,7 +46,7 @@ public class Property {
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Booking> bookings;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "properties_x_amenities",
             joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
@@ -83,7 +83,7 @@ public class Property {
         this.guests = guests;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.dailyPrice = dailyPrice;
+        this.dailyPrice = (int) (dailyPrice * 1.15);
     }
     
     public void addUser(User user) {

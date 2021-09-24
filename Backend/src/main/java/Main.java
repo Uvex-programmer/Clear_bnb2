@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import express.Express;
+import repositories.AmenityRepository;
 import repositories.PropertyRepository;
 import repositories.SessionRepository;
 import repositories.UserRepository;
@@ -33,12 +34,31 @@ public class Main {
         SessionRepository sessionRepository = new SessionRepository(entityManager);
         UserRepository userRepository = new UserRepository(entityManager);
         PropertyRepository propertyRepository = new PropertyRepository(entityManager);
+        AmenityRepository amenityRepository = new AmenityRepository(entityManager);
         
         new UserRoutes(app, mapper, userRepository, sessionRepository);
         new PropertyRoutes(app, mapper, propertyRepository);
 
-
-//        System.out.println(propertyRepository.findObjectsBySearch(1, 1, 1, 500, ts1, ts2));
+//        Amenity amen1 = new Amenity("wifi");
+//        Amenity amen2 = new Amenity("dishwasher");
+//        Amenity amen3 = new Amenity("ac");
+//        Amenity amen4 = new Amenity("iron");
+//        Amenity amen5 = new Amenity("microwave");
+//        Amenity amen6 = new Amenity("fridge");
+//
+//        Timestamp ts1 = new Timestamp(new Date().getTime());
+//        Timestamp ts2 = new Timestamp(1635909136530L);
+//
+//        Property property = new Property("Sofiero", "Fint slott i bla bla bla", 17, 12, 22, ts1, ts2, 100);
+//        property.addAmenities(amen1);
+//        property.addAmenities(amen2);
+//        property.addAmenities(amen3);
+//        property.addAmenities(amen4);
+//        property.addAmenities(amen5);
+//        property.addAmenities(amen6);
+//        propertyRepository.save(property);
+//
+        
         
         app.listen(4000);
     }
