@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -19,9 +21,11 @@ public class Transaction {
     @Transient
     @Column(name = "created_at")
     private Date createdAt;
+    @JsonBackReference(value="User - Transaction")
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+    @JsonBackReference (value="User - ReceivedTransaction")
     @ManyToOne
     @JoinColumn(name = "receiver_id", referencedColumnName = "id")
     private User receiver;

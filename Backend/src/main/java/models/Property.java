@@ -57,7 +57,7 @@ public class Property {
     )
     private List<Amenity> amenities = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonBackReference (value="User - Properties")
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,7 +11,8 @@ public class BankAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private double funds;
-    
+
+    @JsonBackReference(value="User - Account")
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

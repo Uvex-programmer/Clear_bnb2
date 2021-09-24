@@ -35,19 +35,23 @@ public class    User {
     @Column(unique = true)
     private String email;
     private String password;
-    @JsonBackReference
+    @JsonBackReference (value="User - Review")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
-    @JsonBackReference
+    @JsonBackReference (value="User - Booking")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
+    @JsonBackReference (value="User - Transaction")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
+    @JsonBackReference (value="User - ReceivedTransaction")
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private List<Transaction> receivedTransactions;
-    @JsonManagedReference
+    @JsonBackReference (value="User - Properties")
+    @JsonManagedReference (value="")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Property> properties = new ArrayList<>();
+    @JsonBackReference (value="User - Account")
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private BankAccount account;
     @CreationTimestamp
