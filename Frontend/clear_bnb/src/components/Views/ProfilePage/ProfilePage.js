@@ -2,14 +2,13 @@ import UserInfo from "./components/UserInfo";
 import UserHouse from "./components/UserHouses";
 import UserBookings from "./components/UserBookings";
 import { useSelector } from "react-redux";
-import Card from "../../UI/Card";
 import CardOld from "../../UI/CardOld/CardOld";
 
 export default function ProfilePage() {
   const userProperties = useSelector(
     (state) => state.userProperties.properties
   );
-  console.log(userProperties);
+
   return (
     <>
       <div className="profile-page-container">

@@ -26,7 +26,6 @@ function App() {
           lastName: user.lastName,
           email: user.email,
         };
-        console.log(userLoggedIn);
 
         dispatch(login(userLoggedIn));
         getUserProperties();

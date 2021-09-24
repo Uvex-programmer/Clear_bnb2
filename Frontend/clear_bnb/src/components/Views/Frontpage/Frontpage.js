@@ -16,11 +16,6 @@ export default function FrontPage() {
 
   if (properties) {
     cards = properties.map((property) => {
-      const style = {
-        display: "flex",
-        width: "50%",
-      };
-
       return (
         <CardOld key={property.id}>
           <p>{property.title}</p>
