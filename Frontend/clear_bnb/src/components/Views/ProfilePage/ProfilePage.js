@@ -1,8 +1,7 @@
 import UserInfo from './components/UserInfo'
 import UserHouse from './components/UserHouses'
 import UserBookings from './components/UserBookings'
-import { useSelector } from 'react-redux'
-import CardOld from '../../UI/CardOld/CardOld'
+import NewCard from '../../UI/CardOld/DanneRörInteDettaCard'
 import ReviewPost from '../../Review/ReviewPost'
 import { MessageWindow } from '../../Review/ReviewMsgWindow'
 export default function ProfilePage() {
@@ -10,7 +9,7 @@ export default function ProfilePage() {
     <>
       <div className='profile-page-container'>
         <UserInfo />
-        <CardOld>
+        <NewCard>
           <label
             htmlFor=''
             style={{ fontWeight: '700', fontSize: '25px', marginLeft: '10px' }}
@@ -20,8 +19,8 @@ export default function ProfilePage() {
           <div className='user-container' style={{ display: 'flex' }}>
             <UserHouse />
           </div>
-        </CardOld>
-        <CardOld>
+        </NewCard>
+        <NewCard>
           <label
             style={{ fontWeight: '700', fontSize: '25px', marginLeft: '10px' }}
           >
@@ -30,7 +29,7 @@ export default function ProfilePage() {
           <div className='user-bookings' style={{ display: 'flex' }}>
             <UserBookings />
           </div>
-        </CardOld>
+        </NewCard>
         <div className='review-container'>
           <ReviewPost />
           <MessageWindow />
