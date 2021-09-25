@@ -1,65 +1,65 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "../../slicers/LoginSlicer";
-import { getUserProperties, getUserBookings } from "../../utils/API";
-import "./Login.css";
-import { useHistory } from "react-router-dom";
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { login } from '../../slicers/LoginSlicer'
+import { getUserProperties, getUserBookings } from '../../utils/API'
+import './Login.css'
+import { useHistory } from 'react-router-dom'
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [registerMode, setRegisterMode] = useState(false);
-  let dispatch = useDispatch();
-  let history = useHistory();
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [registerMode, setRegisterMode] = useState(false)
+  let dispatch = useDispatch()
+  let history = useHistory()
 
-  const submitHandler = async (type = "login-user", e) => {
+  const submitHandler = async (type = 'login-user', e) => {
     const loginCheck = {
       email: email,
       password: password,
       firstName: firstName,
       lastName: lastName,
-    };
+    }
 
     fetch(`/api/${type}`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(loginCheck),
     })
       .then((res) => res.json())
       .then((data) => JSON.parse(data))
       .then((data) => {
-        console.log(data);
-        dispatch(login(data));
-        getUserProperties();
-        getUserBookings();
-        history.push("/");
-      });
-  };
+        console.log(data)
+        dispatch(login(data))
+        getUserProperties()
+        getUserBookings()
+        history.push('/')
+      })
+  }
 
-  const toggleAction = (event, type = "") => {
-    event.preventDefault();
-    console.log(type);
+  const toggleAction = (event, type = '') => {
+    event.preventDefault()
+    console.log(type)
     !type
       ? setRegisterMode((prevState) => !prevState)
-      : submitHandler(type, event);
-  };
+      : submitHandler(type, event)
+  }
 
   return (
     <>
-      <div className="login-container">
-        <div className="login-header">Login</div>
-        <div className="login-form">
-          <form className="form-group" onSubmit={submitHandler}>
+      <div className='login-container'>
+        <div className='login-header'>Login</div>
+        <div className='login-form'>
+          <form className='form-group' onSubmit={submitHandler}>
             <label>username</label>
             <input
-              type="username"
+              type='username'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <label>password</label>
             <input
-              type="password"
+              type='password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -67,41 +67,41 @@ export default function Login() {
               <>
                 <label>first name: </label>
                 <input
-                  type="text"
+                  type='text'
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                 />
                 <label>last name: </label>
                 <input
-                  type="text"
+                  type='text'
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                 />
               </>
             )}
 
-            <div className="login-buttons">
+            <div className='login-buttons'>
               <button
-                type="submit"
+                type='submit'
                 onClick={(event) =>
-                  toggleAction(event, registerMode ? "" : "login-user")
+                  toggleAction(event, registerMode ? '' : 'login-user')
                 }
               >
                 Login
               </button>
               <button
-                type="submit"
+                type='submit'
                 onClick={(e) => {
-                  e.preventDefault();
-                  fetch(`/api/logout-user`, { credentials: "include" });
+                  e.preventDefault()
+                  fetch(`/api/logout-user`, { credentials: 'include' })
                 }}
               >
                 Logout
               </button>
               <button
-                type="submit"
+                type='submit'
                 onClick={(event) =>
-                  toggleAction(event, registerMode ? "register-user" : "")
+                  toggleAction(event, registerMode ? 'register-user' : '')
                 }
               >
                 Register
@@ -111,5 +111,5 @@ export default function Login() {
         </div>
       </div>
     </>
-  );
+  )
 }

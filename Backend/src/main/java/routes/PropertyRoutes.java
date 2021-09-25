@@ -33,6 +33,7 @@ public class PropertyRoutes {
         
         app.get("/api/properties", (req, res) -> {
             List<PropertyView> properties = propertyRepository.findAll();
+            System.out.println(properties);
             res.json(mapper.writeValueAsString(properties)).status(200);
         });
         

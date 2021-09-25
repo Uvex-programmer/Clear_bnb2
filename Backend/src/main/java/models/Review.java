@@ -19,10 +19,6 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    //    @Column(name = "user_id")
-//    private int userId;
-//    @Column(name = "property_id")
-//    private int propertyId;
     @ManyToOne
     @JoinColumn(name = "review_user_id", referencedColumnName = "id")
     private User reviewUser;

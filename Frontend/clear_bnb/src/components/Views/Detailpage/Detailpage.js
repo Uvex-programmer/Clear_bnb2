@@ -9,7 +9,7 @@ const Detailpage = () => {
 
   useEffect(() => {
     fetch(`/api/properties/${id}`)
-      .then(async (res) => await JSON.parse(await res.json()))
+      .then(async (res) => JSON.parse(await res.json()))
       .then((data) => {
         console.log(data)
         setProperty(data)

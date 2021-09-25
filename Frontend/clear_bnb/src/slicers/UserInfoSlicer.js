@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 export const userInfoSlicer = createSlice({
-  name: "user-properties",
+  name: 'user-properties',
   initialState: {
     properties: [],
     bookings: [],
@@ -11,25 +11,25 @@ export const userInfoSlicer = createSlice({
 
   reducers: {
     getProperties: (state, action) => {
-      state.properties = action.payload;
+      state.properties = action.payload
     },
     addProperties: (state, action) => {
-      state.properties = [...state, action.payload];
+      state.properties = [...state, action.payload]
     },
     getBookings: (state, action) => {
-      state.bookings = action.payload;
+      state.bookings = action.payload
     },
     addBookings: (state, action) => {
-      state.bookings = [...state, action.payload];
+      state.bookings = [...state, action.payload]
     },
     getReviewRating: (state, action) => {
-      state.rating = action.payload;
+      state.rating = action.payload
     },
     getUserReview: (state, action) => {
-      state.reviews = [action.payload];
+      state.reviews = action.payload
     },
   },
-});
+})
 
 export const {
   getProperties,
@@ -38,6 +38,6 @@ export const {
   addBookings,
   getReviewRating,
   getUserReview,
-} = userInfoSlicer.actions;
+} = userInfoSlicer.actions
 
-export default userInfoSlicer.reducer;
+export default userInfoSlicer.reducer

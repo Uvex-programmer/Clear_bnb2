@@ -1,23 +1,21 @@
-import { useState } from 'react';
-import styles from './Searchpage.module.css';
-import { setSearchResults } from '../../../slicers/SearchSlicer';
-import { useDispatch, useSelector } from 'react-redux';
-import SearchResults from '../../SearchResults/SearchResults';
+import { useState } from 'react'
+import styles from './Searchpage.module.css'
+import { setSearchResults } from '../../../slicers/SearchSlicer'
+import { useDispatch, useSelector } from 'react-redux'
+import SearchResults from '../../SearchResults/SearchResults'
 
 const Searchpage = () => {
-  const [city, setSearch] = useState('');
-  const [beds, setBeds] = useState(1);
-  const [baths, setBathrooms] = useState(1);
-  const [dailyPrice, setMaxPrice] = useState(600);
+  const [city, setSearch] = useState('')
+  const [beds, setBeds] = useState(1)
+  const [baths, setBathrooms] = useState(1)
+  const [dailyPrice, setMaxPrice] = useState(600)
   const [startDate, setStartDate] = useState(
     new Date().toISOString().split('T')[0]
-  );
-  const [endDate, setEndDate] = useState(
-    new Date().toISOString().split('T')[0]
-  );
-  const [guests, setMinGuests] = useState(1);
-  const dispatch = useDispatch();
-  const searchResults = useSelector((state) => state.searchData.results);
+  )
+  const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0])
+  const [guests, setMinGuests] = useState(1)
+  const dispatch = useDispatch()
+  const searchResults = useSelector((state) => state.searchData.results)
 
   const searchHandler = () => {
     const searchInfo = {
@@ -28,8 +26,8 @@ const Searchpage = () => {
       startDate,
       endDate,
       guests,
-    };
-    console.log(searchInfo);
+    }
+    console.log(searchInfo)
 
     fetch('/api/search', {
       method: 'POST',
@@ -37,12 +35,12 @@ const Searchpage = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (!data) return;
-        console.log(JSON.parse(data));
-        dispatch(setSearchResults);
+        if (!data) return
+        console.log(JSON.parse(data))
+        dispatch(setSearchResults)
       })
-      .catch((error) => console.log(error));
-  };
+      .catch((error) => console.log(error))
+  }
 
   return (
     <div className={styles['searchpage_container']}>
@@ -127,7 +125,7 @@ const Searchpage = () => {
       </div>
       {searchResults && <SearchResults results={searchResults} />}
     </div>
-  );
-};
+  )
+}
 
-export default Searchpage;
+export default Searchpage

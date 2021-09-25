@@ -1,39 +1,41 @@
-import UserInfo from "./components/UserInfo";
-import UserHouse from "./components/UserHouses";
-import UserBookings from "./components/UserBookings";
-import { useSelector } from "react-redux";
-import CardOld from "../../UI/CardOld/CardOld";
-import ReviewPost from "../../Review/ReviewPost";
+import UserInfo from './components/UserInfo'
+import UserHouse from './components/UserHouses'
+import UserBookings from './components/UserBookings'
+import { useSelector } from 'react-redux'
+import CardOld from '../../UI/CardOld/CardOld'
+import ReviewPost from '../../Review/ReviewPost'
+import { MessageWindow } from '../../Review/ReviewMsgWindow'
 export default function ProfilePage() {
   return (
     <>
-      <div className="profile-page-container">
+      <div className='profile-page-container'>
         <UserInfo />
         <CardOld>
           <label
-            htmlFor=""
-            style={{ fontWeight: "700", fontSize: "25px", marginLeft: "10px" }}
+            htmlFor=''
+            style={{ fontWeight: '700', fontSize: '25px', marginLeft: '10px' }}
           >
             User rental properties:
           </label>
-          <div className="user-container" style={{ display: "flex" }}>
+          <div className='user-container' style={{ display: 'flex' }}>
             <UserHouse />
           </div>
         </CardOld>
         <CardOld>
           <label
-            style={{ fontWeight: "700", fontSize: "25px", marginLeft: "10px" }}
+            style={{ fontWeight: '700', fontSize: '25px', marginLeft: '10px' }}
           >
             User bookings:
           </label>
-          <div className="user-bookings" style={{ display: "flex" }}>
+          <div className='user-bookings' style={{ display: 'flex' }}>
             <UserBookings />
           </div>
         </CardOld>
-        <div className="review-container">
+        <div className='review-container'>
           <ReviewPost />
+          <MessageWindow />
         </div>
       </div>
     </>
-  );
+  )
 }
