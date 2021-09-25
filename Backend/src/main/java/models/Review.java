@@ -10,7 +10,7 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(name = "Review.findById",
                 query = "SELECT r FROM Review r WHERE r.id = :id"),
-        @NamedQuery(name = "Review.findAllByReviewUsedId",
+        @NamedQuery(name = "Review.findAllByReviewUserId",
                 query = "SELECT r FROM Review r WHERE r.reviewUser.id = :id"),
         @NamedQuery(name = "Review.findAllReviewsByUserId",
                 query = "SELECT r FROM Review r WHERE r.user.id = :id"),

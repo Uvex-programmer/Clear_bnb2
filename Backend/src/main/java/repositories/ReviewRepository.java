@@ -21,7 +21,7 @@ public class ReviewRepository implements ReviewRepoInterface {
     }
 
     public List<?> findAllByReviewUserId(Integer id){
-        return entityManager.createNamedQuery("Review.findAllByReviewUsedId")
+        return entityManager.createNamedQuery("Review.findAllByReviewUserId")
                 .setParameter("id", id)
                 .getResultList();
     }
