@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,42 +43,45 @@ public class Property {
     @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
     private Address address;
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "Property-Images")
     private List<Image> images = new ArrayList<>();
     @JsonManagedReference
     @OneToMany(mappedBy = "property")
     private List<Review> reviews;
+    @JsonBackReference
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Booking> bookings;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    
+    @JsonBackReference(value = "amenity-property")
     @JoinTable(
             name = "properties_x_amenities",
             joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
     )
     private List<Amenity> amenities = new ArrayList<>();
-
-    @JsonBackReference
+    
+    @JsonBackReference(value = "User - Properties")
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     
     public Property() {
     }
-    
-    public Property(int id, int userId, String title, String description, int beds, int bathrooms, int guests, Date createdAt, Date startDate, Date endDate, int dailyPrice) {
-        this.id = id;
-//        this.userId = userId;
-        this.title = title;
-        this.description = description;
-        this.beds = beds;
-        this.bathrooms = bathrooms;
-        this.guests = guests;
-        this.createdAt = createdAt;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.dailyPrice = dailyPrice;
-    }
+
+//    public Property(int id, int userId, String title, String description, int beds, int bathrooms, int guests, Date createdAt, Date startDate, Date endDate, int dailyPrice) {
+//        this.id = id;
+//        this.title = title;
+//        this.description = description;
+//        this.beds = beds;
+//        this.bathrooms = bathrooms;
+//        this.guests = guests;
+//        this.createdAt = createdAt;
+//        this.startDate = startDate;
+//        this.endDate = endDate;
+//        this.dailyPrice = dailyPrice;
+//    }
     
     public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
         this.title = title;

@@ -3,9 +3,11 @@ package routes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import express.Express;
 import models.Property;
+import models.PropertyView;
 import repositories.PropertyRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PropertyRoutes {
     
@@ -28,20 +30,27 @@ public class PropertyRoutes {
             propertyRepository.save(property);
             System.out.println(property);
         });
-
-        app.get("/api/properties" , (req, res) -> {
-           List <Property> properties = propertyRepository.findAll();
-           res.json(mapper.writeValueAsString(properties)).status(200);
+        
+        app.get("/api/properties", (req, res) -> {
+            List<PropertyView> properties = propertyRepository.findAll();
+            res.json(mapper.writeValueAsString(properties)).status(200);
         });
-
-        app.get("/api/properties/:id" , (req, res) -> {
-            List <?> propertyById = propertyRepository.findByUserId(Integer.parseInt(req.params("id")));
+        
+        app.get("/api/properties/:id", (req, res) -> {
+            Optional<Property> propertyById = propertyRepository.findById(Integer.parseInt(req.params("id")));
             res.json(mapper.writeValueAsString(propertyById)).status(200);
         });
-
+        
         app.get("/api/get-user-properties/:id", (req, res) -> {
             List<?> properties = propertyRepository.findByUserId(Integer.parseInt(req.params("id")));
             res.json(mapper.writeValueAsString(properties));
+        });
+        
+        app.post("/api/search", (req, res) -> {
+            PropertyView searchResult = req.body(PropertyView.class);
+            List<?> bySearch = propertyRepository.findObjectsBySearch(searchResult.getCity(), searchResult.getBeds(), searchResult.getBaths(), searchResult.getGuests(), searchResult.getDailyPrice(),
+                    searchResult.getStartDate(), searchResult.getEndDate());
+            res.json(mapper.writeValueAsString(bySearch));
         });
     }
 }

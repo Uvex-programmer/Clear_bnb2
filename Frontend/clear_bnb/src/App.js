@@ -4,6 +4,7 @@ import Login from "./components/Login/Login";
 import AddProperty from "./components/RentalObject/AddProperty";
 import FrontPage from "./components/Views/Frontpage/Frontpage";
 import ProfilePage from "./components/Views/ProfilePage/ProfilePage";
+import Detail from "./components/Views/Detailpage/Detailpage";
 import SearchPage from "./components/Views/Searchpage/Searchpage";
 import {
   getUserProperties,
@@ -30,7 +31,6 @@ function App() {
           lastName: user.lastName,
           email: user.email,
         };
-
         dispatch(login(userLoggedIn));
         getUserProperties();
         getUserBookings();
@@ -49,6 +49,7 @@ function App() {
           <Route path="/add-property" component={AddProperty} />
           <Route path="/search" component={SearchPage} />
           <Route path="/profile-page" component={ProfilePage} />
+          <Route path="/detail-page/:id" component={Detail} />
         </Switch>
       </div>
     </div>

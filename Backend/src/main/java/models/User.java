@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -17,7 +18,7 @@ import java.util.List;
         name = "users",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})}
 )
-public class    User {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -34,19 +35,23 @@ public class    User {
     @Column(unique = true)
     private String email;
     private String password;
-    @JsonManagedReference
+    @JsonBackReference (value="User - Review")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
-    @JsonManagedReference
+    @JsonBackReference (value="User - Booking")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
+    @JsonBackReference (value="User - Transaction")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
+    @JsonBackReference (value="User - ReceivedTransaction")
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private List<Transaction> receivedTransactions;
-    @JsonManagedReference
+    @JsonBackReference (value="User - Properties")
+    @JsonManagedReference (value="")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Property> properties = new ArrayList<>();
+    @JsonBackReference (value="User - Account")
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private BankAccount account;
     @CreationTimestamp
@@ -191,7 +196,7 @@ public class    User {
     
     @Override
     public String toString() {
-        return "user{" +
+        return "User{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

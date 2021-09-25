@@ -1,6 +1,10 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import express.Express;
+import repositories.AmenityRepository;
+import repositories.PropertyRepository;
+import repositories.SessionRepository;
+import repositories.UserRepository;
 import models.*;
 import repositories.*;
 import routes.BookingRoutes;
@@ -11,9 +15,6 @@ import routes.UserRoutes;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.servlet.http.Cookie;
-import java.util.List;
-import java.util.Optional;
 
 public class Main {
     
@@ -21,12 +22,12 @@ public class Main {
         Express app = new Express();
         new ConnectMysql();
 
-        app.use((req, res) -> {
-            //System.out.println("HÄR KOMMER MIN SESSION: ");
-            //Session ska vara i 15-30 minuter
-            // Set an cookie (you can call setCookie how often you want)
-            //res.setCookie(new Cookie("my-cookie", "Hello World!"));
-        });
+//        app.use((req, res) -> {
+//            //System.out.println("HÄR KOMMER MIN SESSION: ");
+//            //Session ska vara i 15-30 minuter
+//            // Set an cookie (you can call setCookie how often you want)
+//            //res.setCookie(new Cookie("my-cookie", "Hello World!"));
+//        });
 
         
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
@@ -39,6 +40,8 @@ public class Main {
         PropertyRepository propertyRepository = new PropertyRepository(entityManager);
         BookingRepository bookingRepository = new BookingRepository(entityManager);
         ReviewRepository reviewRepository = new ReviewRepository((entityManager));
+
+        AmenityRepository amenityRepository = new AmenityRepository(entityManager);
 
         new UserRoutes(app, mapper, userRepository, sessionRepository);
         new PropertyRoutes(app, mapper, propertyRepository);

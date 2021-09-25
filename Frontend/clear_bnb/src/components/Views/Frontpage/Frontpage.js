@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import CardOld from "../../UI/CardOld/CardOld";
 
-export default function FrontPage() {
-  const [properties, setProperties] = useState();
-  let cards;
+function FrontPage() {
+  const [properties, setProperties] = useState([]);
+  let cards = "";
 
   useEffect(() => {
     fetch("/api/properties")
@@ -14,10 +14,10 @@ export default function FrontPage() {
       });
   }, []);
 
-  if (properties) {
+  if (properties?.length) {
     cards = properties.map((property) => {
       return (
-        <CardOld key={property.id}>
+        <CardOld key={property.id} id={property.id}>
           <p>{property.title}</p>
           <p>Price: {property.dailyPrice} kr</p>
         </CardOld>
@@ -34,3 +34,5 @@ export default function FrontPage() {
     </>
   );
 }
+
+export default FrontPage;

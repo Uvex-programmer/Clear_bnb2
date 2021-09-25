@@ -3,20 +3,18 @@ import { useSelector } from "react-redux";
 
 export default function UserProperties() {
   const state1 = useSelector((state) => state.userProperties.properties);
-  return state1.map((prop, index) => {
+  return state1.map((property, index) => {
     return (
-      <div className="property" key={index} style={{ width: "350px" }}>
-        <CardOld>
-          <div>id: {prop.id}</div>
-          <div>title: {prop.title}</div>
-          <div>Description: {prop.description}</div>
-          <div>beds: {prop.beds}</div>
-          <div>bathrooms{prop.bathrooms}</div>
-          <div>city: {prop.address.city}</div>
-          <div>street: {prop.address.street}</div>
-          <div>Zipcode: {prop.address.zipcode}</div>
-        </CardOld>
-      </div>
+      <CardOld id={property.id} key={index}>
+        <div>id: {property.id}</div>
+        <div>title: {property.title}</div>
+        <div>Description: {property.description}</div>
+        <div>beds: {property.beds}</div>
+        <div>bathrooms{property.bathrooms}</div>
+        <div>city: {property.address.city}</div>
+        <div>street: {property.address.street}</div>
+        <div>Zipcode: {property.address.zipcode}</div>
+      </CardOld>
     );
   });
 }
