@@ -4,8 +4,9 @@ import Login from './components/Login/Login'
 import AddProperty from './components/RentalObject/AddProperty'
 import FrontPage from './components/Views/Frontpage/Frontpage'
 import ProfilePage from './components/Views/ProfilePage/ProfilePage'
-import Detail from './components/Views/Detailpage/Detailpage'
+import Detailpage from './components/Views/Detailpage/Detailpage'
 import SearchPage from './components/Views/Searchpage/Searchpage'
+import BookingPage from './components/Views/Bookingpage/Bookingpage'
 import { getUserProperties, getUserBookings } from './utils/API'
 import { Switch, Route } from 'react-router-dom'
 import { useEffect } from 'react'
@@ -44,7 +45,8 @@ function App() {
           <Route path='/add-property' component={AddProperty} />
           <Route path='/search' component={SearchPage} />
           <Route path='/profile-page' component={ProfilePage} />
-          <Route path='/detail-page/:id' component={Detail} />
+          <Route path='/detail-page/:id' component={Detailpage} />
+          <Route path='/booking/:id' component={BookingPage} />
         </Switch>
       </div>
     </div>

@@ -1,0 +1,90 @@
+.booking-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  max-width: 60rem;
+  margin-bottom: 7rem;
+}
+
+.booking-container h1 {
+  text-align: center;
+}
+
+.booking-container p {
+  font-size: 1.3rem;
+}
+
+.info-container {
+  width: 80%;
+  border: 1px solid black;
+  padding: 2rem;
+  margin: 0;
+}
+
+.selection-container {
+  padding: 2rem;
+  border: 1px dashed grey;
+  border-radius: 10px;
+}
+
+.payment-container > p:first-child {
+  font-weight: bold;
+}
+
+.pay-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  height: 3rem;
+  width: 70%;
+  margin: 2rem auto 0 auto;
+  background: green;
+  border-radius: 10px;
+  color: white;
+}
+
+.credit-control {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.credit-control > input {
+  height: 2rem;
+  max-width: 8.7rem;
+  margin: 0.2rem 1rem;
+  border-radius: 4px;
+  border: 1px solid black;
+}
+
+input[type='tel'] {
+  padding: 0.1rem 1rem;
+  font-size: 0.9rem;
+}
+
+.input-small {
+  width: 3rem;
+}
+
+.input-small:first-of-type {
+  margin-left: 1.25rem;
+}
+
+.input-small[maxLength='3'] {
+  margin-left: 2.56rem;
+  width: 2rem;
+  font-size: 0.9rem;
+  padding-left: 1rem;
+  padding-right: 0;
+}
+
+.divider {
+  font-weight: 300;
+  position: relative;
+  top: -5px;
+  font-size: 2rem;
+}

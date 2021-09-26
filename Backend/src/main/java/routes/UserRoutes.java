@@ -89,6 +89,11 @@ public class UserRoutes {
             }
         }});
 
+        app.post("/api/purchase-booking", (req, res) -> {
+            System.out.println(req.body());
+            res.send("Endpoint received object!").status(201);
+          //  res.json(mapper.writeValueAsString(req.cookie("current-user")));
+        });
         
         app.get("/api/logout-user", (req, res) -> {
             String session_id = req.cookie("current-user");
@@ -119,6 +124,11 @@ public class UserRoutes {
          List<?> properties = user.get().getProperties();
          res.json(mapper.writeValueAsString(properties));
         });
+
+        app.get("/api/whoami", (req, res) -> {
+            res.json(mapper.writeValueAsString(req.cookie("current-user")));
+        });
+
     }
 }
 
