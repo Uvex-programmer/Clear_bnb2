@@ -18,6 +18,8 @@ import java.util.List;
                 query = "SELECT p FROM Property p WHERE p.id = :id"),
         @NamedQuery(name = "Property.findAllByUserId",
                 query = "SELECT p FROM Property p WHERE p.user.id = :id"),
+        @NamedQuery(name = "Property.findAll",
+                query = "SELECT v FROM Property v")
 })
 public class Property {
     @Id
@@ -45,9 +47,10 @@ public class Property {
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "Property-Images")
     private List<Image> images = new ArrayList<>();
+
     @JsonManagedReference
     @OneToMany(mappedBy = "property")
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
     @JsonBackReference
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")

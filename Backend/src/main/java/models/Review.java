@@ -1,9 +1,11 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "reviews")
@@ -12,8 +14,8 @@ import java.util.Date;
                 query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName FROM Review r WHERE r.id = :id"),
         @NamedQuery(name = "Review.findAllReviewsByUserId",
                 query = "SELECT r FROM Review r WHERE r.user.id = :id"),
-        @NamedQuery(name = "Review.findAllReviewsByPropertyId",
-                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName FROM Review r WHERE r.property.id = :id"),
+    //    @NamedQuery(name = "Review.findAllReviewsByPropertyId",
+      //          query = "SELECT r.id, u.review_user_id, r.rating, r.comment, p.property_id, u.user_id, r.created_at FROM Review r, User u, Property p WHERE p.property.id = :ids"),
         @NamedQuery(name = "Review.findAllReviewsOnUserId",
                 query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName FROM Review r WHERE r.reviewUser.id = :id")
 })
@@ -34,17 +36,38 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
     @Transient
-    @Column(name = "created_at")
+    @CreationTimestamp
     private Date createdAt;
-    
+//    private java.sql.Timestamp created_at;
+
+
+
     public Review() {
     }
-    
+
     public Review(int rating, String comment) {
         this.rating = rating;
         this.comment = comment;
     }
+
+    public User getReviewUser() {
+        return reviewUser;
+    }
+
+    public void setReviewUser(User reviewUser) {
+        this.reviewUser = reviewUser;
+    }
+
+    public Date getCreated_at() {
+        return createdAt;
+    }
+
+    public void setCreated_at(Date created_at) {
+        this.createdAt = createdAt;
+    }
+
     
     public int getId() {
         return id;
@@ -53,23 +76,6 @@ public class Review {
     public void setId(int id) {
         this.id = id;
     }
-
-//    public int getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(int userId) {
-//        this.userId = userId;
-//    }
-//
-//    public int getPropertyId() {
-//        return propertyId;
-//    }
-//
-//    public void setPropertyId(int propertyId) {
-//        this.propertyId = propertyId;
-//    }
-    
     
     public Property getProperty() {
         return property;
@@ -103,14 +109,6 @@ public class Review {
         this.comment = comment;
     }
     
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-    
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-    
     @Override
     public String toString() {
         return "Review{" +
@@ -119,7 +117,7 @@ public class Review {
                 ", comment='" + comment + '\'' +
                 ", property=" + property +
                 ", user=" + user +
-                ", createdAt=" + createdAt +
+                ", created at=" + createdAt +
                 '}';
     }
 }
