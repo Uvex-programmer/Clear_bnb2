@@ -55,7 +55,14 @@ public class PropertyRepository implements PropertyRepoInterface {
         priceFilter.setParameter("maxPrice", maxPrice);
         dateFilter.setParameter("startDate", startDate);
         dateFilter.setParameter("endDate", endDate);
-        return this.findAll();
+        List<PropertyView> views = entityManager.createQuery("SELECT v FROM PropertyView v", PropertyView.class).getResultList();
+        session.disableFilter("bedroomFilter");
+        session.disableFilter("bathroomFilter");
+        session.disableFilter("guestFilter");
+        session.disableFilter("priceFilter");
+        session.disableFilter("dateFilter");
+        session.disableFilter("freeSearchFilter");
+        return views;
     }
     
     public Optional<Property> findByName(String name) {

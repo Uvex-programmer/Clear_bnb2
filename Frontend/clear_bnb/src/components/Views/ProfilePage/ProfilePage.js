@@ -4,13 +4,12 @@ import UserBookings from './components/UserBookings'
 import NewCard from '../../UI/CardOld/DanneRörInteDettaCard'
 import { MessageWindow } from '../../Review/ReviewMsgWindow'
 import { useSelector, useDispatch } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { getUserReview } from '../../../slicers/UserInfoSlicer'
 
 export default function ProfilePage() {
   const userOnline = useSelector((state) => state.loginUser.user)
   const reviews = useSelector((state) => state.userProperties.reviews)
-  //const [reviews, setreviews] = useState([])
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -22,7 +21,7 @@ export default function ProfilePage() {
         dispatch(getUserReview(review))
         console.log(review)
       })
-  }, [userOnline])
+  }, [userOnline, dispatch])
 
   return (
     <>
