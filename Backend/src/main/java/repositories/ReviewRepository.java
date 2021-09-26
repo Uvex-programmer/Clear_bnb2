@@ -32,9 +32,15 @@ public class ReviewRepository implements ReviewRepoInterface {
                 .getResultList();
     }
     public List<?> findAllReviewsByPropertyId(Integer id){
-        return entityManager.createNamedQuery("Review.findAllReviewsByPropertyId")
+/*       List<?> reviews =  entityManager.createNamedQuery("Review.findAllReviewsByPropertyId")
                 .setParameter("id", id)
+                .getResultList();*/
+        //SELECT r.id, u.review_user_id, r.rating, r.comment, p.property_id, u.user_id, r.created_at FROM Review r, User u, Property p WHERE p.property.id = :ids"
+        List<?> reviews = entityManager.createQuery("SELECT r.id, r.reviewUser.id, r.rating, r.comment, r.property.id, r.user.id FROM Review r WHERE r.property.id = :ids")
+                .setParameter("ids", id)
                 .getResultList();
+
+        return reviews;
     }
 
     public List<?> findAllReviewsOnUserId(Integer id){
