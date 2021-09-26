@@ -5,6 +5,8 @@ import express.Express;
 import models.Review;
 import repositories.ReviewRepository;
 
+import java.util.List;
+
 public class ReviewRoutes {
 
     private final Express app;
@@ -36,14 +38,12 @@ public class ReviewRoutes {
         app.get("/api/get-reviews-on-property/:id", (req, res) -> {
             var id = Integer.parseInt(req.params("id"));
             var reviews = reviewRepository.findAllReviewsByPropertyId(id);
-            System.out.println(reviews);
-            res.json(mapper.writeValueAsString(reviews));
+            System.out.println(mapper.writeValueAsString(reviews));
+            res.json(mapper.writeValueAsString(reviews) );
         });
         app.get("/api/get-reviews-on-user/:id", (req, res) -> {
             var id = Integer.parseInt(req.params("id"));
-            System.out.println(id);
             var reviews = reviewRepository.findAllReviewsOnUserId(id);
-            System.out.println(reviews);
             res.json(mapper.writeValueAsString(reviews));
         });
         app.get("/api/get-reviews-made-by-user/:id", (req, res) -> {

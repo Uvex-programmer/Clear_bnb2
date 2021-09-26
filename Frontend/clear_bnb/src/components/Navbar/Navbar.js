@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router'
 import { logout } from '../../slicers/LoginSlicer'
 import './Navbar.css'
 
 export default function Navbar() {
   const userOnline = useSelector((state) => state.loginUser.user)
   const dispatch = useDispatch()
+  const history = useHistory()
 
   return (
     <>
@@ -21,6 +23,7 @@ export default function Navbar() {
             onClick={async () => {
               dispatch(logout())
               await fetch('/api/logout-user')
+              history.push('/')
             }}
           >
             Logout

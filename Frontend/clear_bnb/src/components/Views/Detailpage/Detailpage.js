@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { setChosenObject } from '../../../slicers/UserSlicer'
-import { useDispatch } from 'react-redux'
 import classes from './Detailpage.module.css'
 import { MessageWindow } from '../../Review/ReviewMsgWindow'
 import ReviewPost from '../../Review/ReviewPost'
@@ -34,7 +33,9 @@ const Detailpage = () => {
     fetch(`/api/get-reviews-on-property/${id}`)
       .then(async (res) => JSON.parse(await res.json()))
       .then((review) => {
+        if (review === null) dispatch(setReviews([]))
         dispatch(setReviews(review))
+        console.log(review)
       })
   }, [id, dispatch])
 

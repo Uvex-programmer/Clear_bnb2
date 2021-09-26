@@ -125,9 +125,9 @@ public class UserRoutes {
          res.json(mapper.writeValueAsString(properties));
         });
 
-        app.get("/api/whoami", (req, res) -> {
-            res.json(mapper.writeValueAsString(req.cookie("current-user")));
-        });
+        //app.get("/api/whoami", (req, res) -> {
+        //    res.json(mapper.writeValueAsString(req.cookie("current-user")));
+        //});
 
     }
 }
