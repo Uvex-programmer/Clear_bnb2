@@ -6,6 +6,7 @@ import models.Property;
 import models.PropertyView;
 import repositories.PropertyRepository;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,14 +33,23 @@ public class PropertyRoutes {
         });
         
         app.get("/api/properties", (req, res) -> {
-            List<PropertyView> properties = propertyRepository.findAll();
+            List<Property> properties = propertyRepository.findAll();
+
             System.out.println(properties);
             res.json(mapper.writeValueAsString(properties)).status(200);
         });
         
         app.get("/api/properties/:id", (req, res) -> {
-            Optional<Property> propertyById = propertyRepository.findById(Integer.parseInt(req.params("id")));
-            res.json(mapper.writeValueAsString(propertyById)).status(200);
+            int id = Integer.parseInt(req.params("id"));
+            Optional<Property> propertyById = propertyRepository.findById(id);
+
+            System.out.println(propertyById);
+            if(propertyById.isPresent()) {
+                String objectToBeMapped = mapper.writeValueAsString(propertyById);
+                res.json(objectToBeMapped).status(200);
+                return;
+            }
+            res.status(400).json("Could not perform request.");
         });
         
         app.get("/api/get-user-properties/:id", (req, res) -> {

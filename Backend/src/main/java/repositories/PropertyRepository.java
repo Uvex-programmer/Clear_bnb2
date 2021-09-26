@@ -19,12 +19,15 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
     
     public Optional<Property> findById(Integer id) {
-        Property property = entityManager.find(Property.class, id);
+        Property property = entityManager.createNamedQuery("Property.findById", Property.class)
+                .setParameter("id", id).getSingleResult();
+
         return property != null ? Optional.of(property) : Optional.empty();
     }
     
-    public List<PropertyView> findAll() {
-        return entityManager.createQuery("SELECT v FROM PropertyView v", PropertyView.class).getResultList();
+    public List<Property> findAll() {
+        List<Property> properties = entityManager.createNamedQuery("Property.findAll", Property.class).getResultList();
+        return properties;
     }
     
     public List<?> findAvailableObjects() {
@@ -63,9 +66,9 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
     
     public List<?> findByUserId(Integer id) {
-        return entityManager.createNamedQuery("Property.findAllByUserId")
-                .setParameter("id", id)
-                .getResultList();
+        List<?> properties = entityManager.createNamedQuery("Property.findAllByUserId")
+                .setParameter("id", id).getResultList();
+        return properties;
     }
     
     public Optional<Property> save(Property property) {
