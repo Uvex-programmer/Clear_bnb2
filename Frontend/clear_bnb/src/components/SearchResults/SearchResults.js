@@ -4,10 +4,8 @@ const SearchResults = ({ results }) => {
   console.log('inside', results)
   return results.map((property) => {
     return (
-      <div style={{ width: '200px' }}>
-        <CardOld key={property.id} id={property.id}>
-          {property.title}
-        </CardOld>
+      <div key={property.id} style={{ width: '200px' }}>
+        <CardOld id={property.id}>{property.title}</CardOld>
       </div>
     )
   })
