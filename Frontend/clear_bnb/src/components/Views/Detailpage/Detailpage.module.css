@@ -1,7 +1,55 @@
 .detailpage-container {
-  padding-top: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding-bottom: 10rem;
+}
+
+.date-control {
+  position: relative;
+  min-width: 15rem;
+}
+
+.date-control > label {
+  padding-right: 1rem;
+}
+
+.date-control > input {
+  position: absolute;
+  right: 0;
+}
+
+.details-container {
+  margin-bottom: 4rem;
+}
+
+.booking-button {
+  margin: 0 auto;
+  color: white;
+  font-size: 2rem;
+  background: green;
+  width: 80%;
+  height: 3rem;
+  cursor: pointer;
+}
+
+.booking-button:disabled {
+  background: grey;
+  color: lightgrey;
+  border: dashed 2px;
+  cursor: not-allowed;
+}
+
+.date-requirement {
+  margin: 0 auto;
+  font-size: 2rem;
+}
+
+.date-requirement:last-of-type {
+  padding-bottom: 1rem;
+}
+
+.hide-info {
+  visibility: hidden;
 }
