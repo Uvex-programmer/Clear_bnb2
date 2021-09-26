@@ -23,10 +23,11 @@ public class BookingRepository implements BookingRepoInterface {
         return entityManager.createQuery("from Booking").getResultList();
     }
 
-    public List<?> findByUserId(Integer id) {
-        return entityManager.createNamedQuery("Booking.findAllByUserId")
+    public List<Booking> findByUserId(Integer id) {
+        List <Booking> bookings = entityManager.createNamedQuery("Booking.findAllByUserId")
                 .setParameter("id", id)
                 .getResultList();
+        return bookings;
     }
 
     public Optional<Booking> save(Booking booking) {
