@@ -25,9 +25,25 @@ public class ReviewRoutes {
             reviewRepository.save(review);
             System.out.println(review);
         });
+        app.post("/api/add-review-on-property", (req, res) -> {
+            Review review = req.body(Review.class);
+            review.setUser(review.getUser());
+            review.setProperty(review.getProperty());
+            // review.addUser(review.getUser());
+            reviewRepository.save(review);
+            System.out.println(review);
+        });
+        app.get("/api/get-reviews-on-property/:id", (req, res) -> {
+            var id = Integer.parseInt(req.params("id"));
+            var reviews = reviewRepository.findAllReviewsByPropertyId(id);
+            System.out.println(reviews);
+            res.json(mapper.writeValueAsString(reviews));
+        });
         app.get("/api/get-reviews-on-user/:id", (req, res) -> {
             var id = Integer.parseInt(req.params("id"));
-            var reviews = reviewRepository.findAllByReviewUserId(id);
+            System.out.println(id);
+            var reviews = reviewRepository.findAllReviewsOnUserId(id);
+            System.out.println(reviews);
             res.json(mapper.writeValueAsString(reviews));
         });
         app.get("/api/get-reviews-made-by-user/:id", (req, res) -> {
@@ -35,6 +51,10 @@ public class ReviewRoutes {
             var reviews = reviewRepository.findAllReviewsByUserId(id);
             System.out.println(reviews);
             res.json(mapper.writeValueAsString(reviews));
+        });
+        app.get("/api/delete-review/:id", (req, res) -> {
+            var id = Integer.parseInt(req.params("id"));
+            reviewRepository.delete(id);
         });
     }
 }

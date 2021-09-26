@@ -20,20 +20,36 @@ public class ReviewRepository implements ReviewRepoInterface {
         return review != null ? Optional.of(review) : Optional.empty();
     }
 
-    public List<?> findAllByReviewUserId(Integer id){
-        return entityManager.createNamedQuery("Review.findAllByReviewUserId")
+    public List<?> findAllReviewsByUserId(Integer id){
+        return entityManager.createNamedQuery("Review.findAllReviewsByUserId")
+                .setParameter("id", id)
+                .getResultList();
+    }
+    public List<?> findAllReviewsByPropertyId(Integer id){
+        return entityManager.createNamedQuery("Review.findAllReviewsByPropertyId")
                 .setParameter("id", id)
                 .getResultList();
     }
 
-    public List<?> findAllReviewsByUserId(Integer id){
-        return entityManager.createNamedQuery("Review.findAllReviewsByUserId")
+    public List<?> findAllReviewsOnUserId(Integer id){
+        return entityManager.createNamedQuery("Review.findAllReviewsOnUserId")
                 .setParameter("id", id)
                 .getResultList();
     }
     
     public List<?> findAll() {
         return entityManager.createQuery("from Review").getResultList();
+    }
+
+    public void delete(Integer id){
+        try {
+            entityManager.getTransaction().begin();
+            var review = entityManager.find(Review.class, id);
+            entityManager.remove(review);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Optional<Review> save(Review review) {

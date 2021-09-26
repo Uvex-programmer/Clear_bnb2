@@ -10,10 +10,12 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(name = "Review.findById",
                 query = "SELECT r FROM Review r WHERE r.id = :id"),
-        @NamedQuery(name = "Review.findAllByReviewUserId",
-                query = "SELECT r FROM Review r WHERE r.reviewUser.id = :id"),
         @NamedQuery(name = "Review.findAllReviewsByUserId",
                 query = "SELECT r FROM Review r WHERE r.user.id = :id"),
+        @NamedQuery(name = "Review.findAllReviewsByPropertyId",
+                query = "SELECT r FROM Review r WHERE r.property.id = :id"),
+        @NamedQuery(name = "Review.findAllReviewsOnUserId",
+                query = "SELECT r FROM Review r WHERE r.reviewUser.id = :id")
 })
 public class Review {
     @Id
@@ -43,7 +45,6 @@ public class Review {
         this.rating = rating;
         this.comment = comment;
     }
-    
     
     public int getId() {
         return id;
