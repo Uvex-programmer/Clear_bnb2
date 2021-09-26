@@ -20,7 +20,7 @@ public class Main {
     
     public static void main(String[] args) {
         Express app = new Express();
-        new ConnectMysql();
+        //new ConnectMysql();
 
 //        app.use((req, res) -> {
 //            //System.out.println("HÄR KOMMER MIN SESSION: ");

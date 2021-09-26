@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 
 export default function UserBookings() {
   const state1 = useSelector((state) => state.userProperties.bookings)
-  console.log(state1)
 
   return state1.map((prop, index) => {
     return (
