@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
+import { setChosenObject } from '../../../slicers/UserSlicer'
+import { useDispatch } from 'react-redux'
 import classes from './Detailpage.module.css'
 
 const Detailpage = () => {
@@ -7,14 +9,20 @@ const Detailpage = () => {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const { id } = useParams()
+  let history = useHistory()
+  let dispatch = useDispatch()
+
   let notSelected = startDate.length > 0 && endDate.length > 0 ? true : false
   let images = ''
-  const visibility = notSelected
-    ? { visibility: 'show' }
-    : { visibility: 'hidden' }
-  const showTotal = notSelected
-    ? { visibility: 'hidden' }
-    : { visibility: 'show' }
+
+  useEffect(() => {
+    fetch(`/api/properties/${id}`)
+      .then(async (res) => await JSON.parse(await res.json()))
+      .then((data) => {
+        console.log(data)
+        setProperty(data)
+      })
+  }, [id])
 
   const getPriceFromDates = () => {
     if (!notSelected) return [0, 0]
@@ -28,23 +36,23 @@ const Detailpage = () => {
     return [diffDays, totalPrice]
   }
 
-  useEffect(() => {
-    fetch(`/api/properties/${id}`)
-      .then(async (res) => await JSON.parse(await res.json()))
-      .then((data) => {
-        console.log(data)
-        setProperty(data)
-      })
-  }, [id])
+  const bookHandler = () => {
+    const info = {
+      days: getPriceFromDates()[0],
+      totalPrice: getPriceFromDates()[1],
+      startDate: startDate,
+      endDate: endDate,
+    }
+    localStorage.setItem('house_selection', JSON.stringify(property))
+    dispatch(setChosenObject(info))
+    history.push(`/booking/${id}`)
+  }
 
   if (property?.images?.length > 0) {
     images = property.images.map((image) => {
       return <img src={image.img_url} alt={image.id} />
     })
   }
-
-  console.log(notSelected)
-  console.log([classes['date-requirement'], classes['hide-info']].join(' '))
 
   return (
     <div className={classes['detailpage-container']}>
@@ -104,6 +112,7 @@ const Detailpage = () => {
           <button
             disabled={notSelected ? false : true}
             className={classes['booking-button']}
+            onClick={bookHandler}
           >
             Book
           </button>
