@@ -15,7 +15,7 @@ import java.util.Date;
         @NamedQuery(name = "Review.findAllReviewsByPropertyId",
                 query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName, r.createdAt FROM Review r WHERE r.property.id = :id"),
         @NamedQuery(name = "Review.findAllReviewsOnUserId",
-                query = "SELECT r.id, r.comment, r.rating FROM Review r WHERE r.reviewUser.id = :id")
+                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName, r.createdAt FROM Review r WHERE r.reviewUser.id = :id")
 })
 public class Review {
     @Id
@@ -34,7 +34,7 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-   
+
     @Column(name = "created_at")
     private Date createdAt;
     

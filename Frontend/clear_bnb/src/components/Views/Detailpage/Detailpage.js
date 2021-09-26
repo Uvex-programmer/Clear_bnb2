@@ -35,7 +35,6 @@ const Detailpage = () => {
       .then((review) => {
         if (review === null) dispatch(setReviews([]))
         dispatch(setReviews(review))
-        console.log(review)
       })
   }, [id, dispatch])
 

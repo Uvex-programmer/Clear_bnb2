@@ -3,19 +3,24 @@ import UserHouse from './components/UserHouses'
 import UserBookings from './components/UserBookings'
 import NewCard from '../../UI/CardOld/DanneRörInteDettaCard'
 import { MessageWindow } from '../../Review/ReviewMsgWindow'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
+import { getUserReview } from '../../../slicers/UserInfoSlicer'
 
 export default function ProfilePage() {
   const userOnline = useSelector((state) => state.loginUser.user)
-  const [reviews, setreviews] = useState([])
+  const reviews = useSelector((state) => state.userProperties.reviews)
+  //const [reviews, setreviews] = useState([])
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (!userOnline) return
     fetch(`/api/get-reviews-on-user/${userOnline.id}`)
       .then(async (res) => JSON.parse(await res.json()))
       .then((review) => {
-        setreviews(review)
+        if (review === null) dispatch(getUserReview([]))
+        dispatch(getUserReview(review))
+        console.log(review)
       })
   }, [userOnline])
 
@@ -44,9 +49,12 @@ export default function ProfilePage() {
             <UserBookings />
           </div>
         </NewCard>
-        <div className='review-container'>
-          {reviews ? <MessageWindow reviews={reviews} /> : ''}
-        </div>
+        <NewCard>
+          <div className='review-container'>
+            Reviews on you by others!
+            <MessageWindow reviews={reviews} />
+          </div>
+        </NewCard>
       </div>
     </>
   )
