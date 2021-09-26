@@ -37,7 +37,7 @@ const Searchpage = () => {
       .then((data) => {
         if (!data) return
         console.log(JSON.parse(data))
-        dispatch(setSearchResults)
+        dispatch(setSearchResults(JSON.parse(data)))
       })
       .catch((error) => console.log(error))
   }

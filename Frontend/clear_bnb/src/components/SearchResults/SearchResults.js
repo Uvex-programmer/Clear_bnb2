@@ -1,10 +1,16 @@
 import CardOld from '../UI/CardOld/CardOld'
 
 const SearchResults = ({ results }) => {
-  let properties = results.map((property) => {
-    return <CardOld>{property.title}</CardOld>
+  console.log('inside', results)
+  return results.map((property) => {
+    return (
+      <div style={{ width: '200px' }}>
+        <CardOld key={property.id} id={property.id}>
+          {property.title}
+        </CardOld>
+      </div>
+    )
   })
-  return <div>{properties}</div>
 }
 
 export default SearchResults
