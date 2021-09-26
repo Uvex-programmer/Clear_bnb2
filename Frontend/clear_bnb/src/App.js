@@ -16,24 +16,24 @@ import { login } from './slicers/LoginSlicer'
 function App() {
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    fetch('/api/whoami')
-      .then(async (res) => JSON.parse(await res.json()))
-      .then((user) => {
-        if (!user) return console.log('No user currently logged in.')
+  // useEffect(() => {
+  //   fetch('/api/whoami')
+  //     .then(async (res) => JSON.parse(await res.json()))
+  //     .then((user) => {
+  //       if (!user) return console.log('No user currently logged in.')
 
-        const userLoggedIn = {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-        }
-        dispatch(login(userLoggedIn))
-        getUserProperties()
-        getUserBookings()
-        console.log('user logged in: ', user)
-      })
-  }, [dispatch])
+  //       const userLoggedIn = {
+  //         id: user.id,
+  //         firstName: user.firstName,
+  //         lastName: user.lastName,
+  //         email: user.email,
+  //       }
+  //       dispatch(login(userLoggedIn))
+  //       getUserProperties()
+  //       getUserBookings()
+  //       console.log('user logged in: ', user)
+  //     })
+  // }, [dispatch])
 
   return (
     <div id='App'>

@@ -17,26 +17,25 @@ const Detailpage = () => {
   const reviews = useSelector((state) => state.propertyReviews.reviews)
   let history = useHistory()
   let dispatch = useDispatch()
-
   let notSelected = startDate.length > 0 && endDate.length > 0 ? true : false
   let images = ''
 
   useEffect(() => {
     fetch(`/api/properties/${id}`)
-      .then(async (res) => JSON.parse(await res.json()))
+      .then(async (res) => await JSON.parse(await res.json()))
       .then((data) => {
         setProperty(data)
+        dispatch(setReviews(data.review))
         console.log(data)
       })
-  }, [id])
-
-  useEffect(() => {
-    fetch(`/api/get-reviews-on-property/${id}`)
-      .then(async (res) => JSON.parse(await res.json()))
-      .then((review) => {
-        if (review === null) dispatch(setReviews([]))
-        dispatch(setReviews(review))
-      })
+    // fetch(`/api/get-reviews-on-property/${id}`)
+    //   .then(async (res) => await JSON.parse(await res.json()))
+    //   .then((review) => {
+    //     console.log('Hejsan')
+    //     console.log(review)
+    //     if (review === null) dispatch(setReviews([]))
+    //     dispatch(setReviews(review))
+    //   })
   }, [id, dispatch])
 
   const getPriceFromDates = () => {
