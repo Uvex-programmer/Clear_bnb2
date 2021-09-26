@@ -66,6 +66,11 @@ public class Booking {
     public User getUser() {
         return user;
     }
+
+    public void addUser(User user) {
+        this.setUser(user);
+        user.addBooking(this);
+    }
     
     public void setUser(User user) {
         this.user = user;
