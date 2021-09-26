@@ -1,10 +1,7 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import express.Express;
-import repositories.AmenityRepository;
-import repositories.PropertyRepository;
-import repositories.SessionRepository;
-import repositories.UserRepository;
+import repositories.*;
 import routes.PropertyRoutes;
 import routes.UserRoutes;
 
@@ -35,8 +32,9 @@ public class Main {
         UserRepository userRepository = new UserRepository(entityManager);
         PropertyRepository propertyRepository = new PropertyRepository(entityManager);
         AmenityRepository amenityRepository = new AmenityRepository(entityManager);
+        BookingRepository bookingRepository = new BookingRepository(entityManager);
         
-        new UserRoutes(app, mapper, userRepository, sessionRepository);
+        new UserRoutes(app, mapper, userRepository, sessionRepository, bookingRepository);
         new PropertyRoutes(app, mapper, propertyRepository);
 
 //        Amenity amen1 = new Amenity("wifi");
