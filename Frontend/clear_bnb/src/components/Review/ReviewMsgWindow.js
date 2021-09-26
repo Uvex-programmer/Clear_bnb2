@@ -1,5 +1,6 @@
 import './ReviewMsgWindow.css'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { removeReview } from '../../slicers/PropertyReviewsSlicer'
 
 export const MessageWindow = ({ reviews }) => {
   const userOnline = useSelector((state) => state.loginUser.user)
@@ -16,9 +17,11 @@ export const MessageWindow = ({ reviews }) => {
 }
 
 const MessageList = ({ messages, userOnline }) => {
+  const dispatch = useDispatch()
   function deleteReview(id) {
     console.log(id)
     fetch(`/api/delete-review/${id}`)
+    dispatch(removeReview(id))
   }
 
   return (
@@ -30,9 +33,8 @@ const MessageList = ({ messages, userOnline }) => {
               Rating: {message[2]}/5 - {message[4]}
             </div>
             <div>{message[1]}</div>
-            <div>{new Date(message[5] * 1000).toISOString().substr(14, 5)}</div>
             {userOnline.id === message[3] ? (
-              <button onClick={() => deleteReview(message.id)}>X</button>
+              <button onClick={() => deleteReview(message[0])}>X</button>
             ) : (
               ''
             )}

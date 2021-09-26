@@ -31,9 +31,9 @@ public class ReviewRoutes {
             Review review = req.body(Review.class);
             review.setUser(review.getUser());
             review.setProperty(review.getProperty());
-            // review.addUser(review.getUser());
             reviewRepository.save(review);
-            System.out.println(review);
+            var rev = reviewRepository.findByIdPost(review.getId());
+            res.json(mapper.writeValueAsString(rev));
         });
         app.get("/api/get-reviews-on-property/:id", (req, res) -> {
             var id = Integer.parseInt(req.params("id"));

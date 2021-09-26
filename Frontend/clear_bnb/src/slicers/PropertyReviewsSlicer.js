@@ -13,9 +13,12 @@ export const propertyReviews = createSlice({
     addReview: (state, action) => {
       state.reviews = [...state.reviews, action.payload]
     },
+    removeReview: (state, action) => {
+      state.reviews = state.reviews.filter((rev) => rev[0] !== action.payload)
+    },
   },
 })
 
-export const { setReviews, addReview } = propertyReviews.actions
+export const { setReviews, addReview, removeReview } = propertyReviews.actions
 
 export default propertyReviews.reducer

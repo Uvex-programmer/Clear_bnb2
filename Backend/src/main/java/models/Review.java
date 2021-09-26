@@ -9,13 +9,13 @@ import java.util.Date;
 @Table(name = "reviews")
 @NamedQueries({
         @NamedQuery(name = "Review.findById",
-                query = "SELECT r FROM Review r WHERE r.id = :id"),
+                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName FROM Review r WHERE r.id = :id"),
         @NamedQuery(name = "Review.findAllReviewsByUserId",
                 query = "SELECT r FROM Review r WHERE r.user.id = :id"),
         @NamedQuery(name = "Review.findAllReviewsByPropertyId",
-                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName, r.createdAt FROM Review r WHERE r.property.id = :id"),
+                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName FROM Review r WHERE r.property.id = :id"),
         @NamedQuery(name = "Review.findAllReviewsOnUserId",
-                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName, r.createdAt FROM Review r WHERE r.reviewUser.id = :id")
+                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName FROM Review r WHERE r.reviewUser.id = :id")
 })
 public class Review {
     @Id
@@ -34,7 +34,7 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
+    @Transient
     @Column(name = "created_at")
     private Date createdAt;
     
