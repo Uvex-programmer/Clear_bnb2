@@ -24,8 +24,8 @@ public class Amenity {
     @Enumerated(EnumType.STRING)
     @Column(name = "amenity")
     private Amenities amenity;
+
     @ManyToMany(mappedBy = "amenities", cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "amenity - property")
     private List<Property> properties = new ArrayList<>();
     
     

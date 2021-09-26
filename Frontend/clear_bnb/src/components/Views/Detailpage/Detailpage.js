@@ -1,14 +1,20 @@
 import { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { setChosenObject } from '../../../slicers/UserSlicer'
-import { useDispatch } from 'react-redux'
 import classes from './Detailpage.module.css'
+import { MessageWindow } from '../../Review/ReviewMsgWindow'
+import ReviewPost from '../../Review/ReviewPost'
+import { setReviews } from '../../../slicers/PropertyReviewsSlicer'
+import { useSelector, useDispatch } from 'react-redux'
 
 const Detailpage = () => {
   const [property, setProperty] = useState()
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const { id } = useParams()
+
+  const userOnline = useSelector((state) => state.loginUser.user)
+  const reviews = useSelector((state) => state.propertyReviews.reviews)
   let history = useHistory()
   let dispatch = useDispatch()
 
@@ -17,12 +23,21 @@ const Detailpage = () => {
 
   useEffect(() => {
     fetch(`/api/properties/${id}`)
-      .then(async (res) => await JSON.parse(await res.json()))
+      .then(async (res) => JSON.parse(await res.json()))
       .then((data) => {
-        console.log(data)
         setProperty(data)
+        console.log(data)
       })
   }, [id])
+
+  useEffect(() => {
+    fetch(`/api/get-reviews-on-property/${id}`)
+      .then(async (res) => JSON.parse(await res.json()))
+      .then((review) => {
+        if (review === null) dispatch(setReviews([]))
+        dispatch(setReviews(review))
+      })
+  }, [id, dispatch])
 
   const getPriceFromDates = () => {
     if (!notSelected) return [0, 0]
@@ -116,6 +131,10 @@ const Detailpage = () => {
           >
             Book
           </button>
+          <div className='review-window' style={{ display: 'flex' }}>
+            <MessageWindow reviews={reviews} />
+            <ReviewPost userOnline={userOnline} property={property} />
+          </div>
         </>
       )}
     </div>

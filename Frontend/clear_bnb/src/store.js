@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
 import loginSlicer from './slicers/LoginSlicer'
-import propertySlicer from './slicers/UserHousesSlicer'
+import userInfoSlicer from './slicers/UserInfoSlicer'
 import searchSlicer from './slicers/SearchSlicer'
+import propertyReviews from './slicers/PropertyReviewsSlicer'
 import userSlicer from './slicers/UserSlicer'
 
 export default configureStore({
   reducer: {
     loginUser: loginSlicer,
-    userProperties: propertySlicer,
+    userProperties: userInfoSlicer,
     searchData: searchSlicer,
+    propertyReviews,
     userInfo: userSlicer,
   },
 })

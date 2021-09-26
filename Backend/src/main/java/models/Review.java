@@ -7,14 +7,23 @@ import java.util.Date;
 
 @Entity
 @Table(name = "reviews")
+@NamedQueries({
+        @NamedQuery(name = "Review.findById",
+                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName FROM Review r WHERE r.id = :id"),
+        @NamedQuery(name = "Review.findAllReviewsByUserId",
+                query = "SELECT r FROM Review r WHERE r.user.id = :id"),
+        @NamedQuery(name = "Review.findAllReviewsByPropertyId",
+                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName FROM Review r WHERE r.property.id = :id"),
+        @NamedQuery(name = "Review.findAllReviewsOnUserId",
+                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName FROM Review r WHERE r.reviewUser.id = :id")
+})
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    //    @Column(name = "user_id")
-//    private int userId;
-//    @Column(name = "property_id")
-//    private int propertyId;
+    @ManyToOne
+    @JoinColumn(name = "review_user_id", referencedColumnName = "id")
+    private User reviewUser;
     private int rating;
     private String comment;
     @JsonBackReference
@@ -25,7 +34,6 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-    
     @Transient
     @Column(name = "created_at")
     private Date createdAt;
@@ -37,7 +45,6 @@ public class Review {
         this.rating = rating;
         this.comment = comment;
     }
-    
     
     public int getId() {
         return id;

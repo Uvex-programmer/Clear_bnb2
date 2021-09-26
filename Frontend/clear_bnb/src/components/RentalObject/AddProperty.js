@@ -18,8 +18,6 @@ export default function AddProperty() {
 
   const userOnline = useSelector((state) => state.loginUser.user)
 
-  console.log(userOnline)
-
   const submitHandler = async (e) => {
     e.preventDefault()
     let propertyObj = {

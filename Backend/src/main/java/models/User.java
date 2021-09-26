@@ -47,8 +47,7 @@ public class User {
     @JsonBackReference (value="User - ReceivedTransaction")
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private List<Transaction> receivedTransactions;
-    @JsonBackReference (value="User - Properties")
-    @JsonManagedReference (value="")
+    @JsonManagedReference(value="User - Properties")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Property> properties = new ArrayList<>();
     @JsonBackReference (value="User - Account")

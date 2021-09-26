@@ -33,6 +33,7 @@ public class PropertyRoutes {
         
         app.get("/api/properties", (req, res) -> {
             List<PropertyView> properties = propertyRepository.findAll();
+            System.out.println(properties);
             res.json(mapper.writeValueAsString(properties)).status(200);
         });
         
@@ -44,7 +45,6 @@ public class PropertyRoutes {
         app.get("/api/get-user-properties/:id", (req, res) -> {
             List<?> properties = propertyRepository.findByUserId(Integer.parseInt(req.params("id")));
             res.json(mapper.writeValueAsString(properties));
-            System.out.println(properties);
         });
         
         app.post("/api/search", (req, res) -> {

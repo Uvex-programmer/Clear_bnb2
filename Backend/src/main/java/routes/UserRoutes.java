@@ -119,15 +119,27 @@ public class UserRoutes {
             res.status(201).json("Successfully Logged out!").redirect("/");
         });
 
+        
+        app.get("/api/whoami", (req, res) -> {
+            String session_id = req.cookie("current-user");
+            if(session_id == null) {
+                res.json(req.cookie("current-user"));
+                return;
+            }
+            Optional <Session> session = sessionRepository.findById(Integer.parseInt(session_id));
+            Optional <User> user = userRepository.findById(session.get().getUser_id());
+           res.json(mapper.writeValueAsString(user));
+        });
+
         app.get("/api/user-get-properties/:id", (req, res) -> {
          var user = userRepository.findById(Integer.parseInt(req.params("id")));
          List<?> properties = user.get().getProperties();
          res.json(mapper.writeValueAsString(properties));
         });
 
-        app.get("/api/whoami", (req, res) -> {
-            res.json(mapper.writeValueAsString(req.cookie("current-user")));
-        });
+        //app.get("/api/whoami", (req, res) -> {
+        //    res.json(mapper.writeValueAsString(req.cookie("current-user")));
+        //});
 
     }
 }

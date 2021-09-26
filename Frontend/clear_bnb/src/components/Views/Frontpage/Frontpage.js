@@ -7,7 +7,7 @@ function FrontPage() {
 
   useEffect(() => {
     fetch('/api/properties')
-      .then(async (res) => await JSON.parse(await res.json()))
+      .then(async (res) => JSON.parse(await res.json()))
       .then((data) => {
         console.log(data)
         setProperties(data)

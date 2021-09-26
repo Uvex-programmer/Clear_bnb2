@@ -9,6 +9,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "bookings")
+@NamedQueries({
+        @NamedQuery(name = "Booking.findById",
+                query = "SELECT b FROM Booking b WHERE b.id = :id"),
+        @NamedQuery(name = "Booking.findAllByUserId",
+                query = "SELECT b FROM Booking b WHERE b.user.id = :id"),
+})
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

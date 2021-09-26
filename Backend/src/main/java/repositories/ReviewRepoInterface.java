@@ -10,6 +10,7 @@ public interface ReviewRepoInterface {
     
     List<?> findAll();
 
+    List<?> findAllReviewsOnUserId(Integer id);
 
 //    Optional<?> save();
 //

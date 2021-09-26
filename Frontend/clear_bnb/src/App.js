@@ -2,23 +2,23 @@ import './App.css'
 import Navbar from './components/Navbar/Navbar'
 import Login from './components/Login/Login'
 import AddProperty from './components/RentalObject/AddProperty'
-import Frontpage from './components/Views/Frontpage/Frontpage'
-import Searchpage from './components/Views/Searchpage/Searchpage'
+import FrontPage from './components/Views/Frontpage/Frontpage'
 import ProfilePage from './components/Views/ProfilePage/ProfilePage'
+import Detailpage from './components/Views/Detailpage/Detailpage'
+import SearchPage from './components/Views/Searchpage/Searchpage'
 import BookingPage from './components/Views/Bookingpage/Bookingpage'
+import { getUserProperties, getUserBookings } from './utils/API'
 import { Switch, Route } from 'react-router-dom'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { login } from './slicers/LoginSlicer'
-import { getUserProperties } from './utils/API'
-import { useEffect } from 'react'
-import Detailpage from './components/Views/Detailpage/Detailpage'
 
-const App = () => {
+function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
     fetch('/api/whoami')
-      .then((res) => res.json())
+      .then(async (res) => JSON.parse(await res.json()))
       .then((user) => {
         if (!user) return console.log('No user currently logged in.')
 
@@ -30,6 +30,7 @@ const App = () => {
         }
         dispatch(login(userLoggedIn))
         getUserProperties()
+        getUserBookings()
         console.log('user logged in: ', user)
       })
   }, [dispatch])
@@ -39,10 +40,10 @@ const App = () => {
       <Navbar />
       <div className='app-container'>
         <Switch>
-          <Route exact path='/' component={Frontpage} />
+          <Route exact path='/' component={FrontPage} />
           <Route path='/login' component={Login} />
           <Route path='/add-property' component={AddProperty} />
-          <Route path='/search' component={Searchpage} />
+          <Route path='/search' component={SearchPage} />
           <Route path='/profile-page' component={ProfilePage} />
           <Route path='/detail-page/:id' component={Detailpage} />
           <Route path='/booking/:id' component={BookingPage} />

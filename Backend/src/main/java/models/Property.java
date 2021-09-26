@@ -52,9 +52,9 @@ public class Property {
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Booking> bookings;
-    @ManyToMany(cascade = CascadeType.ALL)
-    
+
     @JsonBackReference(value = "amenity-property")
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "properties_x_amenities",
             joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
@@ -120,7 +120,7 @@ public class Property {
     public void setUser(User user) {
         this.user = user;
     }
-        public Address getAddress() {
+    public Address getAddress() {
         return address;
     }
     

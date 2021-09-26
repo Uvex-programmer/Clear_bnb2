@@ -19,7 +19,7 @@ public class ConnectMysql {
         //Keeping properties in another folder for username and so on...
         Properties props = new Properties();
         //Path for the file
-        String fileName = "Backend/src/main/resources/mysql.properties";
+        String fileName = "src/main/resources/mysql.properties";
         //Loading in properties file
         try (FileInputStream in = new FileInputStream(fileName)) {
             props.load(in);

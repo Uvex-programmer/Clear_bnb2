@@ -22,7 +22,13 @@ public class BookingRepository implements BookingRepoInterface {
     public List<?> findAll() {
         return entityManager.createQuery("from Booking").getResultList();
     }
-    
+
+    public List<?> findByUserId(Integer id) {
+        return entityManager.createNamedQuery("Booking.findAllByUserId")
+                .setParameter("id", id)
+                .getResultList();
+    }
+
     public Optional<Booking> save(Booking booking) {
         try {
             entityManager.getTransaction().begin();
