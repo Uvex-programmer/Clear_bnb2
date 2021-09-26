@@ -4,14 +4,17 @@ import models.Session;
 import models.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.List;
 import java.util.Optional;
 
 public class SessionRepository implements SessionRepoInterface{
-    private final EntityManager entityManager;
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
+    EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-    public SessionRepository(EntityManager entityManager) {
-            this.entityManager = entityManager;
+    public SessionRepository( ) {
+
         }
 
         public Optional<Session> save(Session session) {

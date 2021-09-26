@@ -3,15 +3,18 @@ package repositories;
 import models.Booking;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.List;
 import java.util.Optional;
 
 public class BookingRepository implements BookingRepoInterface {
-    
-    private final EntityManager entityManager;
-    
-    public BookingRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
+
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
+    EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+    public BookingRepository() {
+
     }
     
     public Optional<Booking> findById(Integer id) {

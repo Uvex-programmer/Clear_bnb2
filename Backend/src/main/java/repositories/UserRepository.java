@@ -3,15 +3,18 @@ package repositories;
 import models.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.List;
 import java.util.Optional;
 
 public class UserRepository implements UserRepoInterface {
 
-    private final EntityManager entityManager;
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
+    EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-    public UserRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public UserRepository( ) {
+
     }
     
     public Optional<User> save(User user) {

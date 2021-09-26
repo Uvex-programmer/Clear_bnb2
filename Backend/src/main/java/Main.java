@@ -29,19 +29,16 @@ public class Main {
 //            //res.setCookie(new Cookie("my-cookie", "Hello World!"));
 //        });
 
-        
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new Jdk8Module());
 
-        SessionRepository sessionRepository = new SessionRepository(entityManager);
-        UserRepository userRepository = new UserRepository(entityManager);
-        PropertyRepository propertyRepository = new PropertyRepository(entityManager);
-        BookingRepository bookingRepository = new BookingRepository(entityManager);
-        ReviewRepository reviewRepository = new ReviewRepository((entityManager));
+        SessionRepository sessionRepository = new SessionRepository();
+        UserRepository userRepository = new UserRepository();
+        PropertyRepository propertyRepository = new PropertyRepository();
+        BookingRepository bookingRepository = new BookingRepository();
+        ReviewRepository reviewRepository = new ReviewRepository();
 
-        AmenityRepository amenityRepository = new AmenityRepository(entityManager);
+        AmenityRepository amenityRepository = new AmenityRepository();
 
         new UserRoutes(app, mapper, userRepository, sessionRepository);
         new PropertyRoutes(app, mapper, propertyRepository);

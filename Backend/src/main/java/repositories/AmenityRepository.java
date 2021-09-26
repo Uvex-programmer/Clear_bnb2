@@ -3,14 +3,17 @@ package repositories;
 import models.Amenity;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.List;
 import java.util.Optional;
 
 public class AmenityRepository implements AmenityRepoInterface {
-    private final EntityManager entityManager;
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
+    EntityManager entityManager = entityManagerFactory.createEntityManager();
     
-    public AmenityRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public AmenityRepository( ) {
+
     }
     
     public Optional<Amenity> findById(Integer id) {
