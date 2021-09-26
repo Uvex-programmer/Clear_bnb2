@@ -6,11 +6,7 @@ import FrontPage from './components/Views/Frontpage/Frontpage'
 import ProfilePage from './components/Views/ProfilePage/ProfilePage'
 import Detail from './components/Views/Detailpage/Detailpage'
 import SearchPage from './components/Views/Searchpage/Searchpage'
-import {
-  getUserProperties,
-  getUserBookings,
-  getReviewsMadeByUser,
-} from './utils/API'
+import { getUserProperties, getUserBookings } from './utils/API'
 import { Switch, Route } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
@@ -34,7 +30,6 @@ function App() {
         dispatch(login(userLoggedIn))
         getUserProperties()
         getUserBookings()
-        getReviewsMadeByUser()
         console.log('user logged in: ', user)
       })
   }, [dispatch])

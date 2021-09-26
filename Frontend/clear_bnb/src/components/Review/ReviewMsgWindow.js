@@ -1,19 +1,20 @@
 import './ReviewMsgWindow.css'
-import { useSelector } from 'react-redux'
 
-export const MessageWindow = () => {
-  const userProperties = useSelector((state) => state.userProperties.reviews)
-
+export const MessageWindow = ({ reviews }) => {
   return (
     <div className='window'>
       <div className='title'>Reviews!</div>
-      <MessageList messages={userProperties} />
+      <MessageList messages={reviews} />
     </div>
   )
 }
 
 const MessageList = ({ messages }) => {
-  console.log(messages)
+  function deleteReview(id) {
+    console.log(id)
+    fetch(`/api/delete-review/${id}`)
+  }
+
   return (
     <ul className='message-list'>
       {messages.map((message, index) => {
@@ -22,6 +23,7 @@ const MessageList = ({ messages }) => {
             <div>Rating: {message.rating}/5</div>
             <div>{message.comment}</div>
             <div>{message.createdAt}</div>
+            <button onClick={() => deleteReview(message.id)}>X</button>
           </li>
         )
       })}
