@@ -24,22 +24,12 @@ export const getUserBookings = async () => {
   store.dispatch(getBookings(bookings))
 }
 
-//Get reviews made by the user who is logged in
-export const getReviewsMadeByUser = async () => {
-  const state = store.getState()
-  const userOnline = state.loginUser.user
-
-  let res = await fetch('/api/get-reviews-made-by-user/' + userOnline.id)
-  const reviews = JSON.parse(await res.json())
-  console.log('reviews', reviews)
-  store.dispatch(getUserReview(reviews))
-}
-
 //Get reviews on another user
 export const getReviewsOnUser = async (id) => {
   let res = await fetch('/api/get-reviews-on-user/' + id)
   const reviews = JSON.parse(await res.json())
-  // store.dispatch(getReviewOnUser(reviews));
+  store.dispatch(getUserReview(reviews))
+  console.log(reviews)
 }
 
 export const addUserReview = async () => {

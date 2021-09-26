@@ -1,20 +1,34 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import classes from './Detailpage.module.css'
+import { MessageWindow } from '../../Review/ReviewMsgWindow'
+import ReviewPost from '../../Review/ReviewPost'
+import { setReviews } from '../../../slicers/PropertyReviewsSlicer'
+import { useSelector, useDispatch } from 'react-redux'
 
 const Detailpage = () => {
   const { id } = useParams()
   const [property, setProperty] = useState()
+  const userOnline = useSelector((state) => state.loginUser.user)
+  const reviews = useSelector((state) => state.propertyReviews.reviews)
+  const dispatch = useDispatch()
   let images = ''
 
   useEffect(() => {
     fetch(`/api/properties/${id}`)
       .then(async (res) => JSON.parse(await res.json()))
       .then((data) => {
-        console.log(data)
         setProperty(data)
       })
   }, [id])
+
+  useEffect(() => {
+    fetch(`/api/get-reviews-on-property/${id}`)
+      .then(async (res) => JSON.parse(await res.json()))
+      .then((review) => {
+        dispatch(setReviews(review))
+      })
+  }, [id, dispatch])
 
   if (property?.images?.length > 0) {
     images = property.images.map((image) => {
@@ -38,6 +52,10 @@ const Detailpage = () => {
             <p>Start at: {property.startDate}</p>
             <p>Ending at: {property.endDate}</p>
             <p>Max guests: {property.guests}</p>
+          </div>
+          <div className='review-window' style={{ display: 'flex' }}>
+            <MessageWindow reviews={reviews} />
+            <ReviewPost userOnline={userOnline} property={property} />
           </div>
         </>
       )}

@@ -2,9 +2,23 @@ import UserInfo from './components/UserInfo'
 import UserHouse from './components/UserHouses'
 import UserBookings from './components/UserBookings'
 import NewCard from '../../UI/CardOld/DanneRörInteDettaCard'
-import ReviewPost from '../../Review/ReviewPost'
 import { MessageWindow } from '../../Review/ReviewMsgWindow'
+import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+
 export default function ProfilePage() {
+  const userOnline = useSelector((state) => state.loginUser.user)
+  const [reviews, setreviews] = useState([])
+
+  useEffect(() => {
+    if (!userOnline) return
+    fetch(`/api/get-reviews-on-user/${userOnline.id}`)
+      .then(async (res) => JSON.parse(await res.json()))
+      .then((review) => {
+        setreviews(review)
+      })
+  }, [userOnline])
+
   return (
     <>
       <div className='profile-page-container'>
@@ -31,8 +45,7 @@ export default function ProfilePage() {
           </div>
         </NewCard>
         <div className='review-container'>
-          <ReviewPost />
-          <MessageWindow />
+          {reviews ? <MessageWindow reviews={reviews} /> : ''}
         </div>
       </div>
     </>

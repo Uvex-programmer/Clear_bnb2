@@ -1,19 +1,29 @@
 import './ReviewPost.css'
 import { useState } from 'react'
+import { addReview } from '../../slicers/PropertyReviewsSlicer'
+import { useDispatch } from 'react-redux'
 
-const Review = () => {
+const Review = ({ userOnline, property }) => {
   const [reviewText, setReviewText] = useState('')
-  const [reviewPoint, setPoint] = useState(1)
+  const [rating, setRating] = useState(1)
+  const dispatch = useDispatch()
 
-  const sendReview = (e) => {
+  const sendReview = async (e) => {
     e.preventDefault()
 
-    let obj = {
-      text: reviewText,
-      point: reviewPoint,
+    let reviewObj = {
+      rating: rating,
+      comment: reviewText,
+      property: property,
+      user: userOnline,
     }
-    console.log('press post', reviewText)
-    console.log(obj)
+
+    await fetch('/api/add-review-on-property', {
+      method: 'POST',
+      body: JSON.stringify(reviewObj),
+    })
+    dispatch(addReview(reviewObj))
+    console.log(reviewObj)
   }
 
   return (
@@ -25,7 +35,7 @@ const Review = () => {
         <div className='star-widget'>
           <input
             value={5}
-            onChange={(e) => setPoint(parseInt(e.target.value))}
+            onChange={(e) => setRating(parseInt(e.target.value))}
             type='radio'
             name='rate'
             id='rate-5'
@@ -33,7 +43,7 @@ const Review = () => {
           <label htmlFor='rate-5' className='fas fa-star'></label>
           <input
             value={4}
-            onChange={(e) => setPoint(parseInt(e.target.value))}
+            onChange={(e) => setRating(parseInt(e.target.value))}
             type='radio'
             name='rate'
             id='rate-4'
@@ -41,7 +51,7 @@ const Review = () => {
           <label htmlFor='rate-4' className='fas fa-star'></label>
           <input
             value={3}
-            onChange={(e) => setPoint(parseInt(e.target.value))}
+            onChange={(e) => setRating(parseInt(e.target.value))}
             type='radio'
             name='rate'
             id='rate-3'
@@ -49,7 +59,7 @@ const Review = () => {
           <label htmlFor='rate-3' className='fas fa-star'></label>
           <input
             value={2}
-            onChange={(e) => setPoint(parseInt(e.target.value))}
+            onChange={(e) => setRating(parseInt(e.target.value))}
             type='radio'
             name='rate'
             id='rate-2'
@@ -57,7 +67,7 @@ const Review = () => {
           <label htmlFor='rate-2' className='fas fa-star'></label>
           <input
             value={1}
-            onChange={(e) => setPoint(parseInt(e.target.value))}
+            onChange={(e) => setRating(parseInt(e.target.value))}
             type='radio'
             name='rate'
             id='rate-1'
