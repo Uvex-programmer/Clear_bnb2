@@ -47,8 +47,8 @@ public class PropertyRepository implements PropertyRepoInterface {
         Filter dateFilter = session.enableFilter("dateFilter");
         Filter freeSearchFilter = session.enableFilter("freeSearchFilter");
         freeSearchFilter.setParameter("city", freeSearch);
-//        freeSearchFilter.setParameter("description", freeSearch);
-//        freeSearchFilter.setParameter("street", freeSearch);
+        //freeSearchFilter.setParameter("description", freeSearch);
+        //freeSearchFilter.setParameter("street", freeSearch);
         bedroomFilter.setParameter("minBeds", beds);
         bathroomFilter.setParameter("minBath", bathrooms);
         guestFilter.setParameter("minGuests", minGuests);

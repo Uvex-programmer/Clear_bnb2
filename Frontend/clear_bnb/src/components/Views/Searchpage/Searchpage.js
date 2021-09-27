@@ -27,7 +27,6 @@ const Searchpage = () => {
       endDate,
       guests,
     }
-    console.log(searchInfo)
 
     fetch('/api/search', {
       method: 'POST',
@@ -36,7 +35,6 @@ const Searchpage = () => {
       .then((res) => res.json())
       .then((data) => {
         if (!data) return
-        console.log(JSON.parse(data))
         dispatch(setSearchResults(JSON.parse(data)))
       })
       .catch((error) => console.log(error))
