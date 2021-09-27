@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { login } from '../../slicers/LoginSlicer'
-import { getUserProperties, getUserBookings } from '../../utils/API'
+import { getUserBookings } from '../../utils/API'
 import './Login.css'
 import { useHistory } from 'react-router-dom'
 
@@ -31,7 +31,6 @@ export default function Login() {
       .then((data) => {
         console.log(data)
         dispatch(login(data))
-        getUserProperties()
         getUserBookings()
         history.push('/')
       })

@@ -26,7 +26,6 @@ export default function ProfilePage() {
       .then(async (res) => JSON.parse(await res.json()))
       .then((data) => {
         setUserHouses(data)
-        console.log(data)
       })
   }, [id])
 

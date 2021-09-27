@@ -20,14 +20,6 @@ public class Main {
     
     public static void main(String[] args) {
         Express app = new Express();
-        //new ConnectMysql();
-
-//        app.use((req, res) -> {
-//            //System.out.println("HÄR KOMMER MIN SESSION: ");
-//            //Session ska vara i 15-30 minuter
-//            // Set an cookie (you can call setCookie how often you want)
-//            //res.setCookie(new Cookie("my-cookie", "Hello World!"));
-//        });
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new Jdk8Module());
@@ -37,8 +29,6 @@ public class Main {
         PropertyRepository propertyRepository = new PropertyRepository();
         BookingRepository bookingRepository = new BookingRepository();
         ReviewRepository reviewRepository = new ReviewRepository();
-
-        AmenityRepository amenityRepository = new AmenityRepository();
 
         new UserRoutes(app, mapper, userRepository, sessionRepository);
         new PropertyRoutes(app, mapper, propertyRepository);

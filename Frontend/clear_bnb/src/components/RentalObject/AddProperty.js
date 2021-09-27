@@ -1,5 +1,4 @@
 import './AddProperty.css'
-import { getUserProperties } from '../../utils/API'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -46,7 +45,6 @@ export default function AddProperty() {
       method: 'POST',
       body: JSON.stringify(propertyObj),
     })
-    getUserProperties()
   }
 
   return (
