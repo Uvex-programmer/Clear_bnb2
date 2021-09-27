@@ -44,7 +44,7 @@ function App() {
           <Route path='/login' component={Login} />
           <Route path='/add-property' component={AddProperty} />
           <Route path='/search' component={SearchPage} />
-          <Route path='/profile-page' component={ProfilePage} />
+          <Route path='/profile-page/:id' component={ProfilePage} />
           <Route path='/detail-page/:id' component={Detailpage} />
           <Route path='/booking/:id' component={BookingPage} />
         </Switch>

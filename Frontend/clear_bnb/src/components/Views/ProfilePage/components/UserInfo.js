@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux'
 import Card from '../../../UI/Card'
 
-export default function UserInfo() {
-  const userOnline = useSelector((state) => state.loginUser.user)
-  return <>{userOnline && <Card userOnline={userOnline} />}</>
+const UserInfo = ({ user }) => {
+  return <>{user && <Card userOnline={user} />}</>
 }
+
+export default UserInfo

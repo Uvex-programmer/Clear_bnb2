@@ -23,7 +23,7 @@ public class ReviewRoutes {
     public void reviewMethods() {
         app.post("/api/add-review-user", (req, res) -> {
             Review review = req.body(Review.class);
-           // review.addUser(review.getUser());
+            //review.setUser(review.getUser());
             reviewRepository.save(review);
             System.out.println(review);
         });

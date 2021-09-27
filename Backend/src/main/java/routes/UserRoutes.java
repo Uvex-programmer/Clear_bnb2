@@ -107,6 +107,11 @@ public class UserRoutes {
             res.status(201).json("Successfully Logged out!").redirect("/");
         });
 
+        app.get("/api/get-user/:id", (req, res) -> {
+            var user = userRepository.findById(Integer.parseInt(req.params("id")));
+            res.json(mapper.writeValueAsString(user));
+        });
+
         
         app.get("/api/whoami", (req, res) -> {
             String session_id = req.cookie("current-user");
