@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import { setChosenObject } from '../../../slicers/UserSlicer'
 import classes from './Detailpage.module.css'
 import { MessageWindow } from '../../Review/ReviewMsgWindow'
-import ReviewPost from '../../Review/ReviewPost'
+import ReviewPost from '../../Review/ReviewPostProperty'
 import { setReviews } from '../../../slicers/PropertyReviewsSlicer'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -26,7 +26,6 @@ const Detailpage = () => {
       .then(async (res) => JSON.parse(await res.json()))
       .then((data) => {
         setProperty(data)
-        console.log(data)
       })
   }, [id])
 

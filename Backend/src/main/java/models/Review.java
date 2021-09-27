@@ -9,7 +9,7 @@ import java.util.Date;
 @Table(name = "reviews")
 @NamedQueries({
         @NamedQuery(name = "Review.findById",
-                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName FROM Review r WHERE r.id = :id"),
+                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName, r.reviewUser.id FROM Review r WHERE r.id = :id"),
         @NamedQuery(name = "Review.findAllReviewsByUserId",
                 query = "SELECT r FROM Review r WHERE r.user.id = :id"),
         @NamedQuery(name = "Review.findAllReviewsByPropertyId",
@@ -69,8 +69,16 @@ public class Review {
 //    public void setPropertyId(int propertyId) {
 //        this.propertyId = propertyId;
 //    }
-    
-    
+
+
+    public User getReviewUser() {
+        return reviewUser;
+    }
+
+    public void setReviewUser(User reviewUser) {
+        this.reviewUser = reviewUser;
+    }
+
     public Property getProperty() {
         return property;
     }

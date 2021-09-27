@@ -13,6 +13,7 @@ export const MessageWindow = ({ reviews }) => {
     if (reviews.length < 1) setrating(0)
     reviews.forEach((e) => {
       num = num + e[2]
+      console.log(e)
       count++
     })
     if (num < 1) return

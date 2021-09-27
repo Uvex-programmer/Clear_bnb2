@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const propertyReviews = createSlice({
+export const reviews = createSlice({
   name: 'reviews',
   initialState: {
     reviews: [],
@@ -19,6 +19,6 @@ export const propertyReviews = createSlice({
   },
 })
 
-export const { setReviews, addReview, removeReview } = propertyReviews.actions
+export const { setReviews, addReview, removeReview } = reviews.actions
 
-export default propertyReviews.reducer
+export default reviews.reducer

@@ -1,4 +1,4 @@
-import './ReviewPost.css'
+import './ReviewPostProperty.css'
 import { useState } from 'react'
 import { addReview } from '../../slicers/PropertyReviewsSlicer'
 import { useDispatch } from 'react-redux'

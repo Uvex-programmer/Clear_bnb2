@@ -21,11 +21,13 @@ public class ReviewRoutes {
     }
 
     public void reviewMethods() {
-        app.post("/api/add-review-user", (req, res) -> {
+        app.post("/api/add-review-on-user", (req, res) -> {
             Review review = req.body(Review.class);
             //review.setUser(review.getUser());
             reviewRepository.save(review);
-            System.out.println(review);
+            var rev = reviewRepository.findByIdPost(review.getId());
+            res.json(mapper.writeValueAsString(rev));
+            System.out.println(mapper.writeValueAsString(rev));
         });
         app.post("/api/add-review-on-property", (req, res) -> {
             Review review = req.body(Review.class);
