@@ -26,7 +26,6 @@ const Detailpage = () => {
       .then(async (res) => JSON.parse(await res.json()))
       .then((data) => {
         setProperty(data)
-        console.log(data)
       })
   }, [id])
 
