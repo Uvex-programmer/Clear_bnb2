@@ -1,5 +1,6 @@
 package repositories;
 
+import interfaces.AmenityRepoInterface;
 import models.Amenity;
 
 import javax.persistence.EntityManager;

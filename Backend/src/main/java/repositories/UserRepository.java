@@ -1,5 +1,6 @@
 package repositories;
 
+import interfaces.UserRepoInterface;
 import models.User;
 
 import javax.persistence.EntityManager;

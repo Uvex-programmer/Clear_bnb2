@@ -1,5 +1,6 @@
 package repositories;
 
+import interfaces.PropertyRepoInterface;
 import models.Property;
 import models.PropertyView;
 import org.hibernate.Filter;

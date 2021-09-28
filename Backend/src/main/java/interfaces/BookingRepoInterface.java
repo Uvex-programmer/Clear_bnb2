@@ -1,4 +1,4 @@
-package repositories;
+package interfaces;
 import models.Booking;
 
 import java.util.List;

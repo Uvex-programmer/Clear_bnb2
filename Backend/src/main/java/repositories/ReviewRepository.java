@@ -1,5 +1,6 @@
 package repositories;
 
+import interfaces.ReviewRepoInterface;
 import models.Review;
 
 import javax.persistence.EntityManager;
