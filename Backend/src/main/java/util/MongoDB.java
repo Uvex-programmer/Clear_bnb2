@@ -3,6 +3,7 @@ package util;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.*;
 import models.PropertyView;
+import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import repositories.PropertyRepository;
@@ -23,6 +24,7 @@ public class MongoDB {
     public MongoDB(PropertyRepository propertyRepository) {
         this.propertyRepository = propertyRepository;
         this.connectToMongoDB();
+        this.populateCache();
     }
 
     public static List<PropertyView> convertToList(FindIterable<PropertyView> mongoCollection) {
@@ -36,9 +38,19 @@ public class MongoDB {
     public static List<PropertyView> checkIfCached(List<PropertyView> properties) {
         FindIterable<PropertyView> mongoCollection = collection.find();
         List<PropertyView> propertyViews = convertToList(mongoCollection);
-        // kolla om cache finns
-
+        System.out.println(propertyViews.equals(properties));
+        System.out.println("mongo");
+        propertyViews.forEach(System.out::println);
+        System.out.println("sql");
+        properties.forEach(System.out::println);
+        System.out.println("Från mongo!");
         return propertyViews;
+
+    }
+
+    private void populateCache() {
+        collection.deleteMany(new Document());
+        collection.insertMany(propertyRepository.findAvailableObjects());
     }
 
     public void connectToMongoDB() {
@@ -51,6 +63,5 @@ public class MongoDB {
         MongoClient mongoClient = MongoClients.create(uri);
         database = mongoClient.getDatabase("bnb-cache").withCodecRegistry(pojoCodecRegistry);
         collection = database.getCollection("PropertyView", PropertyView.class);
-
     }
 }

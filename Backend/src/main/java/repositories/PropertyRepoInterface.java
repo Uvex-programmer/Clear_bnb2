@@ -3,6 +3,7 @@ package repositories;
 import models.Property;
 import models.PropertyView;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ public interface PropertyRepoInterface {
     List<?> findAvailableObjects();
 
     List<?> findObjectsBySearch(String freeSearch, int beds, int bathrooms, int minGuests,
-                                int maxPrice, java.sql.Timestamp startDate, java.sql.Timestamp endDate);
+                                int maxPrice, Date startDate, java.sql.Timestamp endDate);
 
     Optional<Property> findByName(String name);
 

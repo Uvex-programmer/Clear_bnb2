@@ -7,6 +7,7 @@ import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Immutable
@@ -46,7 +47,7 @@ public class PropertyView {
     @Column
     public String city;
     @Column(name = "start_date")
-    private java.sql.Timestamp startDate;
+    public Date startDate;
     @Column(name = "end_date")
     private java.sql.Timestamp endDate;
 
@@ -101,7 +102,7 @@ public class PropertyView {
         return dailyPrice;
     }
 
-    public Timestamp getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 

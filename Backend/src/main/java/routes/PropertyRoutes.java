@@ -33,7 +33,7 @@ public class PropertyRoutes {
         });
 
         app.get("/api/properties", (req, res) -> {
-            List<PropertyView> properties = propertyRepository.findAll();
+            List<PropertyView> properties = propertyRepository.findAvailableObjects();
             res.json(mapper.writeValueAsString(MongoDB.checkIfCached(properties))).status(200);
         });
 
