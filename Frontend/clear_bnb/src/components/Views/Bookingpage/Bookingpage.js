@@ -17,8 +17,6 @@ const Bookingpage = () => {
     retrieveHouse()
   }, [chosenProperty])
 
-  console.log('hej')
-  console.log(storageHouse)
   const submitHandler = () => {
     const payment = {
       propertyId: storageHouse.id,
@@ -34,8 +32,8 @@ const Bookingpage = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data)
-        //  dispatch()
       })
+      .catch((error) => console.log(error))
   }
 
   return (
