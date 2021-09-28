@@ -27,18 +27,20 @@ export default function Login() {
       body: JSON.stringify(loginCheck),
     })
       .then((res) => res.json())
-      .then((data) => JSON.parse(data))
       .then((data) => {
         console.log(data)
+        if (data === 'Wrong login') {
+          return
+        }
+        console.log('working')
         dispatch(login(data))
-        getUserBookings()
+        // getUserBookings()
         history.push('/')
       })
   }
 
   const toggleAction = (event, type = '') => {
     event.preventDefault()
-    console.log(type)
     !type
       ? setRegisterMode((prevState) => !prevState)
       : submitHandler(type, event)

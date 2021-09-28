@@ -18,7 +18,7 @@ function App() {
 
   useEffect(() => {
     fetch('/api/whoami')
-      .then(async (res) => JSON.parse(await res.json()))
+      .then(async (res) => await res.json())
       .then((user) => {
         if (!user) return console.log('No user currently logged in.')
 
@@ -29,7 +29,7 @@ function App() {
           email: user.email,
         }
         dispatch(login(userLoggedIn))
-        getUserBookings()
+        //getUserBookings()
         console.log('user logged in: ', user)
       })
   }, [dispatch])

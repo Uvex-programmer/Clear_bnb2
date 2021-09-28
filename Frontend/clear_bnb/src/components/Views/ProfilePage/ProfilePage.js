@@ -20,8 +20,9 @@ export default function ProfilePage() {
 
   useEffect(() => {
     fetch(`/api/get-user/${id}`)
-      .then(async (res) => JSON.parse(await res.json()))
+      .then((res) => res.json())
       .then((data) => {
+        console.log(data)
         setUserProfile(data)
       })
     fetch(`/api/get-user-properties/${id}`)

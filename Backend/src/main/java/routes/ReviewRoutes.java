@@ -1,26 +1,18 @@
 package routes;
-
-import DTO.ReviewDTO;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import express.Express;
 import logic.ReviewLogic;
-import mapper.ReviewMapper;
 import models.Review;
 import repositories.ReviewRepository;
-import java.util.List;
+
 
 public class ReviewRoutes {
 
     private final Express app;
-    private final ReviewRepository reviewRepository;
+    ReviewRepository reviewRepository = new ReviewRepository();
     ReviewLogic reviewLogic = new ReviewLogic();
-    private final ObjectMapper mapper;
 
-    public ReviewRoutes(Express app, ObjectMapper mapper, ReviewRepository reviewRepository) {
+    public ReviewRoutes(Express app) {
         this.app = app;
-        this.reviewRepository = reviewRepository;
-        this.mapper = mapper;
         this.reviewMethods();
     }
 
