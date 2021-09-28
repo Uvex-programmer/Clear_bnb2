@@ -29,6 +29,11 @@ public class SessionRepository implements SessionRepoInterface {
             return Optional.empty();
         }
 
+    public Optional<Integer> findUserBySessionId(Integer id) {
+        Session session = entityManager.find(Session.class, id);
+        return session != null ? Optional.of(session.getId()) : Optional.empty();
+    }
+
         public Optional<Session> findById(Integer id) {
             Session session = entityManager.find(Session.class, id);
             return session != null ? Optional.of(session) : Optional.empty();
@@ -45,3 +50,4 @@ public class SessionRepository implements SessionRepoInterface {
         }
 
 }
+

@@ -1,6 +1,7 @@
 package routes;
 import express.Express;
 import logic.UserLogic;
+import models.Transaction;
 import models.User;
 
 public class UserRoutes {
@@ -13,6 +14,8 @@ public class UserRoutes {
         this.app = app;
         this.userMethods();
     }
+
+
 
     public void userMethods() {
         app.post("/api/login-user", (req, res) -> {
@@ -37,12 +40,6 @@ public class UserRoutes {
             res.json(user);
            });
 
-        app.post("/api/purchase-booking", (req, res) -> {
-            System.out.println(req.body());
-            res.send("Endpoint received object!").status(201);
-          //  res.json(mapper.writeValueAsString(req.cookie("current-user")));
-        });
-        
         app.get("/api/logout-user", (req, res) -> {
             userLogic.logoutUser(req.cookie("current-user"));
             res.clearCookie("current-user", "/").clearCookie("JSESSIONID", "/");
@@ -53,7 +50,7 @@ public class UserRoutes {
             res.json(userLogic.findUser(Integer.parseInt(req.params("id"))));
         });
 
-        
+
         app.get("/api/whoami", (req, res) -> {
             res.json(userLogic.whoAmI(req.cookie("current-user")));
         });

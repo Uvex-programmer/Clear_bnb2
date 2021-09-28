@@ -10,6 +10,14 @@ import java.util.List;
 
 @Entity
 @Table(name = "properties")
+@NamedQueries({
+        @NamedQuery(name = "Property.findById",
+                query = "SELECT p FROM Property p WHERE p.id = :id"),
+        @NamedQuery(name = "Property.findAllByUserId",
+                query = "SELECT p FROM Property p WHERE p.user.id = :id"),
+        @NamedQuery(name = "Property.findByPropertyIdReturnUser",
+                query = "SELECT user FROM Property p WHERE p.id = :id"),
+})
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

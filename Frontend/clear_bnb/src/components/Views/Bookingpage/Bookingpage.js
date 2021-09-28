@@ -6,6 +6,7 @@ import classes from './Bookingpage.module.css'
 const Bookingpage = () => {
   const [storageHouse, setStorageHouse] = useState()
   const chosenProperty = useSelector((state) => state.userInfo.chosenObject)
+  const userOnline = useSelector((state) => state.loginUser.user)
   let dispatch = useDispatch()
 
   useEffect(() => {
@@ -16,30 +17,24 @@ const Bookingpage = () => {
     retrieveHouse()
   }, [chosenProperty])
 
+  console.log('hej')
+  console.log(storageHouse)
   const submitHandler = () => {
     const payment = {
       propertyId: storageHouse.id,
-      startDate: storageHouse.startDate,
-      endDate: storageHouse.endDate,
-      user: 'userId bör hämtas på backenden',
-      transaction: {
-        price: storageHouse.totalPrice,
-        user: 'hämtas på backenden',
-        receiver: 'hämtas från backend',
-        booking: 'denna pekar på parent objektet, dvs det jag skrev in ovan..',
-      },
+      startDate: chosenProperty.startDate,
+      endDate: chosenProperty.endDate,
+      userId: userOnline.id,
+      propertyPrice: chosenProperty.totalPrice,
     }
-
-    console.log(payment)
-
     fetch('/api/purchase-booking', {
       method: 'POST',
       body: JSON.stringify(payment),
     })
-      .then(async (res) => await JSON.parse(await res.json()))
+      .then((res) => res.json())
       .then((data) => {
         console.log(data)
-        dispatch()
+        //  dispatch()
       })
   }
 

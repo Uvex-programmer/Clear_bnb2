@@ -3,6 +3,7 @@ package repositories;
 import interfaces.PropertyRepoInterface;
 import models.Property;
 import models.PropertyView;
+import models.User;
 import org.hibernate.Filter;
 import org.hibernate.Session;
 
@@ -30,6 +31,14 @@ public class PropertyRepository implements PropertyRepoInterface {
     public List<PropertyView> findAll() {
         return entityManager.createQuery("SELECT v FROM PropertyView v", PropertyView.class).getResultList();
     }
+
+    public Optional<User> findByIdReturnUserId(Integer id) {
+        User user = entityManager.createNamedQuery("Property.findByPropertyIdReturnUser", User.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        return user != null ? Optional.of(user) : Optional.empty();
+    }
+
     
     public List<?> findAvailableObjects() {
         Date currentTime = new Date();
