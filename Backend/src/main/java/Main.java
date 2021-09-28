@@ -1,33 +1,33 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import express.Express;
-import repositories.AmenityRepository;
-import repositories.PropertyRepository;
-import repositories.SessionRepository;
-import repositories.UserRepository;
-import models.*;
+import org.bson.Document;
 import repositories.*;
 import routes.BookingRoutes;
 import routes.PropertyRoutes;
 import routes.ReviewRoutes;
 import routes.UserRoutes;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import static com.mongodb.client.model.Filters.eq;
 
 public class Main {
     
     public static void main(String[] args) {
         Express app = new Express();
-        //new ConnectMysql();
 
-//        app.use((req, res) -> {
-//            //System.out.println("HÄR KOMMER MIN SESSION: ");
-//            //Session ska vara i 15-30 minuter
-//            // Set an cookie (you can call setCookie how often you want)
-//            //res.setCookie(new Cookie("my-cookie", "Hello World!"));
-//        });
+        // Replace the uri string with your MongoDB deployment's connection string
+        String uri = "mongodb+srv://Slobban:1234@cluster0.q0kct.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase database = mongoClient.getDatabase("sample_mflix");
+            MongoCollection<Document> collection = database.getCollection("movies");
+            Document doc = collection.find(eq("title", "Back to the Future")).first();
+            System.out.println(doc.toJson());
+        }
+
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new Jdk8Module());
@@ -38,7 +38,6 @@ public class Main {
         BookingRepository bookingRepository = new BookingRepository();
         ReviewRepository reviewRepository = new ReviewRepository();
 
-        AmenityRepository amenityRepository = new AmenityRepository();
 
         new UserRoutes(app, mapper, userRepository, sessionRepository);
         new PropertyRoutes(app, mapper, propertyRepository);
