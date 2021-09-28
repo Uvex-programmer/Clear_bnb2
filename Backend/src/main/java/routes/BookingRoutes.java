@@ -3,6 +3,7 @@ package routes;
 import DTO.BookingDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import express.Express;
+import express.http.Response;
 import logic.BookingLogic;
 import models.Booking;
 import models.Property;
@@ -39,7 +40,9 @@ public class BookingRoutes {
         });
 
         app.post("/api/purchase-booking", (req, res) -> {
-            res.json(logic.createBooking(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString())));
+            Optional<Booking> booking = logic.createBooking(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString()));
+           if(booking.isPresent()) { res.json(booking.get()).type("application/json "); }
+           else { res.status(500).send("Date already booked!"); }
         });
     }
 
