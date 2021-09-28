@@ -20,7 +20,12 @@ public class BookingLogic {
         return transaction;
     }
 
-    public Booking createBooking(BookingDTO bookDTO, int propertyId, int userId) {
+    private Boolean isDateBooked (java.sql.Date start, java.sql.Date end) {
+        return bookingRepository.checkIfBooked(start, end);
+    }
+
+    public Optional<Booking> createBooking(BookingDTO bookDTO, int propertyId, int userId) {
+        if(!isDateBooked(bookDTO.getStartDate(), bookDTO.getEndDate())) return Optional.empty();
 
         Optional<User> receiver = propertyRepository.findByIdReturnUserId(propertyId);
         Optional<User> giver = userRepository.findById(userId);
@@ -35,7 +40,6 @@ public class BookingLogic {
         booking.setTransaction(transaction);
 
         bookingRepository.save(booking);
-        return booking;
-
+        return Optional.of(booking);
     }
 }
