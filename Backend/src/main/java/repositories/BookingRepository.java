@@ -2,6 +2,7 @@ package repositories;
 
 import interfaces.BookingRepoInterface;
 import models.Booking;
+import models.Property;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,6 +17,18 @@ public class BookingRepository implements BookingRepoInterface {
 
     public BookingRepository() {
 
+    }
+
+    public Boolean checkIfBooked(java.sql.Date startDate, java.sql.Date endDate) {
+        System.out.println(startDate);
+        System.out.println(endDate);
+        List<Booking> bookings = entityManager.createQuery("FROM Booking p WHERE :start <= p.endDate AND p.startDate <= :end", Booking.class)
+                .setParameter("start", startDate)
+                .setParameter("end", endDate)
+                .getResultList();
+        System.out.println(bookings);
+
+        return bookings.isEmpty();
     }
     
     public Optional<Booking> findById(Integer id) {
