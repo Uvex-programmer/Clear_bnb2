@@ -46,6 +46,9 @@ export default function AddProperty() {
       method: 'POST',
       body: JSON.stringify(propertyObj),
     })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+
     getUserProperties()
   }
 

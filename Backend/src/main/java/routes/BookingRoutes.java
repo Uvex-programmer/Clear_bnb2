@@ -25,8 +25,9 @@ public class BookingRoutes {
     public void bookingMethods() {
 
         app.get("/api/getUserBookings/:id", (req, res) -> {
-            List<?> bookings = bookingRepository.findByUserId(Integer.parseInt(req.params("id")));
-            res.json(mapper.writeValueAsString(bookings));
+        //    List<?> bookings = bookingRepository.findByUserId(Integer.parseInt(req.params("id")));
+        //    res.json(mapper.writeValueAsString(bookings));
+            res.send("temporärt");
         });
 
         app.post("/api/addBooking", (req, res) -> {

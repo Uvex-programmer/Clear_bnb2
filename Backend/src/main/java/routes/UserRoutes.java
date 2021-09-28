@@ -3,14 +3,17 @@ package routes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import express.Express;
 import express.http.Response;
-import models.Session;
-import models.Property;
-import models.User;
+import models.*;
+import org.eclipse.jetty.util.ajax.JSON;
+import repositories.BookingRepository;
+import repositories.PropertyRepository;
 import repositories.SessionRepository;
 import repositories.UserRepository;
 import util.PasswordHash;
 
 import javax.servlet.http.Cookie;
+import java.awt.print.Book;
+import java.io.InputStream;
 import java.net.HttpCookie;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -25,8 +28,9 @@ public class UserRoutes {
     private final ObjectMapper mapper;
     private final UserRepository userRepository;
     private final SessionRepository sessionRepository;
+    private final PropertyRepository propertyRepository = new PropertyRepository();
+    private final BookingRepository bookingRepository = new BookingRepository();
 
-    
     public UserRoutes(Express app, ObjectMapper mapper, UserRepository userRepository, SessionRepository sessionRepository) {
         this.app = app;
         this.mapper = mapper;
@@ -46,6 +50,11 @@ public class UserRoutes {
          } else {
         return  Optional.empty();
     }
+    }
+
+    public Transaction createTransaction (int price, User giver, User receiver) {
+        Transaction transaction = new Transaction(price, giver, receiver);
+        return transaction;
     }
 
     public void userMethods() {
@@ -90,11 +99,26 @@ public class UserRoutes {
         }});
 
         app.post("/api/purchase-booking", (req, res) -> {
-            System.out.println(req.body());
-            res.send("Endpoint received object!").status(201);
-          //  res.json(mapper.writeValueAsString(req.cookie("current-user")));
+            BookingDTO bookDTO = req.body(BookingDTO.class);
+
+            Optional<User> receiver = propertyRepository.findByIdReturnUserId(Integer.parseInt(req.body().get("propertyId").toString()));
+            System.out.println(receiver);
+            Optional<User> giver = userRepository.findById(Integer.parseInt(req.body().get("userId").toString()));
+            System.out.println(giver);
+
+            Transaction transaction = createTransaction(bookDTO.getPropertyPrice(), giver.get(), receiver.get());
+
+            Booking booking = new Booking();
+            booking.setPropertyId(bookDTO.getPropertyId());
+            booking.setStartDate(bookDTO.getStartDate());
+            booking.setEndDate(bookDTO.getEndDate());
+            booking.setUser(giver.get());
+            booking.setTransaction(transaction);
+            System.out.println(booking);
+            bookingRepository.save(booking);
+            res.json(booking).type("application/json");
         });
-        
+
         app.get("/api/logout-user", (req, res) -> {
             String session_id = req.cookie("current-user");
             System.out.println("session_id: " + session_id);

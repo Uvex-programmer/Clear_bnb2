@@ -24,11 +24,14 @@ public class PropertyRoutes {
     
     public void propertyMethods() {
         app.post("/api/add-property", (req, res) -> {
+            System.out.println(req.body());
             Property property = req.body(Property.class);
+            System.out.println(property);
             property.addAddress(property.getAddress());
             property.addUser(property.getUser());
             propertyRepository.save(property);
-            System.out.println(property);
+
+            res.json(property);
         });
         
         app.get("/api/properties", (req, res) -> {
