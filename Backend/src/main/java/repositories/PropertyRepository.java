@@ -16,27 +16,27 @@ public class PropertyRepository implements PropertyRepoInterface {
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
     EntityManager entityManager = entityManagerFactory.createEntityManager();
-    
-    public PropertyRepository( ) {
+
+    public PropertyRepository() {
 
     }
-    
+
     public Optional<Property> findById(Integer id) {
         Property property = entityManager.find(Property.class, id);
         return property != null ? Optional.of(property) : Optional.empty();
     }
-    
+
     public List<PropertyView> findAll() {
         return entityManager.createQuery("SELECT v FROM PropertyView v", PropertyView.class).getResultList();
     }
-    
-    public List<?> findAvailableObjects() {
+
+    public List<PropertyView> findAvailableObjects() {
         Date currentTime = new Date();
-        return entityManager.createQuery("FROM Property P WHERE P.startDate < :currentTime AND P.endDate > :currentTime", Property.class)
+        return entityManager.createQuery("FROM PropertyView P WHERE P.startDate < :currentTime AND P.endDate > :currentTime", PropertyView.class)
                 .setParameter("currentTime", currentTime)
                 .getResultList();
     }
-    
+
     //    , Date startDate, Date endDate
     public List<?> findObjectsBySearch(String freeSearch, int beds, int bathrooms, int minGuests, int maxPrice, java.sql.Timestamp startDate, java.sql.Timestamp endDate) {
         Session session = entityManager.unwrap(Session.class);
@@ -64,20 +64,20 @@ public class PropertyRepository implements PropertyRepoInterface {
         session.disableFilter("freeSearchFilter");
         return views;
     }
-    
+
     public Optional<Property> findByName(String name) {
         Property property = entityManager.createQuery("FROM Property P WHERE P.title = :name", Property.class)
                 .setParameter("name", name)
                 .getSingleResult();
         return property != null ? Optional.of(property) : Optional.empty();
     }
-    
+
     public List<?> findByUserId(Integer id) {
         return entityManager.createNamedQuery("Property.findAllByUserId")
                 .setParameter("id", id)
                 .getResultList();
     }
-    
+
     public Optional<Property> save(Property property) {
         try {
             entityManager.getTransaction().begin();
@@ -89,6 +89,6 @@ public class PropertyRepository implements PropertyRepoInterface {
         }
         return Optional.empty();
     }
-    
-    
+
+
 }
