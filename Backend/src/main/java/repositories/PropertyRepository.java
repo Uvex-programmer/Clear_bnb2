@@ -73,7 +73,7 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
     
     public List<?> findByUserId(Integer id) {
-        return entityManager.createNamedQuery("Property.findAllByUserId")
+        return entityManager.createQuery("FROM Property p Where p.user.id = :id")
                 .setParameter("id", id)
                 .getResultList();
     }

@@ -22,8 +22,8 @@ const Detailpage = () => {
   let images = ''
 
   useEffect(() => {
-    fetch(`/api/properties/${id}`)
-      .then(async (res) => JSON.parse(await res.json()))
+    fetch(`/api/get-property/${id}`)
+      .then((res) => res.json())
       .then((data) => {
         setProperty(data)
       })

@@ -1,5 +1,6 @@
 package logic;
 
+import DTO.PropertyDTO;
 import DTO.ReviewDTO;
 import mapper.ReviewMapper;
 import models.Review;

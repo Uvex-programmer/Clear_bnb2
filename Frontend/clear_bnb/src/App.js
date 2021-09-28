@@ -7,7 +7,6 @@ import ProfilePage from './components/Views/ProfilePage/ProfilePage'
 import Detailpage from './components/Views/Detailpage/Detailpage'
 import SearchPage from './components/Views/Searchpage/Searchpage'
 import BookingPage from './components/Views/Bookingpage/Bookingpage'
-import { getUserBookings } from './utils/API'
 import { Switch, Route } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
@@ -29,7 +28,6 @@ function App() {
           email: user.email,
         }
         dispatch(login(userLoggedIn))
-        //getUserBookings()
         console.log('user logged in: ', user)
       })
   }, [dispatch])

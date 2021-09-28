@@ -22,11 +22,10 @@ export default function ProfilePage() {
     fetch(`/api/get-user/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
         setUserProfile(data)
       })
     fetch(`/api/get-user-properties/${id}`)
-      .then(async (res) => JSON.parse(await res.json()))
+      .then((res) => res.json())
       .then((data) => {
         setUserHouses(data)
       })
@@ -34,7 +33,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     fetch(`/api/get-reviews-on-user/${id}`)
-      .then(async (res) => await res.json())
+      .then((res) => res.json())
       .then((review) => {
         if (review === null) dispatch(setReviews([]))
         dispatch(setReviews(review))

@@ -1,24 +1,15 @@
 package models;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "properties")
-@NamedQueries({
-        @NamedQuery(name = "Property.findById",
-                query = "SELECT p FROM Property p WHERE p.id = :id"),
-        @NamedQuery(name = "Property.findAllByUserId",
-                query = "SELECT p FROM Property p WHERE p.user.id = :id"),
-})
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,19 +60,6 @@ public class Property {
     
     public Property() {
     }
-
-//    public Property(int id, int userId, String title, String description, int beds, int bathrooms, int guests, Date createdAt, Date startDate, Date endDate, int dailyPrice) {
-//        this.id = id;
-//        this.title = title;
-//        this.description = description;
-//        this.beds = beds;
-//        this.bathrooms = bathrooms;
-//        this.guests = guests;
-//        this.createdAt = createdAt;
-//        this.startDate = startDate;
-//        this.endDate = endDate;
-//        this.dailyPrice = dailyPrice;
-//    }
     
     public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
         this.title = title;
