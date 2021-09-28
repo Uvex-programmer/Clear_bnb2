@@ -1,16 +1,20 @@
 package routes;
 
+import DTO.ReviewDTO;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import express.Express;
+import logic.ReviewLogic;
+import mapper.ReviewMapper;
 import models.Review;
 import repositories.ReviewRepository;
-
 import java.util.List;
 
 public class ReviewRoutes {
 
     private final Express app;
     private final ReviewRepository reviewRepository;
+    ReviewLogic reviewLogic = new ReviewLogic();
     private final ObjectMapper mapper;
 
     public ReviewRoutes(Express app, ObjectMapper mapper, ReviewRepository reviewRepository) {
@@ -21,43 +25,22 @@ public class ReviewRoutes {
     }
 
     public void reviewMethods() {
-        app.post("/api/add-review-on-user", (req, res) -> {
-            Review review = req.body(Review.class);
-            //review.setUser(review.getUser());
-            reviewRepository.save(review);
-            var rev = reviewRepository.findByIdPost(review.getId());
-            res.json(mapper.writeValueAsString(rev));
-            System.out.println(mapper.writeValueAsString(rev));
+
+        app.post("/api/add-review", (req, res) -> {
+            res.json(reviewLogic.addReview(req.body(Review.class)));
         });
-        app.post("/api/add-review-on-property", (req, res) -> {
-            Review review = req.body(Review.class);
-            review.setUser(review.getUser());
-            review.setProperty(review.getProperty());
-            reviewRepository.save(review);
-            var rev = reviewRepository.findByIdPost(review.getId());
-            res.json(mapper.writeValueAsString(rev));
-        });
+
         app.get("/api/get-reviews-on-property/:id", (req, res) -> {
-            var id = Integer.parseInt(req.params("id"));
-            var reviews = reviewRepository.findAllReviewsByPropertyId(id);
-            System.out.println(mapper.writeValueAsString(reviews));
-            res.json(mapper.writeValueAsString(reviews) );
+            res.json(reviewLogic.findReviewsOnProperty(Integer.parseInt(req.params("id"))));
+
         });
+
         app.get("/api/get-reviews-on-user/:id", (req, res) -> {
-            var id = Integer.parseInt(req.params("id"));
-            var reviews = reviewRepository.findAllReviewsOnUserId(id);
-            System.out.println(mapper.writeValueAsString(reviews));
-            res.json(mapper.writeValueAsString(reviews));
+            res.json(reviewLogic.findReviewsOnUser(Integer.parseInt(req.params("id"))));
         });
-        app.get("/api/get-reviews-made-by-user/:id", (req, res) -> {
-            var id = Integer.parseInt(req.params("id"));
-            var reviews = reviewRepository.findAllReviewsByUserId(id);
-            System.out.println(reviews);
-            res.json(mapper.writeValueAsString(reviews));
-        });
-        app.get("/api/delete-review/:id", (req, res) -> {
-            var id = Integer.parseInt(req.params("id"));
-            reviewRepository.delete(id);
+
+        app.delete("/api/delete-review/:id", (req, res) -> {
+            reviewRepository.delete(Integer.parseInt(req.params("id")));
         });
     }
 }

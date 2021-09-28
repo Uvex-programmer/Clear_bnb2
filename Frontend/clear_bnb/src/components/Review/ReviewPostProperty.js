@@ -17,12 +17,14 @@ const Review = ({ userOnline, property }) => {
       property: property,
       user: userOnline,
     }
-    let res = await fetch('/api/add-review-on-property', {
+
+    let res = await fetch('/api/add-review', {
       method: 'POST',
       body: JSON.stringify(reviewObj),
     })
-    var reviewPost = JSON.parse(await res.json())
-    dispatch(addReview(reviewPost[0]))
+    var reviewPost = await res.json()
+    console.log(reviewPost)
+    dispatch(addReview(reviewPost))
   }
 
   return (

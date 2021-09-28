@@ -14,10 +14,6 @@ public interface ReviewRepoInterface {
 
     List<?> findAllReviewsOnUserId(Integer id);
 
-    List<?> findByIdPost(Integer id);
-
-    List<?> findAllReviewsByUserId(Integer id);
-
     List<?> findAllReviewsByPropertyId(Integer id);
 
     void delete(Integer id);

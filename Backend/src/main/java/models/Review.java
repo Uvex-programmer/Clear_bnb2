@@ -7,16 +7,6 @@ import java.util.Date;
 
 @Entity
 @Table(name = "reviews")
-@NamedQueries({
-        @NamedQuery(name = "Review.findById",
-                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName, r.reviewUser.id FROM Review r WHERE r.id = :id"),
-        @NamedQuery(name = "Review.findAllReviewsByUserId",
-                query = "SELECT r FROM Review r WHERE r.user.id = :id"),
-        @NamedQuery(name = "Review.findAllReviewsByPropertyId",
-                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName FROM Review r WHERE r.property.id = :id"),
-        @NamedQuery(name = "Review.findAllReviewsOnUserId",
-                query = "SELECT r.id, r.comment, r.rating, r.user.id, r.user.firstName FROM Review r WHERE r.reviewUser.id = :id")
-})
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

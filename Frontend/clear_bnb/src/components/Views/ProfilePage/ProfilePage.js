@@ -33,7 +33,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     fetch(`/api/get-reviews-on-user/${id}`)
-      .then(async (res) => JSON.parse(await res.json()))
+      .then(async (res) => await res.json())
       .then((review) => {
         if (review === null) dispatch(setReviews([]))
         dispatch(setReviews(review))

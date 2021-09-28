@@ -16,12 +16,12 @@ const Review = ({ userOnline, user1 }) => {
       reviewUser: user1,
       user: userOnline,
     }
-    let res = await fetch('/api/add-review-on-user', {
+    let res = await fetch('/api/add-review', {
       method: 'POST',
       body: JSON.stringify(reviewObj),
     })
-    var reviewPost = JSON.parse(await res.json())
-    dispatch(addReview(reviewPost[0]))
+    var reviewPost = await res.json()
+    dispatch(addReview(reviewPost))
   }
 
   return (

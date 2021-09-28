@@ -20,26 +20,15 @@ public class ReviewRepository implements ReviewRepoInterface {
         Review review = entityManager.find(Review.class, id);
         return review != null ? Optional.of(review) : Optional.empty();
     }
-    public List<?> findByIdPost(Integer id) {
-        return entityManager.createNamedQuery("Review.findById")
-                    .setParameter("id", id)
-                    .getResultList();
-    }
 
-
-    public List<?> findAllReviewsByUserId(Integer id){
-        return entityManager.createNamedQuery("Review.findAllReviewsByUserId")
-                .setParameter("id", id)
-                .getResultList();
-    }
     public List<?> findAllReviewsByPropertyId(Integer id){
-        return entityManager.createNamedQuery("Review.findAllReviewsByPropertyId")
+        return entityManager.createQuery("from Review WHERE property.id = :id")
                 .setParameter("id", id)
                 .getResultList();
     }
 
     public List<?> findAllReviewsOnUserId(Integer id){
-        return entityManager.createNamedQuery("Review.findAllReviewsOnUserId")
+        return entityManager.createQuery("from Review WHERE reviewUser.id = :id")
                 .setParameter("id", id)
                 .getResultList();
     }

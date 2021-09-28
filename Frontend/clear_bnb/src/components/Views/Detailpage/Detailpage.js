@@ -31,7 +31,7 @@ const Detailpage = () => {
 
   useEffect(() => {
     fetch(`/api/get-reviews-on-property/${id}`)
-      .then(async (res) => JSON.parse(await res.json()))
+      .then((res) => res.json())
       .then((review) => {
         if (review === null) dispatch(setReviews([]))
         dispatch(setReviews(review))

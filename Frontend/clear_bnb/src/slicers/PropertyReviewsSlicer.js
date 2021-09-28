@@ -14,7 +14,7 @@ export const reviews = createSlice({
       state.reviews = [...state.reviews, action.payload]
     },
     removeReview: (state, action) => {
-      state.reviews = state.reviews.filter((rev) => rev[0] !== action.payload)
+      state.reviews = state.reviews.filter((rev) => rev.id !== action.payload)
     },
   },
 })

@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux'
 import Card from '../../../UI/Card'
 
 const UserInfo = ({ user }) => {
