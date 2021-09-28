@@ -17,6 +17,8 @@ const Bookingpage = () => {
     retrieveHouse()
   }, [chosenProperty])
 
+  console.log('hej')
+  console.log(storageHouse)
   const submitHandler = () => {
     const payment = {
       propertyId: storageHouse.id,
@@ -29,10 +31,10 @@ const Bookingpage = () => {
       method: 'POST',
       body: JSON.stringify(payment),
     })
-      .then(async (res) => await JSON.parse(await res.json()))
+      .then((res) => res.json())
       .then((data) => {
         console.log(data)
-        dispatch()
+        //  dispatch()
       })
   }
 

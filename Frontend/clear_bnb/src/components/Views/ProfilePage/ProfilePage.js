@@ -2,32 +2,48 @@ import UserInfo from './components/UserInfo'
 import UserHouse from './components/UserHouses'
 import UserBookings from './components/UserBookings'
 import NewCard from '../../UI/CardOld/DanneRörInteDettaCard'
+import ReviewPostUser from '../../Review/ReviewPostUser'
+import { useParams } from 'react-router'
 import { MessageWindow } from '../../Review/ReviewMsgWindow'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { getUserReview } from '../../../slicers/UserInfoSlicer'
+//import { getUserReview } from '../../../slicers/UserInfoSlicer'
+import { setReviews } from '../../../slicers/PropertyReviewsSlicer'
 
 export default function ProfilePage() {
+  const { id } = useParams()
   const userOnline = useSelector((state) => state.loginUser.user)
-  const reviews = useSelector((state) => state.userProperties.reviews)
-  //const [reviews, setreviews] = useState([])
+  const reviews = useSelector((state) => state.propertyReviews.reviews)
+  const [userProfile, setUserProfile] = useState()
+  const [userHouses, setUserHouses] = useState()
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!userOnline) return
-    fetch(`/api/get-reviews-on-user/${userOnline.id}`)
-      .then(async (res) => JSON.parse(await res.json()))
-      .then((review) => {
-        if (review === null) dispatch(getUserReview([]))
-        dispatch(getUserReview(review))
-        console.log(review)
+    fetch(`/api/get-user/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUserProfile(data)
       })
-  }, [userOnline])
+    fetch(`/api/get-user-properties/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUserHouses(data)
+      })
+  }, [id])
+
+  useEffect(() => {
+    fetch(`/api/get-reviews-on-user/${id}`)
+      .then((res) => res.json())
+      .then((review) => {
+        if (review === null) dispatch(setReviews([]))
+        dispatch(setReviews(review))
+      })
+  }, [id, dispatch])
 
   return (
     <>
       <div className='profile-page-container'>
-        <UserInfo />
+        <UserInfo user={userProfile} />
         <NewCard>
           <label
             htmlFor=''
@@ -36,7 +52,7 @@ export default function ProfilePage() {
             User rental properties:
           </label>
           <div className='user-container' style={{ display: 'flex' }}>
-            <UserHouse />
+            {userHouses ? <UserHouse properties={userHouses} /> : ''}
           </div>
         </NewCard>
         <NewCard>
@@ -53,6 +69,7 @@ export default function ProfilePage() {
           <div className='review-container'>
             Reviews on you by others!
             <MessageWindow reviews={reviews} />
+            <ReviewPostUser userOnline={userOnline} user1={userProfile} />
           </div>
         </NewCard>
       </div>

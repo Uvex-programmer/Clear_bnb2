@@ -13,10 +13,13 @@ export default function Navbar() {
     <>
       <div className='topNav'>
         <Link to='/'>Home</Link>
-        <Link to='/something'>Something</Link>
         <Link to='/search'>Search</Link>
         {userOnline ? <Link to='/add-property'>addProperty</Link> : ''}
-        {userOnline ? <Link to='/profile-page'>profilePage</Link> : ''}
+        {userOnline ? (
+          <Link to={`/profile-page/${userOnline.id}`}>profilePage</Link>
+        ) : (
+          ''
+        )}
         {userOnline ? (
           <button
             className='nav-logout-btn'

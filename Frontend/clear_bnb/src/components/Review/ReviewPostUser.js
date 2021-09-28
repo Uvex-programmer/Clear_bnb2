@@ -1,28 +1,27 @@
-import './ReviewPost.css'
+import './ReviewPostProperty.css'
 import { useState } from 'react'
 import { addReview } from '../../slicers/PropertyReviewsSlicer'
 import { useDispatch } from 'react-redux'
 
-const Review = ({ userOnline, property }) => {
+const Review = ({ userOnline, user1 }) => {
   const [reviewText, setReviewText] = useState('')
   const [rating, setRating] = useState(1)
   const dispatch = useDispatch()
 
   const sendReview = async (e) => {
     e.preventDefault()
-
     let reviewObj = {
       rating: rating,
       comment: reviewText,
-      property: property,
+      reviewUser: user1,
       user: userOnline,
     }
-    let res = await fetch('/api/add-review-on-property', {
+    let res = await fetch('/api/add-review', {
       method: 'POST',
       body: JSON.stringify(reviewObj),
     })
-    var reviewPost = JSON.parse(await res.json())
-    dispatch(addReview(reviewPost[0]))
+    var reviewPost = await res.json()
+    dispatch(addReview(reviewPost))
   }
 
   return (

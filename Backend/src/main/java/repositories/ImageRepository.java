@@ -1,5 +1,6 @@
 package repositories;
 
+import interfaces.ImageRepoInterface;
 import models.Image;
 
 import javax.persistence.EntityManager;

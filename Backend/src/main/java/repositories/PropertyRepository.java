@@ -1,5 +1,6 @@
 package repositories;
 
+import interfaces.PropertyRepoInterface;
 import models.Property;
 import models.PropertyView;
 import models.User;
@@ -56,15 +57,22 @@ public class PropertyRepository implements PropertyRepoInterface {
         Filter dateFilter = session.enableFilter("dateFilter");
         Filter freeSearchFilter = session.enableFilter("freeSearchFilter");
         freeSearchFilter.setParameter("city", freeSearch);
-        freeSearchFilter.setParameter("description", freeSearch);
-        freeSearchFilter.setParameter("street", freeSearch);
+        //freeSearchFilter.setParameter("description", freeSearch);
+        //freeSearchFilter.setParameter("street", freeSearch);
         bedroomFilter.setParameter("minBeds", beds);
         bathroomFilter.setParameter("minBath", bathrooms);
         guestFilter.setParameter("minGuests", minGuests);
         priceFilter.setParameter("maxPrice", maxPrice);
         dateFilter.setParameter("startDate", startDate);
         dateFilter.setParameter("endDate", endDate);
-        return this.findAll();
+        List<PropertyView> views = entityManager.createQuery("SELECT v FROM PropertyView v", PropertyView.class).getResultList();
+        session.disableFilter("bedroomFilter");
+        session.disableFilter("bathroomFilter");
+        session.disableFilter("guestFilter");
+        session.disableFilter("priceFilter");
+        session.disableFilter("dateFilter");
+        session.disableFilter("freeSearchFilter");
+        return views;
     }
     
     public Optional<Property> findByName(String name) {
@@ -75,7 +83,7 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
     
     public List<?> findByUserId(Integer id) {
-        return entityManager.createNamedQuery("Property.findAllByUserId")
+        return entityManager.createQuery("FROM Property p Where p.user.id = :id")
                 .setParameter("id", id)
                 .getResultList();
     }

@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import { setChosenObject } from '../../../slicers/UserSlicer'
 import classes from './Detailpage.module.css'
 import { MessageWindow } from '../../Review/ReviewMsgWindow'
-import ReviewPost from '../../Review/ReviewPost'
+import ReviewPost from '../../Review/ReviewPostProperty'
 import { setReviews } from '../../../slicers/PropertyReviewsSlicer'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -22,17 +22,16 @@ const Detailpage = () => {
   let images = ''
 
   useEffect(() => {
-    fetch(`/api/properties/${id}`)
-      .then(async (res) => JSON.parse(await res.json()))
+    fetch(`/api/get-property/${id}`)
+      .then((res) => res.json())
       .then((data) => {
         setProperty(data)
-        console.log(data)
       })
   }, [id])
 
   useEffect(() => {
     fetch(`/api/get-reviews-on-property/${id}`)
-      .then(async (res) => JSON.parse(await res.json()))
+      .then((res) => res.json())
       .then((review) => {
         if (review === null) dispatch(setReviews([]))
         dispatch(setReviews(review))

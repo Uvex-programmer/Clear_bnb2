@@ -1,4 +1,4 @@
-package repositories;
+package interfaces;
 
 import models.Review;
 
@@ -13,10 +13,6 @@ public interface ReviewRepoInterface {
     List<?> findAll();
 
     List<?> findAllReviewsOnUserId(Integer id);
-
-    List<?> findByIdPost(Integer id);
-
-    List<?> findAllReviewsByUserId(Integer id);
 
     List<?> findAllReviewsByPropertyId(Integer id);
 

@@ -1,5 +1,6 @@
 package repositories;
 
+import interfaces.BookingRepoInterface;
 import models.Booking;
 
 import javax.persistence.EntityManager;
