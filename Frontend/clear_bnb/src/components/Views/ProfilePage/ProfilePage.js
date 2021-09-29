@@ -7,7 +7,6 @@ import { useParams } from 'react-router'
 import { MessageWindow } from '../../Review/ReviewMsgWindow'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
-
 import { setReviews } from '../../../slicers/PropertyReviewsSlicer'
 
 export default function ProfilePage() {
@@ -57,9 +56,13 @@ export default function ProfilePage() {
         </NewCard>
         <NewCard>
           <label
-            style={{ fontWeight: '700', fontSize: '25px', marginLeft: '10px' }}
+            style={{
+              fontWeight: '700',
+              fontSize: '25px',
+              marginLeft: '10px',
+            }}
           >
-            User bookings:
+            Your bookings:
           </label>
           <div className='user-bookings' style={{ display: 'flex' }}>
             <UserBookings />
