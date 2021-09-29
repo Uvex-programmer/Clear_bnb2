@@ -1,5 +1,6 @@
 package routes;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import express.Express;
 import logic.PropertyLogic;
@@ -26,6 +27,9 @@ public class PropertyRoutes {
     
     public void propertyMethods() {
         app.post("/api/add-property", (req, res) -> {
+            System.out.println(req.body());
+            ObjectMapper mapper2 = new ObjectMapper();
+            mapper2.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
             propertyLogic.addProperty(req.body(Property.class));
         });
         

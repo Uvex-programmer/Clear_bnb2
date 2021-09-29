@@ -6,7 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "properties")
@@ -51,20 +53,18 @@ public class Property {
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Booking> bookings;
-
-    @JsonBackReference(value = "amenity-property")
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "properties_x_amenities",
-            joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
-    )
-    private List<Amenity> amenities = new ArrayList<>();
-    
     @JsonBackReference(value = "User - Properties")
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "Properties_Amenities",
+            joinColumns = {@JoinColumn(name = "property_id")},
+            inverseJoinColumns = {@JoinColumn(name = "amenities_id")}
+    )
+    private List<Amenity> amenities = new ArrayList<>();
     
     public Property() {
     }
@@ -96,8 +96,8 @@ public class Property {
     }
     
     public void addAmenities(Amenity amenity) {
-        amenities.add(amenity);
-        amenity.getProperties().add(this);
+            amenities.add(amenity);
+            amenity.getProperties().add(this);
     }
     public User getUser() {
         return user;

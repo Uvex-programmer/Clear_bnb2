@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -24,47 +25,38 @@ public class Amenity {
     @Enumerated(EnumType.STRING)
     @Column(name = "amenity")
     private Amenities amenity;
-
-    @ManyToMany(mappedBy = "amenities", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "amenities", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Property> properties = new ArrayList<>();
-    
-    
+
     public Amenity() {
     }
-    
-    public Amenity(String amenity) {
-        this.amenity = Amenities.valueOf(amenity.toUpperCase());
+
+    public Amenity(Amenities amenity, List<Property> properties) {
+        this.amenity = amenity;
+        this.properties = properties;
     }
-    
-    public List<Property> getProperties() {
+
+  /*  public List<Property> getProperties() {
         return properties;
     }
     
     public void setProperties(List<Property> properties) {
         this.properties = properties;
     }
-    
-    public int getId() {
-        return id;
+
+   */
+    public List<Property> getProperties() {
+        return properties;
     }
-    
-    public void setId(int id) {
-        this.id = id;
+
+    public void setProperties(List<Property> properties) {
+        this.properties = properties;
     }
-    
-    public Amenities getAmenity() {
-        return amenity;
-    }
-    
-    public void setAmenity(Amenities amenity) {
-        this.amenity = amenity;
-    }
-    
+
     @Override
     public String toString() {
         return "Amenity{" +
                 "id=" + id +
-                ", amenity=" + amenity +
                 '}';
     }
 }
