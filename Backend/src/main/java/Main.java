@@ -25,11 +25,10 @@ public class Main {
         mapper.registerModule(new Jdk8Module());
 
         PropertyRepository propertyRepository = new PropertyRepository();
-        BookingRepository bookingRepository = new BookingRepository();
 
         new UserRoutes(app);
         new PropertyRoutes(app, mapper, propertyRepository);
-        new BookingRoutes(app, mapper, bookingRepository);
+        new BookingRoutes(app);
         new ReviewRoutes(app);
 
 

@@ -27,11 +27,9 @@ export default function Login() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
         if (data === 'Wrong login') {
           return
         }
-        console.log('working')
         dispatch(login(data))
         history.push('/')
       })

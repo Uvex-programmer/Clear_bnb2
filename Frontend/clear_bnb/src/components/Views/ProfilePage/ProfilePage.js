@@ -7,7 +7,7 @@ import { useParams } from 'react-router'
 import { MessageWindow } from '../../Review/ReviewMsgWindow'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
-//import { getUserReview } from '../../../slicers/UserInfoSlicer'
+
 import { setReviews } from '../../../slicers/PropertyReviewsSlicer'
 
 export default function ProfilePage() {

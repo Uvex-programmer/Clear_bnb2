@@ -153,14 +153,6 @@ public class Property {
     public void setId(int id) {
         this.id = id;
     }
-
-//    public int getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(int userId) {
-//        this.userId = userId;
-//    }
     
     public String getTitle() {
         return title;
@@ -238,7 +230,6 @@ public class Property {
     public String toString() {
         return "Property{" +
                 "id=" + id +
-//                ", user_id=" + userId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", beds=" + beds +

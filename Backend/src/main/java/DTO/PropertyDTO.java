@@ -8,6 +8,7 @@ import java.util.List;
 public class PropertyDTO {
 
     private int id;
+    private int userId;
     private String title;
     private String description;
     private int beds;
@@ -23,10 +24,11 @@ public class PropertyDTO {
     public PropertyDTO() {
     }
 
-    public PropertyDTO(int id, String title, String description, int beds, int bathrooms, int guests,
+    public PropertyDTO(int id, int userId, String title, String description, int beds, int bathrooms, int guests,
                        Date createdAt, Date startDate, Date endDate, int dailyPrice,
                        Address address, List<Image> images) {
         this.id = id;
+        this.userId = userId;
         this.title = title;
         this.description = description;
         this.beds = beds;
@@ -134,5 +136,9 @@ public class PropertyDTO {
 
     public void setImages(List<Image> images) {
         this.images = images;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 }
