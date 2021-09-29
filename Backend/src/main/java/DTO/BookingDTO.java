@@ -1,16 +1,10 @@
 package DTO;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
-//@JsonIgnoreProperties
+
+
 public class BookingDTO implements Serializable {
     private int propertyId;
     private Date startDate;
@@ -21,10 +15,11 @@ public class BookingDTO implements Serializable {
     public BookingDTO() {
     }
 
-    public BookingDTO(int propertyId, Date startDate, Date endDate) {
+    public BookingDTO(int propertyId, Date startDate, Date endDate, int userId) {
         this.propertyId = propertyId;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.userId = userId;
     }
 
     public int getPropertyPrice() {
@@ -65,6 +60,10 @@ public class BookingDTO implements Serializable {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Override
