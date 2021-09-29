@@ -38,12 +38,9 @@ public class MongoDB {
     public static List<PropertyView> checkIfCached(List<PropertyView> properties) {
         FindIterable<PropertyView> mongoCollection = collection.find();
         List<PropertyView> propertyViews = convertToList(mongoCollection);
-        System.out.println(propertyViews.equals(properties));
-        System.out.println("mongo");
+        //Ändra datum till timestamps så att man kan jämnföra mongo och sql.
         propertyViews.forEach(System.out::println);
-        System.out.println("sql");
         properties.forEach(System.out::println);
-        System.out.println("Från mongo!");
         return propertyViews;
 
     }
