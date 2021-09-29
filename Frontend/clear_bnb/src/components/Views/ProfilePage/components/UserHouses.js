@@ -1,9 +1,7 @@
 import CardOld from '../../../UI/CardOld/CardOld'
-import { useSelector } from 'react-redux'
 
-export default function UserProperties() {
-  const state1 = useSelector((state) => state.userProperties.properties)
-  return state1.map((property, index) => {
+const UserProperties = ({ properties }) => {
+  return properties.map((property, index) => {
     return (
       <CardOld id={property.id} key={index}>
         <div>id: {property.id}</div>
@@ -18,3 +16,5 @@ export default function UserProperties() {
     )
   })
 }
+
+export default UserProperties

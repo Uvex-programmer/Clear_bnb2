@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import classes from './Bookingpage.module.css'
 
 const Bookingpage = () => {
   const [storageHouse, setStorageHouse] = useState()
   const chosenProperty = useSelector((state) => state.userInfo.chosenObject)
-  let dispatch = useDispatch()
+  const userOnline = useSelector((state) => state.loginUser.user)
+  //let dispatch = useDispatch()
 
   useEffect(() => {
     async function retrieveHouse() {
@@ -16,30 +16,23 @@ const Bookingpage = () => {
     retrieveHouse()
   }, [chosenProperty])
 
+  console.log(storageHouse)
   const submitHandler = () => {
     const payment = {
       propertyId: storageHouse.id,
-      startDate: storageHouse.startDate,
-      endDate: storageHouse.endDate,
-      user: 'userId bör hämtas på backenden',
-      transaction: {
-        price: storageHouse.totalPrice,
-        user: 'hämtas på backenden',
-        receiver: 'hämtas från backend',
-        booking: 'denna pekar på parent objektet, dvs det jag skrev in ovan..',
-      },
+      startDate: chosenProperty.startDate,
+      endDate: chosenProperty.endDate,
+      userId: userOnline.id,
+      propertyPrice: chosenProperty.totalPrice,
     }
-
-    console.log(payment)
-
     fetch('/api/purchase-booking', {
       method: 'POST',
       body: JSON.stringify(payment),
     })
-      .then(async (res) => await JSON.parse(await res.json()))
+      .then((res) => res.json())
       .then((data) => {
         console.log(data)
-        dispatch()
+        //  dispatch()
       })
   }
 

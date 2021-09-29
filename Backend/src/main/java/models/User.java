@@ -39,10 +39,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
     @JsonBackReference (value="User - Booking")
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
     @JsonBackReference (value="User - Transaction")
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
     @JsonBackReference (value="User - ReceivedTransaction")
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
@@ -94,7 +94,7 @@ public class User {
         user.receivedTransactions.add(transaction);
         transaction.setReceiver(user);
         booking.setTransaction(transaction);
-        transaction.setBooking(booking);
+       // transaction.setBooking(booking);
     }
     
     public List<Transaction> getTransactions() {
