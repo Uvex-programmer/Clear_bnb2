@@ -13,7 +13,6 @@ public class Main {
     public static void main(String[] args) {
         Express app = new Express();
 
-
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new Jdk8Module());
 
@@ -22,7 +21,6 @@ public class Main {
         PropertyRepository propertyRepository = new PropertyRepository();
         BookingRepository bookingRepository = new BookingRepository();
         ReviewRepository reviewRepository = new ReviewRepository();
-
 
         new UserRoutes(app, mapper, userRepository, sessionRepository);
         new PropertyRoutes(app, mapper, propertyRepository);

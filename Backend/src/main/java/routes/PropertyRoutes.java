@@ -29,6 +29,7 @@ public class PropertyRoutes {
             property.addAddress(property.getAddress());
             property.addUser(property.getUser());
             propertyRepository.save(property);
+            MongoDB.populateCache(propertyRepository);
             System.out.println(property);
         });
 

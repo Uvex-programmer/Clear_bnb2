@@ -24,7 +24,7 @@ public class MongoDB {
     public MongoDB(PropertyRepository propertyRepository) {
         this.propertyRepository = propertyRepository;
         this.connectToMongoDB();
-        this.populateCache();
+        populateCache(propertyRepository);
     }
 
     public static List<PropertyView> convertToList(FindIterable<PropertyView> mongoCollection) {
@@ -48,13 +48,15 @@ public class MongoDB {
         }
     }
 
-    private void populateCache() {
+    public static void populateCache(PropertyRepository propertyRepository) {
         collection.deleteMany(new Document());
         List<PropertyView> availableObjects = propertyRepository.findAvailableObjects();
         
-        idNumbers = new HashSet<>();
+//        idNumbers = new HashSet<>();
         availableObjects.forEach(obj -> idNumbers.add(obj.getId()));
         System.out.println(idNumbers);
+        System.out.println(idNumbers.size());
+        System.out.println(availableObjects.size());
         
         collection.insertMany(availableObjects);
     }
