@@ -2,12 +2,13 @@ package models;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "address")
-
+@Audited
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,7 +81,7 @@ public class Address {
     
     @Override
     public String toString() {
-        return "Address{" +
+        return "AddressLogic{" +
                 "id=" + id +
                 ", street='" + street + '\'' +
                 ", zipcode='" + zipcode + '\'' +

@@ -24,6 +24,7 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "receiver_id", referencedColumnName = "id")
     private User receiver;
+    @JsonBackReference(value = "Booking - Transaction")
     @OneToOne(mappedBy = "transaction")
     @JoinColumn(name = "bookings_id", referencedColumnName = "id")
     private Booking booking;
@@ -89,6 +90,7 @@ public class Transaction {
         this.createdAt = createdAt;
     }
 
+
     @Override
     public String toString() {
         return "Transaction{" +
@@ -97,7 +99,6 @@ public class Transaction {
                 ", createdAt=" + createdAt +
                 ", sender=" + sender +
                 ", receiver=" + receiver +
-                ", booking=" + booking +
                 '}';
     }
 }

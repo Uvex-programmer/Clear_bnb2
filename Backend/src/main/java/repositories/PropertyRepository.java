@@ -40,13 +40,13 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
 
     
-    public List<?> findAvailableObjects() {
+    public List<Property> findAvailableObjects() {
         Date currentTime = new Date();
-        return entityManager.createQuery("FROM Property P WHERE P.startDate < :currentTime AND P.endDate > :currentTime", Property.class)
-                .setParameter("currentTime", currentTime)
+        return entityManager.createQuery("SELECT P FROM Property P", Property.class)
+             // För att kolla ifall amenities kommer med på senaste requesten   .setParameter("currentTime", currentTime)  WHERE P.startDate <= :currentTime AND P.endDate > :currentTime
                 .getResultList();
     }
-    
+
     //    , Date startDate, Date endDate
     public List<?> findObjectsBySearch(String freeSearch, int beds, int bathrooms, int minGuests, int maxPrice, java.sql.Timestamp startDate, java.sql.Timestamp endDate) {
         Session session = entityManager.unwrap(Session.class);
@@ -87,7 +87,20 @@ public class PropertyRepository implements PropertyRepoInterface {
                 .setParameter("id", id)
                 .getResultList();
     }
-    
+
+    public Optional<Property> updateProperty(Property p) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(p);
+            entityManager.getTransaction().commit();
+            entityManager.clear();
+            return Optional.of(p);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
     public Optional<Property> save(Property property) {
         try {
             entityManager.getTransaction().begin();

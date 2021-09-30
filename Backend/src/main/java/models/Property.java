@@ -2,43 +2,49 @@ package models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 @Table(name = "properties")
-@NamedQueries({
-        @NamedQuery(name = "Property.findById",
-                query = "SELECT p FROM Property p WHERE p.id = :id"),
-        @NamedQuery(name = "Property.findAllByUserId",
-                query = "SELECT p FROM Property p WHERE p.user.id = :id"),
-        @NamedQuery(name = "Property.findByPropertyIdReturnUser",
-                query = "SELECT user FROM Property p WHERE p.id = :id"),
-})
 public class Property {
+    @Audited
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Audited
     private String title;
+    @Audited
     private String description;
     @Column(name = "bed_count")
+    @Audited
     private int beds;
     @Column(name = "bathroom_count")
+    @Audited
     private int bathrooms;
+    @Audited
     @Column(name = "guest_max")
     private int guests;
-    @CreationTimestamp
+    @Audited
+    @UpdateTimestamp
     @Column(name = "created_at")
     private Date createdAt;
+    @Audited
     @Column(name = "start_date")
     private Date startDate;
+    @Audited
     @Column(name = "end_date")
     private Date endDate;
+    @Audited
     @Column(name = "daily_price")
     private int dailyPrice;
+    @Audited
     @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
     private Address address;
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
@@ -51,22 +57,37 @@ public class Property {
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Booking> bookings;
-
-    @JsonBackReference(value = "amenity-property")
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "properties_x_amenities",
-            joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
-    )
-    private List<Amenity> amenities = new ArrayList<>();
-    
     @JsonBackReference(value = "User - Properties")
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+    @Audited
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "Properties_Amenities",
+            joinColumns = {@JoinColumn(name = "property_id")},
+            inverseJoinColumns = {@JoinColumn(name = "amenities_id")}
+    )
+    private List<Amenity> amenities = new ArrayList<>();
     
     public Property() {
+    }
+
+    public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice, Address address, List<Image> images, List<Review> reviews, List<Booking> bookings, User user, List<Amenity> amenities) {
+        this.title = title;
+        this.description = description;
+        this.beds = beds;
+        this.bathrooms = bathrooms;
+        this.guests = guests;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.dailyPrice = dailyPrice;
+        this.address = address;
+        this.images = images;
+        this.reviews = reviews;
+        this.bookings = bookings;
+        this.user = user;
+        this.amenities = amenities;
     }
     
     public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
@@ -78,6 +99,7 @@ public class Property {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyPrice = dailyPrice;
+
     }
 
     public void addUser(User user) {
@@ -95,9 +117,11 @@ public class Property {
         image.setProperty(this);
     }
     
-    public void addAmenities(Amenity amenity) {
-        amenities.add(amenity);
-        amenity.getProperties().add(this);
+    public void addAmenities(List<Amenity> amenities) {
+        this.setAmenities(amenities);
+        for(Amenity amenity: amenities) {
+            amenity.addProperty(this);
+        }
     }
     public User getUser() {
         return user;
