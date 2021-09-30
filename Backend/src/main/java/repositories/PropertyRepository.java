@@ -1,7 +1,9 @@
 package repositories;
 
+import interfaces.PropertyRepoInterface;
 import models.Property;
 import models.PropertyView;
+import models.User;
 import org.hibernate.Filter;
 import org.hibernate.Session;
 
@@ -30,7 +32,15 @@ public class PropertyRepository implements PropertyRepoInterface {
         return entityManager.createQuery("SELECT v FROM PropertyView v", PropertyView.class).getResultList();
     }
 
-    public List<PropertyView> findAvailableObjects() {
+    public Optional<User> findByIdReturnUserId(Integer id) {
+        User user = entityManager.createNamedQuery("Property.findByPropertyIdReturnUser", User.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        return user != null ? Optional.of(user) : Optional.empty();
+    }
+
+    
+    public List<?> findAvailableObjects() {
         Date currentTime = new Date();
         return entityManager.createQuery("FROM PropertyView P WHERE P.startDate < :currentTime AND P.endDate > :currentTime", PropertyView.class)
                 .setParameter("currentTime", currentTime)
@@ -73,7 +83,7 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
 
     public List<?> findByUserId(Integer id) {
-        return entityManager.createNamedQuery("Property.findAllByUserId")
+        return entityManager.createQuery("FROM Property p Where p.user.id = :id")
                 .setParameter("id", id)
                 .getResultList();
     }

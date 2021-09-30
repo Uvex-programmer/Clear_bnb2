@@ -1,5 +1,6 @@
 package repositories;
 
+import interfaces.TransactionRepoInterface;
 import models.Transaction;
 
 import javax.persistence.EntityManager;

@@ -7,7 +7,6 @@ import ProfilePage from './components/Views/ProfilePage/ProfilePage'
 import Detailpage from './components/Views/Detailpage/Detailpage'
 import SearchPage from './components/Views/Searchpage/Searchpage'
 import BookingPage from './components/Views/Bookingpage/Bookingpage'
-import { getUserProperties, getUserBookings } from './utils/API'
 import { Switch, Route } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
@@ -18,7 +17,7 @@ function App() {
 
   useEffect(() => {
     fetch('/api/whoami')
-      .then(async (res) => JSON.parse(await res.json()))
+      .then(async (res) => await res.json())
       .then((user) => {
         if (!user) return console.log('No user currently logged in.')
 
@@ -29,8 +28,6 @@ function App() {
           email: user.email,
         }
         dispatch(login(userLoggedIn))
-        getUserProperties()
-        getUserBookings()
         console.log('user logged in: ', user)
       })
   }, [dispatch])
@@ -44,7 +41,7 @@ function App() {
           <Route path='/login' component={Login} />
           <Route path='/add-property' component={AddProperty} />
           <Route path='/search' component={SearchPage} />
-          <Route path='/profile-page' component={ProfilePage} />
+          <Route path='/profile-page/:id' component={ProfilePage} />
           <Route path='/detail-page/:id' component={Detailpage} />
           <Route path='/booking/:id' component={BookingPage} />
         </Switch>

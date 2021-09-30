@@ -1,5 +1,6 @@
 package repositories;
 
+import interfaces.BookingRepoInterface;
 import models.Booking;
 
 import javax.persistence.EntityManager;
@@ -29,6 +30,19 @@ public class BookingRepository implements BookingRepoInterface {
     public List<?> findByUserId(Integer id) {
         return entityManager.createNamedQuery("Booking.findAllByUserId")
                 .setParameter("id", id)
+                .getResultList();
+    }
+    public List<?> findBookingByPropertyId(Integer num1, Integer num2) {
+        return entityManager.createQuery("from Booking b WHERE b.property.id = :id AND b.buyer.id = :id2")
+                .setParameter("id", num1)
+                .setParameter("id2", num2)
+                .getResultList();
+    }
+    public List<?> findBookingByUser(Integer num1, Integer num2) {
+        return entityManager.createQuery("FROM Booking b INNER JOIN Property p " +
+                "ON b.property.id = p.id WHERE b.buyer.id = :id AND p.user.id = :id2")
+                .setParameter("id", num1)
+                .setParameter("id2", num2)
                 .getResultList();
     }
 

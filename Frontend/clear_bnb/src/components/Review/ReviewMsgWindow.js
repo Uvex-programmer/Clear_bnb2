@@ -12,7 +12,7 @@ export const MessageWindow = ({ reviews }) => {
     let count = 0
     if (reviews.length < 1) setrating(0)
     reviews.forEach((e) => {
-      num = num + e[2]
+      num = num + e.rating
       count++
     })
     if (num < 1) return
@@ -34,7 +34,9 @@ export const MessageWindow = ({ reviews }) => {
 const MessageList = ({ messages, userOnline }) => {
   const dispatch = useDispatch()
   function deleteReview(id) {
-    fetch(`/api/delete-review/${id}`)
+    fetch(`/api/delete-review/${id}`, {
+      method: 'DELETE',
+    })
     dispatch(removeReview(id))
   }
 
@@ -44,11 +46,11 @@ const MessageList = ({ messages, userOnline }) => {
         return (
           <li key={index} className='message'>
             <div>
-              Rating: {message[2]}/5 - {message[4]}
+              Rating: {message.rating}/5 - {message.username}
             </div>
-            <div>{message[1]}</div>
-            {userOnline.id === message[3] ? (
-              <button onClick={() => deleteReview(message[0])}>X</button>
+            <div>{message.comment}</div>
+            {userOnline.id === message.userId ? (
+              <button onClick={() => deleteReview(message.id)}>X</button>
             ) : (
               ''
             )}

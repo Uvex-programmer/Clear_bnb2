@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { login } from '../../slicers/LoginSlicer'
-import { getUserProperties, getUserBookings } from '../../utils/API'
 import './Login.css'
 import { useHistory } from 'react-router-dom'
 
@@ -27,19 +26,17 @@ export default function Login() {
       body: JSON.stringify(loginCheck),
     })
       .then((res) => res.json())
-      .then((data) => JSON.parse(data))
       .then((data) => {
-        console.log(data)
+        if (data === 'Wrong login') {
+          return
+        }
         dispatch(login(data))
-        getUserProperties()
-        getUserBookings()
         history.push('/')
       })
   }
 
   const toggleAction = (event, type = '') => {
     event.preventDefault()
-    console.log(type)
     !type
       ? setRegisterMode((prevState) => !prevState)
       : submitHandler(type, event)

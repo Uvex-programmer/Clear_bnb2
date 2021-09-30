@@ -1,5 +1,6 @@
 package repositories;
 
+import interfaces.UserRepoInterface;
 import models.User;
 
 import javax.persistence.EntityManager;
@@ -46,6 +47,8 @@ public class UserRepository implements UserRepoInterface {
         User user = entityManager.find(User.class, id);
         return user != null ? Optional.of(user) : Optional.empty();
     }
+
+
     
     public List<?> findAll() {
         return entityManager.createQuery("from User").getResultList();

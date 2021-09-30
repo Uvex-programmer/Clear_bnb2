@@ -16,17 +16,12 @@ public class Main {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new Jdk8Module());
 
-        SessionRepository sessionRepository = new SessionRepository();
-        UserRepository userRepository = new UserRepository();
         PropertyRepository propertyRepository = new PropertyRepository();
-        BookingRepository bookingRepository = new BookingRepository();
-        ReviewRepository reviewRepository = new ReviewRepository();
 
-        new UserRoutes(app, mapper, userRepository, sessionRepository);
+        new UserRoutes(app);
         new PropertyRoutes(app, mapper, propertyRepository);
-        new BookingRoutes(app, mapper, bookingRepository);
-        new ReviewRoutes(app, mapper, reviewRepository);
-        new MongoDB(propertyRepository);
+        new BookingRoutes(app);
+        new ReviewRoutes(app);
 
 
         app.listen(4000);

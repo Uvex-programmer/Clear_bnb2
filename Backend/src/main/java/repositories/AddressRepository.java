@@ -1,5 +1,6 @@
 package repositories;
 
+import interfaces.AddressRepoInterface;
 import models.Address;
 
 import javax.persistence.EntityManager;

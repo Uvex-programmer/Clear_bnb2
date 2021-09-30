@@ -1,38 +1,36 @@
 package routes;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import DTO.BookingDTO;
 import express.Express;
-import models.Booking;
-import models.Property;
-import repositories.BookingRepository;
-import repositories.PropertyRepository;
-
-import java.util.List;
+import logic.BookingLogic;
 
 public class BookingRoutes {
 
     private final Express app;
-    private final BookingRepository bookingRepository;
-    private final ObjectMapper mapper;
+    BookingLogic logic = new BookingLogic();
 
-    public BookingRoutes(Express app, ObjectMapper mapper, BookingRepository bookingRepository) {
+    public BookingRoutes(Express app) {
         this.app = app;
-        this.bookingRepository = bookingRepository;
-        this.mapper = mapper;
         this.bookingMethods();
     }
+
+
 
     public void bookingMethods() {
 
         app.get("/api/getUserBookings/:id", (req, res) -> {
-            List<?> bookings = bookingRepository.findByUserId(Integer.parseInt(req.params("id")));
-            res.json(mapper.writeValueAsString(bookings));
         });
 
-        app.post("/api/addBooking", (req, res) -> {
-            Booking booking = req.body(Booking.class);
-            booking.setUser(booking.getUser());
-            bookingRepository.save(booking);
+        app.get("/api/get-property-bookings/:id/:id2", (req, res) -> {
+            res.json(logic.checkCanReviewProperty(Integer.parseInt(req.params("id")), Integer.parseInt(req.params("id2"))));
+        });
+
+        app.get("/api/get-user-bookings/:id/:id2", (req, res) -> {
+            res.json(logic.checkCanReviewUser(Integer.parseInt(req.params("id")), Integer.parseInt(req.params("id2"))));
+        });
+
+        app.post("/api/purchase-booking", (req, res) -> {
+            res.json(logic.createBooking(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString())));
         });
     }
 

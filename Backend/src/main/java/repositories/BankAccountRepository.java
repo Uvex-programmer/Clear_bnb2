@@ -1,5 +1,6 @@
 package repositories;
 
+import interfaces.BankRepoInterface;
 import models.BankAccount;
 
 import javax.persistence.EntityManager;

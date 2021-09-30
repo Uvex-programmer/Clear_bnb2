@@ -15,7 +15,11 @@ export default function Navbar() {
         <Link to='/'>Home</Link>
         <Link to='/search'>Search</Link>
         {userOnline ? <Link to='/add-property'>addProperty</Link> : ''}
-        {userOnline ? <Link to='/profile-page'>profilePage</Link> : ''}
+        {userOnline ? (
+          <Link to={`/profile-page/${userOnline.id}`}>profilePage</Link>
+        ) : (
+          ''
+        )}
         {userOnline ? (
           <button
             className='nav-logout-btn'
