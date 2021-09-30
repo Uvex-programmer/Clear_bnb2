@@ -2,6 +2,7 @@ package logic;
 
 import DTO.PropertyDTO;
 import mapper.PropertyMapper;
+import models.Amenity;
 import models.Property;
 import models.PropertyView;
 import models.User;
@@ -14,22 +15,24 @@ import java.util.Optional;
 
 public class PropertyLogic {
 
-    UserRepository userRepository = new UserRepository();
     PropertyRepository propertyRepository = new PropertyRepository();
     PropertyMapper propertyMapper = new PropertyMapper();
 
-    public void addProperty(Property property){
+    public Property addProperty(Property property){
         property.addAddress(property.getAddress());
         property.addUser(property.getUser());
+        property.addAmenities(property.getAmenities());
         propertyRepository.save(property);
+        return property;
     }
 
     public List<?> getProperties(){
-        List<Property> properties = (List<Property>) propertyRepository.findAvailableObjects();
+        List<Property> properties = propertyRepository.findAvailableObjects();
         ArrayList<PropertyDTO> propertiesDTOs = new ArrayList<>();
         for(Property p : properties){
             propertiesDTOs.add(propertyMapper.propertyToDTO(Optional.ofNullable(p)));
         }
+
         return propertiesDTOs;
     }
 
