@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class Amenity {
     @Enumerated(EnumType.STRING)
     @Column(name = "amenity")
     private Amenities amenity;
+    @JsonBackReference
     @ManyToMany(mappedBy = "amenities", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Property> properties = new ArrayList<>();
 
@@ -36,15 +38,24 @@ public class Amenity {
         this.properties = properties;
     }
 
-  /*  public List<Property> getProperties() {
-        return properties;
-    }
-    
-    public void setProperties(List<Property> properties) {
+    public Amenity(int id, Amenities amenity, List<Property> properties) {
+        this.id = id;
+        this.amenity = amenity;
         this.properties = properties;
     }
 
-   */
+    public void addProperty (Property property) {
+        properties.add(property);
+    }
+
+    public Amenities getAmenity() {
+        return amenity;
+    }
+
+    public void setAmenity(Amenities amenity) {
+        this.amenity = amenity;
+    }
+
     public List<Property> getProperties() {
         return properties;
     }
