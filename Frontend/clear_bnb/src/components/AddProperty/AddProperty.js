@@ -25,18 +25,18 @@ export default function AddProperty() {
     e.preventDefault()
 
     let propertyObj = {
-      description: 'Dannes hem',
-      title: 'Test',
-      beds: '1',
-      bathrooms: '2',
-      guests: '1',
-      startDate: '2021-10-04',
-      endDate: '2021-11-01',
-      dailyPrice: '113',
+      description: description,
+      title: title,
+      beds: beds,
+      bathrooms: bathrooms,
+      guests: guests,
+      startDate: startDate,
+      endDate: endDate,
+      dailyPrice: price,
       address: {
-        street: 'Vikengatan 2',
-        zipcode: '22655',
-        city: 'Furulund',
+        street: address,
+        zipcode: zipcode,
+        city: city,
       },
       user: {
         id: userOnline.id,
@@ -52,7 +52,11 @@ export default function AddProperty() {
     await fetch('/api/add-property', {
       method: 'POST',
       body: JSON.stringify(propertyObj),
-    }) //.then(history.push('/'))
+    }).then(
+      setTimeout(() => {
+        history.push('/')
+      }, 1000)
+    )
   }
 
   const pushOrDelete = (type) => {

@@ -6,7 +6,7 @@ const Bookingpage = () => {
   const [storageHouse, setStorageHouse] = useState()
   const chosenProperty = useSelector((state) => state.userInfo.chosenObject)
   const userOnline = useSelector((state) => state.loginUser.user)
-  //let dispatch = useDispatch()
+  let dispatch = useDispatch()
 
   useEffect(() => {
     async function retrieveHouse() {

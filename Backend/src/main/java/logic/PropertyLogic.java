@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class PropertyLogic {
-
     PropertyRepository propertyRepository = new PropertyRepository();
     PropertyMapper propertyMapper = new PropertyMapper();
 

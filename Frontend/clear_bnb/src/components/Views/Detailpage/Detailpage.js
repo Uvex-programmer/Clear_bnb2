@@ -21,6 +21,7 @@ const Detailpage = () => {
 
   let notSelected = startDate.length > 0 && endDate.length > 0 ? true : false
   let images = ''
+  let amenities = 'No amenities'
 
   useEffect(() => {
     fetch(`/api/get-property/${id}`)
@@ -70,6 +71,12 @@ const Detailpage = () => {
     })
   }
 
+  if (property?.amenities.length) {
+    amenities = property.amenities.map((amenity, index) => {
+      return <li key={index}>{amenity.amenity}</li>
+    })
+  }
+
   return (
     <div className={classes['detailpage-container']}>
       {property && (
@@ -101,10 +108,11 @@ const Detailpage = () => {
             <h2>Details:</h2>
             <p>Bathrooms: {property.bathrooms}</p>
             <p>Beds: {property.beds}</p>
-            <p>Created at: {property.createdAt}</p>
-            <p>Start at: {property.startDate}</p>
-            <p>Ending at: {property.endDate}</p>
+            <p>Start at: {Date(property.startDate * 1000)}</p>
+            <p>Ending at: {Date(property.endDate * 1000)}</p>
             <p>Max guests: {property.guests}</p>
+            <p>Amenities: </p>
+            <ul className={classes['amenities-container']}>{amenities}</ul>
           </div>
           <Link to={`/profile-page/${property.userId}`}>
             <div className='user'>User: {property.userId}</div>
