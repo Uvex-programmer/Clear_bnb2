@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import classes from './Bookingpage.module.css'
 
 const Bookingpage = () => {
   const [storageHouse, setStorageHouse] = useState()
   const chosenProperty = useSelector((state) => state.userInfo.chosenObject)
   const userOnline = useSelector((state) => state.loginUser.user)
-  let dispatch = useDispatch()
+  //let dispatch = useDispatch()
 
   useEffect(() => {
     async function retrieveHouse() {
@@ -17,6 +16,7 @@ const Bookingpage = () => {
     retrieveHouse()
   }, [chosenProperty])
 
+  console.log(storageHouse)
   const submitHandler = () => {
     const payment = {
       propertyId: storageHouse.id,

@@ -20,8 +20,9 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "property_id")
-    private int propertyId;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "property_id", referencedColumnName = "id")
+    private Property property;
     @Column(name = "start_date")
     private Date startDate;
     @Column(name = "end_date")
@@ -41,14 +42,14 @@ public class Booking {
     public Booking() {
     }
     
-    public Booking(int propertyId, Date startDate, Date endDate) {
-        this.propertyId = propertyId;
+    public Booking(Property property, Date startDate, Date endDate) {
+        this.property = property;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public Booking( int propertyId, Date startDate, Date endDate, User user, Transaction transaction) {
-        this.propertyId = propertyId;
+    public Booking( Property property, Date startDate, Date endDate, User user, Transaction transaction) {
+        this.property = property;
         this.startDate = startDate;
         this.endDate = endDate;
         this.buyer = user;
@@ -88,15 +89,15 @@ public class Booking {
     public void setUser(User user) {
         this.buyer = user;
     }
-    
-    public int getPropertyId() {
-        return propertyId;
+
+    public Property getProperty() {
+        return property;
     }
-    
-    public void setPropertyId(int propertyId) {
-        this.propertyId = propertyId;
+
+    public void setProperty(Property property) {
+        this.property = property;
     }
-    
+
     public Date getStartDate() {
         return startDate;
     }
@@ -113,11 +114,15 @@ public class Booking {
         this.endDate = endDate;
     }
 
+    public User getBuyer() {
+        return buyer;
+    }
+
     @Override
     public String toString() {
         return "Booking{" +
                 "id=" + id +
-                ", propertyId=" + propertyId +
+                ", property=" + property +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", buyer=" + buyer +

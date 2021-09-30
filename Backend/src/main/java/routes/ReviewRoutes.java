@@ -1,4 +1,5 @@
 package routes;
+import DTO.ReviewDTO;
 import express.Express;
 import logic.ReviewLogic;
 import models.Review;
@@ -18,8 +19,11 @@ public class ReviewRoutes {
 
     public void reviewMethods() {
 
-        app.post("/api/add-review", (req, res) -> {
-            res.json(reviewLogic.addReview(req.body(Review.class)));
+        app.post("/api/add-property-review", (req, res) -> {
+            res.json(reviewLogic.addPropertyReview(req.body(ReviewDTO.class)));
+        });
+        app.post("/api/add-user-review", (req, res) -> {
+            res.json(reviewLogic.addUserReview(req.body(ReviewDTO.class)));
         });
 
         app.get("/api/get-reviews-on-property/:id", (req, res) -> {

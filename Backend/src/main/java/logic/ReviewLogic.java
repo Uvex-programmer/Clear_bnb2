@@ -4,6 +4,7 @@ import DTO.PropertyDTO;
 import DTO.ReviewDTO;
 import mapper.ReviewMapper;
 import models.Review;
+import repositories.PropertyRepository;
 import repositories.ReviewRepository;
 import repositories.UserRepository;
 
@@ -13,6 +14,8 @@ import java.util.Optional;
 
 public class ReviewLogic {
     ReviewRepository reviewRepository = new ReviewRepository();
+    PropertyRepository propertyRepository = new PropertyRepository();
+    UserRepository userRepository = new UserRepository();
     ReviewMapper reviewMapper = new ReviewMapper();
 
     public ArrayList<ReviewDTO> findReviewsOnProperty(Integer id){
@@ -33,11 +36,17 @@ public class ReviewLogic {
         return revs;
     }
 
-    public ReviewDTO addReview(Review review) {
-        var rev = reviewRepository.save(review);
-        if(rev.get().getProperty() == null)
-            return reviewMapper.userReviewToDTO(rev);
-        return reviewMapper.propertyReviewToDTO(rev);
+    public ReviewDTO addPropertyReview(ReviewDTO reviewDTO) {
+        var user = userRepository.findById(reviewDTO.getUserId());
+        var property = propertyRepository.findById(reviewDTO.getReviewId());
+        var review = reviewRepository.save(reviewMapper.propertyReviewDTOtoEntity(reviewDTO, user, property));
+        return reviewMapper.propertyReviewToDTO(review);
+    }
+    public ReviewDTO addUserReview(ReviewDTO reviewDTO) {
+        var user = userRepository.findById(reviewDTO.getUserId());
+        var userReviewed = userRepository.findById(reviewDTO.getReviewId());
+        var review = reviewRepository.save(reviewMapper.userReviewDTOtoEntity(reviewDTO, user, userReviewed));
+       return reviewMapper.userReviewToDTO(review);
     }
 
 }

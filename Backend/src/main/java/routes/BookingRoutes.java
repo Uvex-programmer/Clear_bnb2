@@ -1,34 +1,17 @@
 package routes;
 
 import DTO.BookingDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import express.Express;
 import express.http.Response;
 import logic.BookingLogic;
-import models.Booking;
-import models.Property;
-import models.Transaction;
-import models.User;
-import repositories.BookingRepository;
-import repositories.PropertyRepository;
-import repositories.UserRepository;
-
-import java.util.List;
-import java.util.Optional;
 
 public class BookingRoutes {
 
     private final Express app;
-    private final BookingRepository bookingRepository;
-     PropertyRepository propertyRepository  = new PropertyRepository();
-    UserRepository userRepository  = new UserRepository();
-    private final ObjectMapper mapper;
     BookingLogic logic = new BookingLogic();
 
-    public BookingRoutes(Express app, ObjectMapper mapper, BookingRepository bookingRepository) {
+    public BookingRoutes(Express app) {
         this.app = app;
-        this.bookingRepository = bookingRepository;
-        this.mapper = mapper;
         this.bookingMethods();
     }
 
@@ -37,6 +20,14 @@ public class BookingRoutes {
     public void bookingMethods() {
 
         app.get("/api/getUserBookings/:id", (req, res) -> {
+        });
+
+        app.get("/api/get-property-bookings/:id/:id2", (req, res) -> {
+            res.json(logic.checkCanReviewProperty(Integer.parseInt(req.params("id")), Integer.parseInt(req.params("id2"))));
+        });
+
+        app.get("/api/get-user-bookings/:id/:id2", (req, res) -> {
+            res.json(logic.checkCanReviewUser(Integer.parseInt(req.params("id")), Integer.parseInt(req.params("id2"))));
         });
 
         app.post("/api/purchase-booking", (req, res) -> {
