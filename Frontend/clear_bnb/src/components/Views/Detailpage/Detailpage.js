@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory, Link } from 'react-router-dom'
 import { setChosenObject } from '../../../slicers/UserSlicer'
 import classes from './Detailpage.module.css'
 import { MessageWindow } from '../../Review/ReviewMsgWindow'
 import ReviewPost from '../../Review/ReviewPostProperty'
 import { setReviews } from '../../../slicers/PropertyReviewsSlicer'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import Card from '../../UI/CardOld/DanneRörInteDettaCard'
+import AddProperty from '../UpdateProperty/UpdateProperty'
 
 const Detailpage = () => {
   const [property, setProperty] = useState()
@@ -139,6 +140,12 @@ const Detailpage = () => {
             <MessageWindow reviews={reviews} />
             <ReviewPost userOnline={userOnline} property={property} />
           </div>
+          <Card>
+            Update property!
+            <Card>
+              <AddProperty property={property} />
+            </Card>
+          </Card>
         </>
       )}
     </div>
