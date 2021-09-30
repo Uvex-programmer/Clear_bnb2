@@ -68,6 +68,23 @@ public class Property {
     
     public Property() {
     }
+
+    public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice, Address address, List<Image> images, List<Review> reviews, List<Booking> bookings, User user, List<Amenity> amenities) {
+        this.title = title;
+        this.description = description;
+        this.beds = beds;
+        this.bathrooms = bathrooms;
+        this.guests = guests;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.dailyPrice = dailyPrice;
+        this.address = address;
+        this.images = images;
+        this.reviews = reviews;
+        this.bookings = bookings;
+        this.user = user;
+        this.amenities = amenities;
+    }
     
     public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
         this.title = title;
@@ -78,6 +95,7 @@ public class Property {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyPrice = dailyPrice;
+
     }
 
     public void addUser(User user) {
@@ -95,9 +113,11 @@ public class Property {
         image.setProperty(this);
     }
     
-    public void addAmenities(Amenity amenity) {
-            amenities.add(amenity);
-            amenity.getProperties().add(this);
+    public void addAmenities(List<Amenity> amenities) {
+        this.setAmenities(amenities);
+        for(Amenity amenity: amenities) {
+            amenity.addProperty(this);
+        }
     }
     public User getUser() {
         return user;
@@ -153,14 +173,6 @@ public class Property {
     public void setId(int id) {
         this.id = id;
     }
-
-//    public int getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(int userId) {
-//        this.userId = userId;
-//    }
     
     public String getTitle() {
         return title;
@@ -238,7 +250,6 @@ public class Property {
     public String toString() {
         return "Property{" +
                 "id=" + id +
-//                ", user_id=" + userId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", beds=" + beds +
