@@ -36,6 +36,13 @@ public class BookingLogic {
 
     }
 
+    public boolean transferHandler(BookingDTO bookDTO, int propertyId, int userId) {
+        Optional<User> buyer = userRepository.findById(userId);
+        Optional<User> receiver = propertyRepository.findByIdReturnUserId(propertyId);
+        int price = bookDTO.getPropertyPrice();
+        return transferMoney(buyer.get(), receiver.get(), price);
+    }
+
     public boolean transferMoney(User buyer, User receiver, int propertyPrice) {
         double buyerFunds = buyer.getAccount().getFunds();
         double receiverFunds = receiver.getAccount().getFunds();

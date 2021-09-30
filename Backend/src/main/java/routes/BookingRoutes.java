@@ -15,7 +15,6 @@ public class BookingRoutes {
     }
 
 
-
     public void bookingMethods() {
 
         app.get("/api/getUserBookings/:id", (req, res) -> {
@@ -30,7 +29,9 @@ public class BookingRoutes {
         });
 
         app.post("/api/purchase-booking", (req, res) -> {
-            res.json(logic.createBooking(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString())));
+            if (logic.transferHandler(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString())))
+                res.json(logic.createBooking(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString())));
+            res.json("Tomt på kontot!!");
         });
     }
 
