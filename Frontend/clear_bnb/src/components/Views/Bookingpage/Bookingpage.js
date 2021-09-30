@@ -32,8 +32,8 @@ const Bookingpage = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data)
-        //  dispatch()
       })
+      .catch((error) => console.log(error))
   }
 
   return (

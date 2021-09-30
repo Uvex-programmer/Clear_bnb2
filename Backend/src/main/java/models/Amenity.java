@@ -1,8 +1,10 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,47 +26,48 @@ public class Amenity {
     @Enumerated(EnumType.STRING)
     @Column(name = "amenity")
     private Amenities amenity;
-
-    @ManyToMany(mappedBy = "amenities", cascade = CascadeType.ALL)
+    @JsonBackReference
+    @ManyToMany(mappedBy = "amenities", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Property> properties = new ArrayList<>();
-    
-    
+
     public Amenity() {
     }
-    
-    public Amenity(String amenity) {
-        this.amenity = Amenities.valueOf(amenity.toUpperCase());
-    }
-    
-    public List<Property> getProperties() {
-        return properties;
-    }
-    
-    public void setProperties(List<Property> properties) {
+
+    public Amenity(Amenities amenity, List<Property> properties) {
+        this.amenity = amenity;
         this.properties = properties;
     }
-    
-    public int getId() {
-        return id;
-    }
-    
-    public void setId(int id) {
+
+    public Amenity(int id, Amenities amenity, List<Property> properties) {
         this.id = id;
+        this.amenity = amenity;
+        this.properties = properties;
     }
-    
+
+    public void addProperty (Property property) {
+        properties.add(property);
+    }
+
     public Amenities getAmenity() {
         return amenity;
     }
-    
+
     public void setAmenity(Amenities amenity) {
         this.amenity = amenity;
     }
-    
+
+    public List<Property> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(List<Property> properties) {
+        this.properties = properties;
+    }
+
     @Override
     public String toString() {
         return "Amenity{" +
                 "id=" + id +
-                ", amenity=" + amenity +
                 '}';
     }
 }
