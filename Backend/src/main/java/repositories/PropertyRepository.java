@@ -105,6 +105,7 @@ public class PropertyRepository implements PropertyRepoInterface {
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(property);
+            System.out.println(property);
             entityManager.getTransaction().commit();
             return Optional.of(property);
         } catch (Exception e) {

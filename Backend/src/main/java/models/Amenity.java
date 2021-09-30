@@ -20,11 +20,12 @@ enum Amenities {
 
 @Entity
 @Table(name = "amenities")
-@Audited
 public class Amenity {
+    @Audited
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Audited
     @Enumerated(EnumType.STRING)
     @Column(name = "amenity")
     private Amenities amenity;

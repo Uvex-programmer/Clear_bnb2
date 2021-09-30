@@ -65,8 +65,8 @@ public class Property {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "Properties_Amenities",
-            joinColumns = {@JoinColumn(name = "property_id")},
-            inverseJoinColumns = {@JoinColumn(name = "amenities_id")}
+            joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
     )
     private List<Amenity> amenities = new ArrayList<>();
     

@@ -28,6 +28,7 @@ public class PropertyLogic {
         property.addAddress(property.getAddress());
         property.addUser(property.getUser());
         property.addAmenities(property.getAmenities());
+        System.out.println(property);
         propertyRepository.save(property);
         return property;
     }
