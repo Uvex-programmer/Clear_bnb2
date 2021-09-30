@@ -1,54 +1,35 @@
 import { useState } from 'react'
 import classes from './Amenities.module.css'
 
-const Amenities = () => {
-	const [wifi, setWifi] = useState('')
-	const [Toiletries, setToiletries] = useState('')
-	const [personalCare, setPersonalCare] = useState('')
-	const [coffeeKit, setCoffeeKit] = useState('')
-	const [bathrobes, setBathrobs] = useState('')
-	const [breakfast, setBreakfast] = useState('')
-	const [parking, setParking] = useState('')
-	const [gym, setGym] = useState('')
-	const amenities = [
-		,
-		'Toiletries',
-		'Personal care',
-		'Coffee Kit',
-		'Bathrobes',
-		'Breakfast',
-		'Parking',
-		'Gym',
-	]
-
-	return (
-		<div className={classes['input-controls']}>
-			<div className={classes['input-control']}>
-				<label>'Wifi'</label>
-				<input type='checkbox' value={wifi} onChange={setWifi} />
-			</div>
-			<div className={classes['input-control']}>
-				<label>'Wifi'</label>
-				<input type='checkbox' value={wifi} onChange={setWifi} />
-			</div>
-			<div className={classes['input-control']}>
-				<label>'Wifi'</label>
-				<input type='checkbox' value={wifi} onChange={setWifi} />
-			</div>
-			<div className={classes['input-control']}>
-				<label>'Wifi'</label>
-				<input type='checkbox' value={wifi} onChange={setWifi} />
-			</div>
-			<div className={classes['input-control']}>
-				<label>'Wifi'</label>
-				<input type='checkbox' value={wifi} onChange={setWifi} />
-			</div>
-			<div className={classes['input-control']}>
-				<label>'Wifi'</label>
-				<input type='checkbox' value={wifi} onChange={setWifi} />
-			</div>
-		</div>
-	)
+const Amenities = ({ pushOrDelete }) => {
+  return (
+    <div className='input-controls'>
+      <div className='input-control'>
+        <label>Wifi</label>
+        <input type='checkbox' onClick={() => pushOrDelete('WIFI')} />
+      </div>
+      <div className='input-control'>
+        <label>Dishwasher</label>
+        <input type='checkbox' onChange={() => pushOrDelete('DISHWASHER')} />
+      </div>
+      <div className='input-control'>
+        <label>AC</label>
+        <input type='checkbox' onChange={() => pushOrDelete('AC')} />
+      </div>
+      <div className='input-control'>
+        <label>Fridge</label>
+        <input type='checkbox' onChange={() => pushOrDelete('FRIDGE')} />
+      </div>
+      <div className='input-control'>
+        <label>Iron</label>
+        <input type='checkbox' onChange={() => pushOrDelete('IRON')} />
+      </div>
+      <div className='input-control'>
+        <label>Microwave</label>
+        <input type='checkbox' onChange={() => pushOrDelete('MICROWAVE')} />
+      </div>
+    </div>
+  )
 }
 
 export default Amenities
