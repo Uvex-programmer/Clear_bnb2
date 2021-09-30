@@ -22,6 +22,7 @@ public class Main {
         new PropertyRoutes(app, mapper, propertyRepository);
         new BookingRoutes(app);
         new ReviewRoutes(app);
+        new MongoDB(propertyRepository);
 
 
         app.listen(4000);

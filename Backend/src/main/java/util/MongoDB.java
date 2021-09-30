@@ -2,6 +2,7 @@ package util;
 
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.*;
+import models.Property;
 import models.PropertyView;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -15,7 +16,7 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 public class MongoDB {
 
-    static MongoCollection<PropertyView> collection;
+    static MongoCollection<Property> collection;
     private final PropertyRepository propertyRepository;
     MongoDatabase database;
     static Set<Integer> idNumbers = new HashSet<>();
@@ -27,21 +28,21 @@ public class MongoDB {
         populateCache(propertyRepository);
     }
 
-    public static List<PropertyView> convertToList(FindIterable<PropertyView> mongoCollection) {
-        List<PropertyView> list = new ArrayList<>();
-        for (PropertyView item : mongoCollection) {
+    public static List<Property> convertToList(FindIterable<Property> mongoCollection) {
+        List<Property> list = new ArrayList<>();
+        for (Property item : mongoCollection) {
             list.add(item);
         }
         return list;
     }
 
-    public static List<PropertyView> checkIfCached(List<PropertyView> properties) {
-        FindIterable<PropertyView> mongoCollection = collection.find();
-        List<PropertyView> propertyViews = convertToList(mongoCollection);
+    public static List<Property> checkIfCached(List<Property> properties) {
+        FindIterable<Property> mongoCollection = collection.find();
+        List<Property> mongoDbProperties = convertToList(mongoCollection);
     
         if(properties.stream().anyMatch(p -> idNumbers.contains(p.getId())) && idNumbers.size() == properties.size()){
             System.out.println("From mongo");
-            return propertyViews;
+            return mongoDbProperties;
         }else{
             System.out.println("From SQL");
             return properties;
@@ -50,7 +51,7 @@ public class MongoDB {
 
     public static void populateCache(PropertyRepository propertyRepository) {
         collection.deleteMany(new Document());
-        List<PropertyView> availableObjects = propertyRepository.findAvailableObjects();
+        List<Property> availableObjects = propertyRepository.findAvailableObjects();
         
 //        idNumbers = new HashSet<>();
         availableObjects.forEach(obj -> idNumbers.add(obj.getId()));
@@ -68,6 +69,6 @@ public class MongoDB {
 
         MongoClient mongoClient = MongoClients.create(uri);
         database = mongoClient.getDatabase("bnb-cache").withCodecRegistry(pojoCodecRegistry);
-        collection = database.getCollection("PropertyView", PropertyView.class);
+        collection = database.getCollection("Property", Property.class);
     }
 }

@@ -40,9 +40,9 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
 
     
-    public List<?> findAvailableObjects() {
+    public List<Property> findAvailableObjects() {
         Date currentTime = new Date();
-        return entityManager.createQuery("FROM PropertyView P WHERE P.startDate < :currentTime AND P.endDate > :currentTime", PropertyView.class)
+        return entityManager.createQuery("FROM Property P WHERE P.startDate < :currentTime AND P.endDate > :currentTime", Property.class)
                 .setParameter("currentTime", currentTime)
                 .getResultList();
     }

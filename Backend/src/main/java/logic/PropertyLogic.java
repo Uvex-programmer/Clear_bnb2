@@ -25,7 +25,7 @@ public class PropertyLogic {
     }
 
     public List<?> getProperties(){
-        List<Property> properties = (List<Property>) propertyRepository.findAvailableObjects();
+        List<Property> properties = propertyRepository.findAvailableObjects();
         ArrayList<PropertyDTO> propertiesDTOs = new ArrayList<>();
         for(Property p : properties){
             propertiesDTOs.add(propertyMapper.propertyToDTO(Optional.ofNullable(p)));
