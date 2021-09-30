@@ -27,24 +27,21 @@ public class PropertyRoutes {
     
     public void propertyMethods() {
         app.post("/api/add-property", (req, res) -> {
-            System.out.println(req.body());
-            ObjectMapper mapper2 = new ObjectMapper();
-            mapper2.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-            propertyLogic.addProperty(req.body(Property.class));
+            res.json(propertyLogic.addProperty(req.body(Property.class)));
         });
-        
+
         app.get("/api/get-properties", (req, res) -> {
             res.json(propertyLogic.getProperties());
         });
-        
+
         app.get("/api/get-property/:id", (req, res) -> {
             res.json(propertyLogic.getProperty(Integer.parseInt(req.params("id"))));
         });
-        
+
         app.get("/api/get-user-properties/:id", (req, res) -> {
             res.json(propertyLogic.getUserProperties(Integer.parseInt(req.params("id"))));
         });
-        
+
         app.post("/api/search", (req, res) -> {
             res.json(propertyLogic.searchProperties(req.body(PropertyView.class)));
         });

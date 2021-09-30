@@ -40,14 +40,13 @@ public class PropertyRepository implements PropertyRepoInterface {
     }
 
     
-    public List<?> findAvailableObjects() {
+    public List<Property> findAvailableObjects() {
         Date currentTime = new Date();
-        return entityManager.createQuery("FROM Property P WHERE P.startDate < :currentTime AND P.endDate > :currentTime", Property.class)
+        return entityManager.createQuery("SELECT P FROM Property P WHERE P.startDate <= :currentTime AND P.endDate > :currentTime", Property.class)
                 .setParameter("currentTime", currentTime)
                 .getResultList();
     }
-    
-    //    , Date startDate, Date endDate
+
     public List<?> findObjectsBySearch(String freeSearch, int beds, int bathrooms, int minGuests, int maxPrice, java.sql.Timestamp startDate, java.sql.Timestamp endDate) {
         Session session = entityManager.unwrap(Session.class);
         Filter bedroomFilter = session.enableFilter("bedroomFilter");
