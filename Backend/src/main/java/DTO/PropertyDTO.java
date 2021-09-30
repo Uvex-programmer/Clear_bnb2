@@ -1,5 +1,6 @@
 package DTO;
 import models.Address;
+import models.Amenity;
 import models.Image;
 
 import java.sql.Date;
@@ -20,13 +21,14 @@ public class PropertyDTO {
     private int dailyPrice;
     private Address address;
     private List<Image> images;
+    private List<Amenity> amenities;
 
     public PropertyDTO() {
     }
 
     public PropertyDTO(int id, int userId, String title, String description, int beds, int bathrooms, int guests,
                        Date createdAt, Date startDate, Date endDate, int dailyPrice,
-                       Address address, List<Image> images) {
+                       Address address, List<Image> images, List<Amenity> amenities) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -40,6 +42,15 @@ public class PropertyDTO {
         this.dailyPrice = dailyPrice;
         this.address = address;
         this.images = images;
+        this.amenities = amenities;
+    }
+
+    public List<Amenity> getAmenities() {
+        return amenities;
+    }
+
+    public void setAmenities(List<Amenity> amenities) {
+        this.amenities = amenities;
     }
 
     public int getId() {
@@ -140,5 +151,23 @@ public class PropertyDTO {
 
     public int getUserId() {
         return userId;
+    }
+
+    @Override
+    public String toString() {
+        return "PropertyDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", beds=" + beds +
+                ", bathrooms=" + bathrooms +
+                ", guests=" + guests +
+                ", createdAt=" + createdAt +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", dailyPrice=" + dailyPrice +
+                ", address=" + address +
+                ", images=" + images +
+                '}';
     }
 }

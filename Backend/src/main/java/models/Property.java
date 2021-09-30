@@ -6,7 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "properties")
@@ -51,22 +53,37 @@ public class Property {
     @OneToMany
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private List<Booking> bookings;
-
-    @JsonBackReference(value = "amenity-property")
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "properties_x_amenities",
-            joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
-    )
-    private List<Amenity> amenities = new ArrayList<>();
-    
     @JsonBackReference(value = "User - Properties")
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "Properties_Amenities",
+            joinColumns = {@JoinColumn(name = "property_id")},
+            inverseJoinColumns = {@JoinColumn(name = "amenities_id")}
+    )
+    private List<Amenity> amenities = new ArrayList<>();
     
     public Property() {
+    }
+
+    public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice, Address address, List<Image> images, List<Review> reviews, List<Booking> bookings, User user, List<Amenity> amenities) {
+        this.title = title;
+        this.description = description;
+        this.beds = beds;
+        this.bathrooms = bathrooms;
+        this.guests = guests;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.dailyPrice = dailyPrice;
+        this.address = address;
+        this.images = images;
+        this.reviews = reviews;
+        this.bookings = bookings;
+        this.user = user;
+        this.amenities = amenities;
     }
     
     public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
@@ -78,6 +95,7 @@ public class Property {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyPrice = dailyPrice;
+
     }
 
     public void addUser(User user) {
@@ -95,9 +113,11 @@ public class Property {
         image.setProperty(this);
     }
     
-    public void addAmenities(Amenity amenity) {
-        amenities.add(amenity);
-        amenity.getProperties().add(this);
+    public void addAmenities(List<Amenity> amenities) {
+        this.setAmenities(amenities);
+        for(Amenity amenity: amenities) {
+            amenity.addProperty(this);
+        }
     }
     public User getUser() {
         return user;

@@ -2,7 +2,11 @@ package routes;
 
 import DTO.BookingDTO;
 import express.Express;
+import express.http.Response;
 import logic.BookingLogic;
+import models.Booking;
+
+import java.util.Optional;
 
 public class BookingRoutes {
 
@@ -32,6 +36,11 @@ public class BookingRoutes {
             if (logic.transferHandler(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString())))
                 res.json(logic.createBooking(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString())));
             res.json("Tomt på kontot!!");
+
+            
+            Optional<Booking> booking = logic.createBooking(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString()));
+           if(booking.isPresent()) { res.json(booking.get()).type("application/json "); }
+           else { res.status(500).send("Date already booked!"); }
         });
     }
 
