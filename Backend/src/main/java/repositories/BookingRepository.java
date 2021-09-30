@@ -2,7 +2,6 @@ package repositories;
 
 import interfaces.BookingRepoInterface;
 import models.Booking;
-import models.Property;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -26,16 +25,16 @@ public class BookingRepository implements BookingRepoInterface {
                 .setParameter("start", startDate)
                 .setParameter("end", endDate)
                 .getResultList();
-        System.out.println(bookings);
+        System.out.println(bookings.isEmpty());
 
         return bookings.isEmpty();
     }
-    
+
     public Optional<Booking> findById(Integer id) {
         Booking booking = entityManager.find(Booking.class, id);
         return booking != null ? Optional.of(booking) : Optional.empty();
     }
-    
+
     public List<?> findAll() {
         return entityManager.createQuery("from Booking").getResultList();
     }
@@ -45,15 +44,17 @@ public class BookingRepository implements BookingRepoInterface {
                 .setParameter("id", id)
                 .getResultList();
     }
+
     public List<?> findBookingByPropertyId(Integer num1, Integer num2) {
         return entityManager.createQuery("from Booking b WHERE b.property.id = :id AND b.buyer.id = :id2")
                 .setParameter("id", num1)
                 .setParameter("id2", num2)
                 .getResultList();
     }
+
     public List<?> findBookingByUser(Integer num1, Integer num2) {
         return entityManager.createQuery("FROM Booking b INNER JOIN Property p " +
-                "ON b.property.id = p.id WHERE b.buyer.id = :id AND p.user.id = :id2")
+                        "ON b.property.id = p.id WHERE b.buyer.id = :id AND p.user.id = :id2")
                 .setParameter("id", num1)
                 .setParameter("id2", num2)
                 .getResultList();

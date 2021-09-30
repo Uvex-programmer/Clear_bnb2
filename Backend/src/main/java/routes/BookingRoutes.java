@@ -2,7 +2,6 @@ package routes;
 
 import DTO.BookingDTO;
 import express.Express;
-import express.http.Response;
 import logic.BookingLogic;
 import models.Booking;
 
@@ -33,14 +32,16 @@ public class BookingRoutes {
         });
 
         app.post("/api/purchase-booking", (req, res) -> {
-            if (logic.transferHandler(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString())))
-                res.json(logic.createBooking(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString())));
-            res.json("Tomt på kontot!!");
-
-            
+            boolean SuccessfulPayment = logic.transferHandler(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString()));
             Optional<Booking> booking = logic.createBooking(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString()));
-           if(booking.isPresent()) { res.json(booking.get()).type("application/json "); }
-           else { res.status(500).send("Date already booked!"); }
+
+            if (!SuccessfulPayment) {
+                res.send("Tomt på kontot!!");
+            } else if (booking.isPresent()) {
+                res.json(booking.get()).type("application/json ");
+            } else {
+                res.send("Date already booked!");
+            }
         });
     }
 
