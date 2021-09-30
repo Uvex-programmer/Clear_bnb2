@@ -1,6 +1,3 @@
-import { useState } from 'react'
-import classes from './Amenities.module.css'
-
 const Amenities = ({ pushOrDelete }) => {
   return (
     <div className='input-controls'>
