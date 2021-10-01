@@ -1,9 +1,7 @@
 package models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -22,37 +20,26 @@ import java.util.List;
                 query = "SELECT user FROM Property p WHERE p.id = :id"),
 })
 public class Property {
-    @Audited
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Audited
     private String title;
-    @Audited
     private String description;
     @Column(name = "bed_count")
-    @Audited
     private int beds;
     @Column(name = "bathroom_count")
-    @Audited
     private int bathrooms;
-    @Audited
     @Column(name = "guest_max")
     private int guests;
-    @Audited
     @UpdateTimestamp
     @Column(name = "created_at")
     private Date createdAt;
-    @Audited
     @Column(name = "start_date")
     private Date startDate;
-    @Audited
     @Column(name = "end_date")
     private Date endDate;
-    @Audited
     @Column(name = "daily_price")
     private int dailyPrice;
-    @Audited
     @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
     private Address address;
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
@@ -62,14 +49,12 @@ public class Property {
     @OneToMany(mappedBy = "property")
     private List<Review> reviews;
     @JsonBackReference
-    @OneToMany
-    @JoinColumn(name = "property_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "property")
     private List<Booking> bookings;
     @JsonBackReference(value = "User - Properties")
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-    @Audited
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "Properties_Amenities",
@@ -77,6 +62,12 @@ public class Property {
             inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
     )
     private List<Amenity> amenities = new ArrayList<>();
+
+    @JsonManagedReference(value = "property-propertyLogs")
+    @OneToMany(mappedBy = "property", cascade = {
+            CascadeType.ALL
+    })
+    private List<PropertyLog> propertyLogs = new ArrayList<>();
     
     public Property() {
     }
@@ -108,6 +99,14 @@ public class Property {
         this.endDate = endDate;
         this.dailyPrice = dailyPrice;
 
+    }
+
+    public List<PropertyLog> getPropertyLogs() {
+        return propertyLogs;
+    }
+
+    public void setPropertyLogs(List<PropertyLog> propertyLogs) {
+        this.propertyLogs = propertyLogs;
     }
 
     public void addUser(User user) {
@@ -257,6 +256,8 @@ public class Property {
     public void setDailyPrice(int dailyPrice) {
         this.dailyPrice = dailyPrice;
     }
+
+
     
     @Override
     public String toString() {

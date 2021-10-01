@@ -2,6 +2,7 @@ package repositories;
 
 import interfaces.PropertyRepoInterface;
 import models.Property;
+import models.PropertyLog;
 import models.PropertyView;
 import models.User;
 import org.hibernate.Filter;
@@ -111,6 +112,4 @@ public class PropertyRepository implements PropertyRepoInterface {
         }
         return Optional.empty();
     }
-    
-    
 }

@@ -3,8 +3,6 @@ package logic;
 import DTO.PropertyDTO;
 import mapper.PropertyMapper;
 import models.*;
-import org.hibernate.envers.AuditReader;
-import org.hibernate.envers.AuditReaderFactory;
 import repositories.PropertyRepository;
 import repositories.UserRepository;
 
@@ -19,7 +17,6 @@ public class PropertyLogic {
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
     EntityManager em = entityManagerFactory.createEntityManager();
-    AuditReader auditReader = AuditReaderFactory.get(em);
     UserRepository userRepository = new UserRepository();
     PropertyRepository propertyRepository = new PropertyRepository();
     PropertyMapper propertyMapper = new PropertyMapper();
@@ -62,24 +59,15 @@ public class PropertyLogic {
                 searchResult.getStartDate(), searchResult.getEndDate());
     }
 
-    public ArrayList<PropertyDTO> getUpdates(Integer id){
-        List revisionNumbers = auditReader.getRevisions(Property.class, id);
-        ArrayList<PropertyDTO> propertiesUpdates = new ArrayList<>();
-        for (var rev : revisionNumbers) {
-            Property property1 = auditReader.find(Property.class, id, Integer.parseInt(rev.toString()));
-            propertiesUpdates.add(propertyMapper.propertyyToDTO(property1));
-        }
-
-        return propertiesUpdates;
-    }
-
     public PropertyDTO updateProperty(PropertyDTO p, Integer id){
-        var prop = propertyRepository.findById(id);
 
+        var prop = propertyRepository.findById(id);
         Property property = propertyMapper.dtoToProperty(p, prop);
 
-        property.setAddress(prop.get().getAddress());
+        var test = propertyMapper.logPorperty(prop);
+        property.getPropertyLogs().add(test);
         var newP = propertyRepository.updateProperty(property);
+
 
         return propertyMapper.propertyToDTO(newP);
     }

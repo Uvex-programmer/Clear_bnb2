@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Card from '../../UI/CardOld/DanneRörInteDettaCard'
 import Amenities from '../../Amenities/Amenities'
 
-export const AddProperty = ({ property }) => {
+export const AddProperty = ({ property, setCheckUpdate, value }) => {
   const [title, setTitle] = useState(property.title)
   const [description, setDescription] = useState(property.description)
   const [street, setStreet] = useState(property.address.street)
@@ -40,12 +40,19 @@ export const AddProperty = ({ property }) => {
       endDate: endDate,
       dailyPrice: price,
       amenities: amenitiesAdd,
+      address: {
+        street: street,
+        zipcode: zipcode,
+        city: city,
+      },
     }
-    let addressObj = {
-      street: street,
-      zipcode: zipcode,
-      city: city,
-    }
+
+    // let addressObj = {
+    //    street: street,
+    //    zipcode: zipcode,
+    //    city: city,
+    //  }
+
     console.log(`propertyObj`, propertyObj)
     let res = await fetch(`/api/property/update/${property.id}`, {
       method: 'POST',
@@ -53,14 +60,14 @@ export const AddProperty = ({ property }) => {
     })
     let res1 = await res.json()
     console.log('updated prop: ' + res1)
-    // console.log(addressObj)
-    await fetch(`/api/update-address/${property.address.id}`, {
-      method: 'POST',
-      body: JSON.stringify(addressObj),
-    })
-    //var res = await fetch(`/api/get-properties-log/${121}`)
-    let res5 = await fetch(`/api/get-revisions/${property.id}`)
-    console.log('Revisions', await res5.json())
+
+    //  await fetch(`/api/update-address/${property.address.id}`, {
+    //    method: 'POST',
+    //    body: JSON.stringify(addressObj),
+    //  })
+    // let res5 = await fetch(`/api/get-revisions/${property.id}`)
+    // console.log('Revisions', await res5.json())
+    setCheckUpdate(!value)
   }
 
   const pushOrDelete = (type) => {

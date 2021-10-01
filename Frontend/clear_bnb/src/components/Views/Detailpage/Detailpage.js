@@ -8,9 +8,12 @@ import { setReviews } from '../../../slicers/PropertyReviewsSlicer'
 import { useSelector, useDispatch } from 'react-redux'
 import Card from '../../UI/CardOld/DanneRörInteDettaCard'
 import AddProperty from '../UpdateProperty/UpdateProperty'
+//import { setRevisions } from '../../../slicers/RevisionSlicer'
 
 const Detailpage = () => {
   const [property, setProperty] = useState()
+  const [revisions, setRevisions] = useState([])
+  const [checkUpdate, setCheckUpdate] = useState(false)
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const { id } = useParams()
@@ -31,7 +34,12 @@ const Detailpage = () => {
         console.log(data)
         setProperty(data)
       })
-  }, [id])
+    // fetch(`/api/get-revisions/${id}`)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setRevisions(data)
+    //   })
+  }, [id, checkUpdate])
 
   useEffect(() => {
     fetch(`/api/get-reviews-on-property/${id}`)
@@ -72,7 +80,7 @@ const Detailpage = () => {
     })
   }
 
-  if (property?.amenities.length) {
+  if (property?.amenities?.length) {
     amenities = property.amenities.map((amenity, index) => {
       return <li key={index}>{amenity.amenity}</li>
     })
@@ -151,7 +159,11 @@ const Detailpage = () => {
           <Card>
             Update property!
             <Card>
-              <AddProperty property={property} />
+              <AddProperty
+                property={property}
+                setCheckUpdate={setCheckUpdate}
+                value={checkUpdate}
+              />
             </Card>
           </Card>
         </>
