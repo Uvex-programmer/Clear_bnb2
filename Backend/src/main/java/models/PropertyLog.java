@@ -46,7 +46,7 @@ public class PropertyLog {
     private List<AmenityLog> amenities = new ArrayList<>();
 
     public void addAddress(AddressLog address) {
-        this.setAdressLog(address);
+        this.setAddressLog(address);
         address.setProperty(this);
     }
     public void addAmenities(List<AmenityLog> amenities) {
@@ -155,14 +155,6 @@ public class PropertyLog {
 
     public void setDailyPrice(int dailyPrice) {
         this.dailyPrice = dailyPrice;
-    }
-
-    public AddressLog getAdressLog() {
-        return addressLog;
-    }
-
-    public void setAdressLog(AddressLog addressLog) {
-        this.addressLog = addressLog;
     }
 
     public List<AmenityLog> getAmenities() {
