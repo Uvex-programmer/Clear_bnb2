@@ -2,10 +2,7 @@ package logic;
 
 import DTO.BookingDTO;
 import mapper.BookingMapper;
-import models.Booking;
-import models.Property;
-import models.Transaction;
-import models.User;
+import models.*;
 import repositories.BankAccountRepository;
 import repositories.BookingRepository;
 import repositories.PropertyRepository;
@@ -32,7 +29,6 @@ public class BookingLogic {
 
     public Optional<Booking> createBooking(BookingDTO bookDTO, int propertyId, int userId) {
         if (!isDateBooked(bookDTO.getStartDate(), bookDTO.getEndDate())) return Optional.empty();
-
         Optional<User> receiver = propertyRepository.findByIdReturnUserId(propertyId);
         Optional<Property> property = propertyRepository.findById(propertyId);
         Optional<User> buyer = userRepository.findById(userId);
@@ -52,11 +48,14 @@ public class BookingLogic {
     public boolean transferMoney(User buyer, User receiver, int propertyPrice) {
         double buyerFunds = buyer.getAccount().getFunds();
         double receiverFunds = receiver.getAccount().getFunds();
+        Optional<BankAccount> adminAccount = bankAccountRepository.findById(1);
         if (buyerFunds > propertyPrice) {
             buyer.getAccount().setFunds(buyerFunds - propertyPrice);
             receiver.getAccount().setFunds(receiverFunds + propertyPrice);
+            adminAccount.get().setFunds(adminAccount.get().getFunds() + Math.ceil(propertyPrice * 0.15));
             bankAccountRepository.save(buyer.getAccount());
             bankAccountRepository.save(receiver.getAccount());
+            bankAccountRepository.save(adminAccount.get());
             return true;
         }
         return false;

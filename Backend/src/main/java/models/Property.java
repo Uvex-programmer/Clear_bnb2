@@ -77,7 +77,7 @@ public class Property {
         this.guests = guests;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.dailyPrice = dailyPrice;
+        this.dailyPrice = (int) Math.ceil(dailyPrice * 1.15);
         this.address = address;
         this.images = images;
         this.reviews = reviews;
@@ -94,7 +94,7 @@ public class Property {
         this.guests = guests;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.dailyPrice = dailyPrice;
+        this.dailyPrice = (int) Math.ceil(dailyPrice * 1.15);
 
     }
 

@@ -40,7 +40,7 @@ public class BookingRoutes {
             } else if (booking.isPresent()) {
                 res.json(booking.get()).type("application/json ");
             } else {
-                res.send("Date already booked!");
+                res.status(500).json("Date already booked!");
             }
         });
     }
