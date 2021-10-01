@@ -6,6 +6,7 @@ import models.Booking;
 import models.Property;
 import models.Transaction;
 import models.User;
+import repositories.BankAccountRepository;
 import repositories.BookingRepository;
 import repositories.PropertyRepository;
 import repositories.UserRepository;
@@ -19,6 +20,7 @@ public class BookingLogic {
     UserRepository userRepository = new UserRepository();
     BookingRepository bookingRepository = new BookingRepository();
     BookingMapper bookingMapper = new BookingMapper();
+    BankAccountRepository bankAccountRepository = new BankAccountRepository();
 
     public Transaction createTransaction(int price, User giver, User receiver) {
         return new Transaction(price, giver, receiver);
@@ -53,6 +55,8 @@ public class BookingLogic {
         if (buyerFunds > propertyPrice) {
             buyer.getAccount().setFunds(buyerFunds - propertyPrice);
             receiver.getAccount().setFunds(receiverFunds + propertyPrice);
+            bankAccountRepository.save(buyer.getAccount());
+            bankAccountRepository.save(receiver.getAccount());
             return true;
         }
         return false;
