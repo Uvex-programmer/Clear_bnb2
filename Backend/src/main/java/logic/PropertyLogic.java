@@ -15,9 +15,6 @@ import java.util.Optional;
 
 public class PropertyLogic {
 
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
-    EntityManager em = entityManagerFactory.createEntityManager();
-    UserRepository userRepository = new UserRepository();
     PropertyRepository propertyRepository = new PropertyRepository();
     PropertyMapper propertyMapper = new PropertyMapper();
 
