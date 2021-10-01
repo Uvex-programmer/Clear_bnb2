@@ -10,27 +10,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 enum Amenities {
-    DISHWASHER,
-    AC,
-    WIFI,
-    FRIDGE,
-    IRON,
-    MICROWAVE
+    dishwasher,
+    ac,
+    wifi,
+    fridge,
+    iron,
+    microwave
 }
-
+@Audited
 @Entity
 @Table(name = "amenities")
 public class Amenity {
-    @Audited
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Audited
     @Enumerated(EnumType.STRING)
     @Column(name = "amenity")
     private Amenities amenity;
     @JsonBackReference
-    @ManyToMany(mappedBy = "amenities", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "amenities", cascade = {
+            CascadeType.PERSIST,
+            CascadeType.DETACH,
+            CascadeType.REFRESH,
+            CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<Property> properties = new ArrayList<>();
 
     public Amenity() {

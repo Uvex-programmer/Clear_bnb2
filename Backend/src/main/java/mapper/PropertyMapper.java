@@ -11,6 +11,12 @@ public class PropertyMapper {
                 p.get().getBathrooms(), p.get().getGuests(), p.get().getCreatedAt(), p.get().getStartDate(),
                 p.get().getEndDate(), p.get().getDailyPrice(), p.get().getAddress(), p.get().getImages(), p.get().getAmenities());
     }
+    public PropertyDTO propertyyToDTO(Property p) {
+
+        return new PropertyDTO(p.getId(), p.getTitle(), p.getDescription(), p.getBeds(),
+                p.getBathrooms(), p.getGuests(), p.getCreatedAt(), p.getStartDate(),
+                p.getEndDate(), p.getDailyPrice(), p.getAddress(), p.getImages(), p.getAmenities());
+    }
 
     public Property dtoToProperty(PropertyDTO dto, Optional<Property> property){
         Property p = new Property();
@@ -25,6 +31,7 @@ public class PropertyMapper {
         p.setStartDate(dto.getStartDate());
         p.setTitle(dto.getTitle());
         p.setUser(property.get().getUser());
+        p.addAmenities(dto.getAmenities());
         return p;
     }
 }

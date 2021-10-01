@@ -25,6 +25,23 @@ public class PropertyDTO {
 
     public PropertyDTO() {
     }
+    public PropertyDTO(int id, String title, String description, int beds, int bathrooms, int guests,
+                       Date createdAt, Date startDate, Date endDate, int dailyPrice,
+                       Address address, List<Image> images, List<Amenity> amenities) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.beds = beds;
+        this.bathrooms = bathrooms;
+        this.guests = guests;
+        this.createdAt = createdAt;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.dailyPrice = dailyPrice;
+        this.address = address;
+        this.images = images;
+        this.amenities = amenities;
+    }
 
     public PropertyDTO(int id, int userId, String title, String description, int beds, int bathrooms, int guests,
                        Date createdAt, Date startDate, Date endDate, int dailyPrice,

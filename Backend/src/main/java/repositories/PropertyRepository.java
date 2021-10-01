@@ -93,7 +93,6 @@ public class PropertyRepository implements PropertyRepoInterface {
             entityManager.getTransaction().begin();
             entityManager.merge(p);
             entityManager.getTransaction().commit();
-            entityManager.clear();
             return Optional.of(p);
         }catch(Exception e){
             e.printStackTrace();
@@ -105,7 +104,6 @@ public class PropertyRepository implements PropertyRepoInterface {
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(property);
-            System.out.println(property);
             entityManager.getTransaction().commit();
             return Optional.of(property);
         } catch (Exception e) {

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Card from '../../UI/CardOld/DanneRörInteDettaCard'
+import Amenities from '../../Amenities/Amenities'
 
 export const AddProperty = ({ property }) => {
   const [title, setTitle] = useState(property.title)
@@ -24,6 +25,7 @@ export const AddProperty = ({ property }) => {
       .reverse()
       .join('-')
   )
+  let amenitiesAdd = []
   const [price, setPrice] = useState(property.dailyPrice)
 
   const submitHandler = async (e) => {
@@ -37,6 +39,7 @@ export const AddProperty = ({ property }) => {
       startDate: startDate,
       endDate: endDate,
       dailyPrice: price,
+      amenities: amenitiesAdd,
     }
     let addressObj = {
       street: street,
@@ -49,13 +52,25 @@ export const AddProperty = ({ property }) => {
       body: JSON.stringify(propertyObj),
     })
     let res1 = await res.json()
-    console.log(res1)
+    console.log('updated prop: ' + res1)
     // console.log(addressObj)
     await fetch(`/api/update-address/${property.address.id}`, {
       method: 'POST',
       body: JSON.stringify(addressObj),
     })
     //var res = await fetch(`/api/get-properties-log/${121}`)
+    let res5 = await fetch(`/api/get-revisions/${property.id}`)
+    console.log('Revisions', await res5.json())
+  }
+
+  const pushOrDelete = (type) => {
+    if (amenitiesAdd.some((e) => e.amenity === type)) {
+      return (amenitiesAdd = amenitiesAdd.filter(
+        (item) => item.amenity !== type
+      ))
+    } else {
+      amenitiesAdd.push({ amenity: type })
+    }
   }
 
   return (
@@ -146,6 +161,8 @@ export const AddProperty = ({ property }) => {
             <button onClick={(e) => submitHandler(e)}>Save</button>
           </form>
         </div>
+
+        <Amenities pushOrDelete={pushOrDelete} />
       </Card>
     </>
   )

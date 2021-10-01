@@ -62,23 +62,26 @@ public class PropertyLogic {
                 searchResult.getStartDate(), searchResult.getEndDate());
     }
 
-    public ArrayList<Property> updateProperty(PropertyDTO p, Integer id){
+    public ArrayList<PropertyDTO> getUpdates(Integer id){
+        List revisionNumbers = auditReader.getRevisions(Property.class, id);
+        ArrayList<PropertyDTO> propertiesUpdates = new ArrayList<>();
+        for (var rev : revisionNumbers) {
+            Property property1 = auditReader.find(Property.class, id, Integer.parseInt(rev.toString()));
+            propertiesUpdates.add(propertyMapper.propertyyToDTO(property1));
+        }
+
+        return propertiesUpdates;
+    }
+
+    public PropertyDTO updateProperty(PropertyDTO p, Integer id){
         var prop = propertyRepository.findById(id);
+
         Property property = propertyMapper.dtoToProperty(p, prop);
 
         property.setAddress(prop.get().getAddress());
         var newP = propertyRepository.updateProperty(property);
 
-        List revisionNumbers = auditReader.getRevisions(Property.class, property.getId());
-
-        ArrayList<Property> prop2 = new ArrayList<>();
-        for (var rev : revisionNumbers) {
-            Property property1 = auditReader.find(Property.class, property.getId(), Integer.parseInt(rev.toString()));
-            System.out.println(property1);
-            prop2.add(property1);
-        }
-        //return propertyMapper.propertyToDTO(newP);
-        return prop2;
+        return propertyMapper.propertyToDTO(newP);
     }
 
 
