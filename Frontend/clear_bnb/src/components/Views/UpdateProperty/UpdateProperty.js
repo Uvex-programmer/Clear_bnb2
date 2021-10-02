@@ -46,7 +46,7 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
         city: city,
       },
     }
-    fetch(`/api/property/update/${property.id}`, {
+    await fetch(`/api/property/update/${property.id}`, {
       method: 'POST',
       body: JSON.stringify(propertyObj),
     })

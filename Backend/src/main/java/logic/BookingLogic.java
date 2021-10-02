@@ -44,7 +44,7 @@ public class BookingLogic {
     }
 
     public String checkCanReviewProperty(Integer num1, Integer num2){
-        List<Booking> bookings = (List<Booking>) bookingRepository.findBookingByPropertyId(num1, num2);
+        List<Booking> bookings = bookingRepository.findBookingByPropertyId(num1, num2);
         ArrayList<BookingDTO> books = new ArrayList<>();
         for(Booking b : bookings){
             books.add(bookingMapper.bookingToDTO(Optional.ofNullable(b)));

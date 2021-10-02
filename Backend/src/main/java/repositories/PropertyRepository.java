@@ -81,8 +81,8 @@ public class PropertyRepository implements PropertyRepoInterface {
         return property != null ? Optional.of(property) : Optional.empty();
     }
     
-    public List<?> findByUserId(Integer id) {
-        return entityManager.createQuery("FROM Property p Where p.user.id = :id")
+    public List<Property> findByUserId(Integer id) {
+        return entityManager.createQuery("FROM Property p Where p.user.id = :id", Property.class)
                 .setParameter("id", id)
                 .getResultList();
     }

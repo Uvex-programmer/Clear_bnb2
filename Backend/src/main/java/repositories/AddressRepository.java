@@ -45,8 +45,4 @@ public class AddressRepository implements AddressRepoInterface {
         Address address = entityManager.find(Address.class, id);
         return address != null ? Optional.of(address) : Optional.empty();
     }
-    
-    public List findAll() {
-        return entityManager.createQuery("from AddressLogic").getResultList();
-    }
 }

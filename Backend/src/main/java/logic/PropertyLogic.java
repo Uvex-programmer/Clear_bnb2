@@ -1,10 +1,10 @@
 package logic;
 
 import DTO.PropertyDTO;
+import mapper.LogMapper;
 import mapper.PropertyMapper;
 import models.*;
 import repositories.PropertyRepository;
-import repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,7 @@ public class PropertyLogic {
 
     PropertyRepository propertyRepository = new PropertyRepository();
     PropertyMapper propertyMapper = new PropertyMapper();
+    LogMapper logMapper = new LogMapper();
 
     public Property addProperty(Property property){
         property.addAddress(property.getAddress());
@@ -38,7 +39,7 @@ public class PropertyLogic {
     }
 
     public ArrayList<PropertyDTO> getUserProperties(Integer id){
-        List<Property> properties = (List<Property>) propertyRepository.findByUserId(id);
+        List<Property> properties = propertyRepository.findByUserId(id);
         ArrayList<PropertyDTO> propertiesDTO = new ArrayList<>();
         for(Property p : properties){
             propertiesDTO.add(propertyMapper.propertyToDTO(Optional.ofNullable(p)));
@@ -52,15 +53,12 @@ public class PropertyLogic {
                 searchResult.getStartDate(), searchResult.getEndDate());
     }
 
-    public PropertyDTO updateProperty(PropertyDTO p, Integer id){
-        var propertyBefore = propertyRepository.findById(id);
+    public void updateProperty(PropertyDTO p, Integer id){
+        Optional<Property> propertyBefore = propertyRepository.findById(id);
         Property property = propertyMapper.dtoToProperty(p, propertyBefore);
-        var propertyLog = propertyMapper.logPorperty(propertyBefore);
+        PropertyLog propertyLog = logMapper.propertyToLog(propertyBefore);
         property.getPropertyLogs().add(propertyLog);
-        System.out.println("test");
         propertyRepository.updateProperty(property);
-
-       return null;
     }
 
 

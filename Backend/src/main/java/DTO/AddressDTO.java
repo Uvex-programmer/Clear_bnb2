@@ -1,10 +1,5 @@
 package DTO;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.Property;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 public class AddressDTO {
 

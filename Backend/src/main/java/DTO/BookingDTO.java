@@ -3,8 +3,6 @@ package DTO;
 import java.io.Serializable;
 import java.sql.Date;
 
-
-
 public class BookingDTO implements Serializable {
     private int propertyId;
     private Date startDate;

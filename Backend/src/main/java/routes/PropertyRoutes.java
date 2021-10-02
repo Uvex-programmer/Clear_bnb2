@@ -22,7 +22,7 @@ public class PropertyRoutes {
         });
 
         app.post("/api/property/update/:id", (req, res) -> {
-           res.json(propertyLogic.updateProperty(req.body(PropertyDTO.class), Integer.parseInt(req.params("id"))));
+           propertyLogic.updateProperty(req.body(PropertyDTO.class), Integer.parseInt(req.params("id")));
         });
         
         app.get("/api/get-properties", (req, res) -> {
