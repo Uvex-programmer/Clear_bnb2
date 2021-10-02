@@ -17,7 +17,7 @@
 
 .date-control > input {
   position: absolute;
-  right: 0;
+  right: -1.5rem;
 }
 
 .details-container {
@@ -52,4 +52,10 @@
 
 .hide-info {
   visibility: hidden;
+}
+
+.amenities-container {
+  position: relative;
+  left: 2rem;
+  font-weight: bold;
 }

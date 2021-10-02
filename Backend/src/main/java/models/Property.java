@@ -6,7 +6,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 
 @Entity
 @Table(name = "properties")
@@ -39,7 +42,7 @@ public class Property {
     private Date endDate;
     @Column(name = "daily_price")
     private int dailyPrice;
-    @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Address address;
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "Property-Images")
@@ -48,27 +51,46 @@ public class Property {
     @OneToMany(mappedBy = "property")
     private List<Review> reviews;
     @JsonBackReference
-    @OneToMany
-    @JoinColumn(name = "property_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "property")
     private List<Booking> bookings;
-
-    @JsonBackReference(value = "amenity-property")
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "properties_x_amenities",
-            joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
-    )
-    private List<Amenity> amenities = new ArrayList<>();
-    
     @JsonBackReference(value = "User - Properties")
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "Properties_Amenities",
+            joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
+    )
+    private List<Amenity> amenities = new ArrayList<>();
+
+    @JsonManagedReference(value = "property-propertyLogs")
+    @OneToMany(mappedBy = "property", cascade = {
+            CascadeType.ALL
+    })
+    private List<PropertyLog> propertyLogs = new ArrayList<>();
     
     public Property() {
     }
-    
+
+    public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice, Address address, List<Image> images, List<Review> reviews, List<Booking> bookings, User user, List<Amenity> amenities) {
+        this.title = title;
+        this.description = description;
+        this.beds = beds;
+        this.bathrooms = bathrooms;
+        this.guests = guests;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.dailyPrice = dailyPrice;
+        this.address = address;
+        this.images = images;
+        this.reviews = reviews;
+        this.bookings = bookings;
+        this.user = user;
+        this.amenities = amenities;
+    }
+
     public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
         this.title = title;
         this.description = description;
@@ -78,6 +100,15 @@ public class Property {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyPrice = dailyPrice;
+
+    }
+
+    public List<PropertyLog> getPropertyLogs() {
+        return propertyLogs;
+    }
+
+    public void setPropertyLogs(List<PropertyLog> propertyLogs) {
+        this.propertyLogs = propertyLogs;
     }
 
     public void addUser(User user) {
@@ -95,9 +126,11 @@ public class Property {
         image.setProperty(this);
     }
     
-    public void addAmenities(Amenity amenity) {
-        amenities.add(amenity);
-        amenity.getProperties().add(this);
+    public void addAmenities(List<Amenity> amenities) {
+        this.setAmenities(amenities);
+        for(Amenity amenity: amenities) {
+            amenity.addProperty(this);
+        }
     }
     public User getUser() {
         return user;
@@ -225,7 +258,7 @@ public class Property {
     public void setDailyPrice(int dailyPrice) {
         this.dailyPrice = dailyPrice;
     }
-    
+
     @Override
     public String toString() {
         return "Property{" +

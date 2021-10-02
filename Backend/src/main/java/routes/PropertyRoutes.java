@@ -1,32 +1,28 @@
 package routes;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import DTO.PropertyDTO;
 import express.Express;
 import logic.PropertyLogic;
 import models.Property;
 import models.PropertyView;
-import repositories.PropertyRepository;
-
-import java.util.List;
-import java.util.Optional;
 
 public class PropertyRoutes {
     
     private final Express app;
-    private final PropertyRepository propertyRepository;
-    private final ObjectMapper mapper;
     PropertyLogic propertyLogic = new PropertyLogic();
     
-    public PropertyRoutes(Express app, ObjectMapper mapper, PropertyRepository propertyRepository) {
+    public PropertyRoutes(Express app) {
         this.app = app;
-        this.propertyRepository = propertyRepository;
-        this.mapper = mapper;
         this.propertyMethods();
     }
     
     public void propertyMethods() {
         app.post("/api/add-property", (req, res) -> {
-            propertyLogic.addProperty(req.body(Property.class));
+            res.json(propertyLogic.addProperty(req.body(Property.class)));
+        });
+
+        app.post("/api/property/update/:id", (req, res) -> {
+           propertyLogic.updateProperty(req.body(PropertyDTO.class), Integer.parseInt(req.params("id")));
         });
         
         app.get("/api/get-properties", (req, res) -> {

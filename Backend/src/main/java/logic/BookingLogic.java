@@ -26,7 +26,12 @@ public class BookingLogic {
         return transaction;
     }
 
-    public Booking createBooking(BookingDTO bookDTO, int propertyId, int userId) {
+    private Boolean isDateBooked (java.sql.Date start, java.sql.Date end) {
+        return bookingRepository.checkIfBooked(start, end);
+    }
+
+    public Optional<Booking> createBooking(BookingDTO bookDTO, int propertyId, int userId) {
+        if(!isDateBooked(bookDTO.getStartDate(), bookDTO.getEndDate())) return Optional.empty();
 
         Optional<User> receiver = propertyRepository.findByIdReturnUserId(propertyId);
         Optional<Property> property = propertyRepository.findById(propertyId);
@@ -35,12 +40,11 @@ public class BookingLogic {
         Transaction transaction = createTransaction(bookDTO.getPropertyPrice(), buyer.get(), receiver.get());
         Booking booking = bookingMapper.bookingDTOToEntity(bookDTO, property, buyer, transaction);
         bookingRepository.save(booking);
-        return booking;
-
+        return Optional.of(booking);
     }
 
     public String checkCanReviewProperty(Integer num1, Integer num2){
-        List<Booking> bookings = (List<Booking>) bookingRepository.findBookingByPropertyId(num1, num2);
+        List<Booking> bookings = bookingRepository.findBookingByPropertyId(num1, num2);
         ArrayList<BookingDTO> books = new ArrayList<>();
         for(Booking b : bookings){
             books.add(bookingMapper.bookingToDTO(Optional.ofNullable(b)));

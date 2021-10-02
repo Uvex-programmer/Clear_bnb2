@@ -7,10 +7,7 @@ import repositories.SessionRepository;
 import repositories.UserRepository;
 import models.*;
 import repositories.*;
-import routes.BookingRoutes;
-import routes.PropertyRoutes;
-import routes.ReviewRoutes;
-import routes.UserRoutes;
+import routes.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,12 +21,11 @@ public class Main {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new Jdk8Module());
 
-        PropertyRepository propertyRepository = new PropertyRepository();
-
         new UserRoutes(app);
-        new PropertyRoutes(app, mapper, propertyRepository);
+        new PropertyRoutes(app);
         new BookingRoutes(app);
         new ReviewRoutes(app);
+        new AddressRoutes(app);
 
 
         app.listen(4000);
