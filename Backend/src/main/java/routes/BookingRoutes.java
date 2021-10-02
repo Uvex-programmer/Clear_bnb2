@@ -32,15 +32,18 @@ public class BookingRoutes {
         });
 
         app.post("/api/purchase-booking", (req, res) -> {
-            boolean SuccessfulPayment = logic.transferHandler(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString()));
+            boolean gotCoverage = logic.gotCoverage(req.body(BookingDTO.class), Integer.parseInt(req.body().get("userId").toString()));
+            
+            if(gotCoverage){
             Optional<Booking> booking = logic.createBooking(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString()));
-
-            if (!SuccessfulPayment) {
-                res.send("Tomt på kontot!!");
-            } else if (booking.isPresent()) {
-                res.json(booking.get()).type("application/json ");
-            } else {
-                res.status(500).json("Date already booked!");
+                if(booking.isPresent()){
+                    logic.transferHandler(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString()));
+                    res.json(booking.get()).type("application/json ");
+                }else{
+                    res.json("Date already booked!");
+                }
+            }else{
+                res.json("Tomt på kontot!!");
             }
         });
     }
