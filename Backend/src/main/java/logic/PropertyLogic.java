@@ -25,8 +25,9 @@ public class PropertyLogic {
         return property;
     }
 
-    public List<?> getProperties(){
+    public List<PropertyDTO> getProperties(){
         List<Property> properties = propertyRepository.findAvailableObjects();
+        if(properties.isEmpty()) return null;
         ArrayList<PropertyDTO> propertiesDTOs = new ArrayList<>();
         for(Property p : properties){
             propertiesDTOs.add(propertyMapper.propertyToDTO(Optional.ofNullable(p)));
@@ -35,7 +36,10 @@ public class PropertyLogic {
     }
 
     public PropertyDTO getProperty(Integer id){
-       return propertyMapper.propertyToDTO(propertyRepository.findById(id));
+       Optional<Property> property = propertyRepository.findById(id);
+       if(property.isEmpty()) return null;
+
+        return propertyMapper.propertyToDTO(property);
     }
 
     public ArrayList<PropertyDTO> getUserProperties(Integer id){

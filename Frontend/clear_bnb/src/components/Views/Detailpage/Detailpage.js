@@ -30,7 +30,10 @@ const Detailpage = () => {
     fetch(`/api/get-property/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        if (data === null) {
+          history.push('/')
+          return
+        }
         setProperty(data)
       })
   }, [id, checkUpdate])
