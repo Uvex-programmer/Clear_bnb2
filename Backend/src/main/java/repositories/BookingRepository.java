@@ -25,7 +25,6 @@ public class BookingRepository implements BookingRepoInterface {
                 .setParameter("start", startDate)
                 .setParameter("end", endDate)
                 .getResultList();
-        System.out.println(bookings.isEmpty());
 
         return bookings.isEmpty();
     }
