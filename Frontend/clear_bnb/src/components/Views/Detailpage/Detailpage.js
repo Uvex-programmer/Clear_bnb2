@@ -52,10 +52,10 @@ const Detailpage = () => {
 
     const diffTime = Math.abs(new Date(startDate) - new Date(endDate))
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-    const price = property.dailyPrice
+
+    const totalPrice = property.dailyPrice
       ? property.dailyPrice * diffDays
-      : 150 * diffDays
-    const totalPrice = diffDays * price
+      : 450 * diffDays
     return [diffDays, totalPrice]
   }
 

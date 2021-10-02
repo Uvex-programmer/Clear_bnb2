@@ -2,7 +2,6 @@ package routes;
 
 import DTO.BookingDTO;
 import express.Express;
-import express.http.Response;
 import logic.BookingLogic;
 import models.Booking;
 
@@ -19,7 +18,6 @@ public class BookingRoutes {
     }
 
 
-
     public void bookingMethods() {
 
         app.get("/api/getUserBookings/:id", (req, res) -> {
@@ -34,9 +32,19 @@ public class BookingRoutes {
         });
 
         app.post("/api/purchase-booking", (req, res) -> {
+            boolean gotCoverage = logic.gotCoverage(req.body(BookingDTO.class), Integer.parseInt(req.body().get("userId").toString()));
+            
+            if(gotCoverage){
             Optional<Booking> booking = logic.createBooking(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString()));
-           if(booking.isPresent()) { res.json(booking.get()).type("application/json "); }
-           else { res.status(500).send("Date already booked!"); }
+                if(booking.isPresent()){
+                    logic.transferHandler(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString()));
+                    res.json(booking.get()).type("application/json ");
+                }else{
+                    res.json("Date already booked!");
+                }
+            }else{
+                res.json("Tomt på kontot!!");
+            }
         });
     }
 
