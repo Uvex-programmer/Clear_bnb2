@@ -20,23 +20,23 @@ public class BookingRepository implements BookingRepoInterface {
 
     }
 
-    public Boolean checkIfBooked(java.sql.Date startDate, java.sql.Date endDate) {
+    public Boolean checkIfBooked(java.sql.Date startDate, java.sql.Date endDate, int propertyId) {
         System.out.println(startDate);
         System.out.println(endDate);
-        List<Booking> bookings = entityManager.createQuery("FROM Booking p WHERE :start <= p.endDate AND p.startDate <= :end", Booking.class)
+        List<Booking> bookings = entityManager.createQuery("FROM Booking p WHERE p.property.id = :id AND :start <= p.endDate AND p.startDate <= :end", Booking.class)
                 .setParameter("start", startDate)
                 .setParameter("end", endDate)
+                .setParameter("id", propertyId)
                 .getResultList();
         System.out.println(bookings);
-
         return bookings.isEmpty();
     }
-    
+
     public Optional<Booking> findById(Integer id) {
         Booking booking = entityManager.find(Booking.class, id);
         return booking != null ? Optional.of(booking) : Optional.empty();
     }
-    
+
     public List<?> findAll() {
         return entityManager.createQuery("from Booking").getResultList();
     }
@@ -52,9 +52,10 @@ public class BookingRepository implements BookingRepoInterface {
                 .setParameter("id2", num2)
                 .getResultList();
     }
+
     public List<?> findBookingByUser(Integer num1, Integer num2) {
         return entityManager.createQuery("FROM Booking b INNER JOIN Property p " +
-                "ON b.property.id = p.id WHERE b.buyer.id = :id AND p.user.id = :id2")
+                        "ON b.property.id = p.id WHERE b.buyer.id = :id AND p.user.id = :id2")
                 .setParameter("id", num1)
                 .setParameter("id2", num2)
                 .getResultList();
