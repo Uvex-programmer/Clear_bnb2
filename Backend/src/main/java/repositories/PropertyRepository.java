@@ -47,7 +47,6 @@ public class PropertyRepository implements PropertyRepoInterface {
                 .getResultList();
     }
 
-    //    , Date startDate, Date endDate
     public List<?> findObjectsBySearch(String freeSearch, int beds, int bathrooms, int minGuests, int maxPrice, java.sql.Timestamp startDate, java.sql.Timestamp endDate) {
         Session session = entityManager.unwrap(Session.class);
         Filter bedroomFilter = session.enableFilter("bedroomFilter");

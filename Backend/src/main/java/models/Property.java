@@ -1,12 +1,14 @@
 package models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -31,7 +33,7 @@ public class Property {
     private int bathrooms;
     @Column(name = "guest_max")
     private int guests;
-    @UpdateTimestamp
+    @CreationTimestamp
     @Column(name = "created_at")
     private Date createdAt;
     @Column(name = "start_date")
@@ -88,7 +90,7 @@ public class Property {
         this.user = user;
         this.amenities = amenities;
     }
-    
+
     public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
         this.title = title;
         this.description = description;
@@ -257,8 +259,6 @@ public class Property {
         this.dailyPrice = dailyPrice;
     }
 
-
-    
     @Override
     public String toString() {
         return "Property{" +

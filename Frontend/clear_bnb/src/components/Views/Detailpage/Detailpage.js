@@ -73,7 +73,7 @@ const Detailpage = () => {
     })
   }
 
-  if (property?.amenities?.length) {
+  if (property?.amenities.length) {
     amenities = property.amenities.map((amenity, index) => {
       return <li key={index}>{amenity.amenity}</li>
     })

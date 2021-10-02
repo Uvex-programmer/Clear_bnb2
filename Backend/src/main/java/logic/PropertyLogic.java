@@ -6,9 +6,6 @@ import models.*;
 import repositories.PropertyRepository;
 import repositories.UserRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +30,6 @@ public class PropertyLogic {
         for(Property p : properties){
             propertiesDTOs.add(propertyMapper.propertyToDTO(Optional.ofNullable(p)));
         }
-
         return propertiesDTOs;
     }
 
