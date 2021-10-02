@@ -57,9 +57,10 @@ public class PropertyLogic {
         Property property = propertyMapper.dtoToProperty(p, propertyBefore);
         var propertyLog = propertyMapper.logPorperty(propertyBefore);
         property.getPropertyLogs().add(propertyLog);
-        var propertyNew = propertyRepository.updateProperty(property);
+        System.out.println("test");
+        propertyRepository.updateProperty(property);
 
-       return propertyMapper.propertyToDTO(propertyNew);
+       return null;
     }
 
 

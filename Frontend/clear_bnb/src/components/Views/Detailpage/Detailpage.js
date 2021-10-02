@@ -24,6 +24,7 @@ const Detailpage = () => {
   let notSelected = startDate.length > 0 && endDate.length > 0 ? true : false
   let images = ''
   let amenities = 'No amenities'
+  let logs = 'No older versions'
 
   useEffect(() => {
     fetch(`/api/get-property/${id}`)
@@ -76,6 +77,32 @@ const Detailpage = () => {
   if (property?.amenities.length) {
     amenities = property.amenities.map((amenity, index) => {
       return <li key={index}>{amenity.amenity}</li>
+    })
+  }
+
+  if (property?.propertyLogs.length) {
+    logs = property.propertyLogs.map((log, index) => {
+      return (
+        <Card key={index}>
+          <h2>Version: {index + 1}</h2>
+          <p>Street: {log.addressLog.street}</p>
+          <p>City: {log.addressLog.city}</p>
+          <p>Zipcode: {log.addressLog.zipcode}</p>
+          <ul>
+            Amenities:
+            {log.amenities.map((a, index) => {
+              return <li key={index}>{a.amenity}</li>
+            })}
+          </ul>
+
+          <p>Bathrooms: {log.bathrooms}</p>
+          <p>Beds: {log.beds}</p>
+          <p>Price per day: {log.dailyPrice}</p>
+          <p>Description: {log.description}</p>
+          <p>Max guests: {log.guests}</p>
+          <p>Title: {log.title}</p>
+        </Card>
+      )
     })
   }
 
@@ -159,6 +186,7 @@ const Detailpage = () => {
               />
             </Card>
           </Card>
+          <div style={{}}>{logs}</div>
         </>
       )}
     </div>

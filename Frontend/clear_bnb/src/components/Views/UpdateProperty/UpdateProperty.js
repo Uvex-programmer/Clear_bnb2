@@ -46,14 +46,10 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
         city: city,
       },
     }
-
-    console.log(`propertyObj`, propertyObj)
-    let res = await fetch(`/api/property/update/${property.id}`, {
+    fetch(`/api/property/update/${property.id}`, {
       method: 'POST',
       body: JSON.stringify(propertyObj),
     })
-    let res1 = await res.json()
-    console.log('updated prop: ' + res1)
     setCheckUpdate(!value)
   }
 
