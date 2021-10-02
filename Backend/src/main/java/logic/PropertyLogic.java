@@ -18,6 +18,7 @@ public class PropertyLogic {
     PropertyMapper propertyMapper = new PropertyMapper();
 
     public Property addProperty(Property property){
+        property.setDailyPrice((int) Math.ceil(property.getDailyPrice()*1.15));
         property.addAddress(property.getAddress());
         property.addUser(property.getUser());
         property.addAmenities(property.getAmenities());
