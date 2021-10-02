@@ -47,12 +47,6 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
       },
     }
 
-    // let addressObj = {
-    //    street: street,
-    //    zipcode: zipcode,
-    //    city: city,
-    //  }
-
     console.log(`propertyObj`, propertyObj)
     let res = await fetch(`/api/property/update/${property.id}`, {
       method: 'POST',
@@ -60,13 +54,6 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
     })
     let res1 = await res.json()
     console.log('updated prop: ' + res1)
-
-    //  await fetch(`/api/update-address/${property.address.id}`, {
-    //    method: 'POST',
-    //    body: JSON.stringify(addressObj),
-    //  })
-    // let res5 = await fetch(`/api/get-revisions/${property.id}`)
-    // console.log('Revisions', await res5.json())
     setCheckUpdate(!value)
   }
 

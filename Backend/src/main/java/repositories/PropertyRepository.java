@@ -2,7 +2,6 @@ package repositories;
 
 import interfaces.PropertyRepoInterface;
 import models.Property;
-import models.PropertyLog;
 import models.PropertyView;
 import models.User;
 import org.hibernate.Filter;
@@ -92,6 +91,9 @@ public class PropertyRepository implements PropertyRepoInterface {
     public Optional<Property> updateProperty(Property p) {
         try {
             entityManager.getTransaction().begin();
+            entityManager.createQuery("DELETE FROM Address a WHERE a.property = :id")
+                    .setParameter("id", p)
+                    .executeUpdate();
             entityManager.merge(p);
             entityManager.getTransaction().commit();
             return Optional.of(p);

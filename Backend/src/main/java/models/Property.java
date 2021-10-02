@@ -40,7 +40,7 @@ public class Property {
     private Date endDate;
     @Column(name = "daily_price")
     private int dailyPrice;
-    @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Address address;
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "Property-Images")

@@ -18,6 +18,7 @@ public class PropertyMapper {
     public Property dtoToProperty(PropertyDTO dto, Optional<Property> property){
         Property p = new Property();
         p.setId(property.get().getId());
+        p.setUser(property.get().getUser());
         p.setCreatedAt(dto.getCreatedAt());
         p.setGuests(dto.getGuests());
         p.setDescription(dto.getDescription());

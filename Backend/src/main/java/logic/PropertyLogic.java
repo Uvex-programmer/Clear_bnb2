@@ -57,16 +57,13 @@ public class PropertyLogic {
     }
 
     public PropertyDTO updateProperty(PropertyDTO p, Integer id){
+        var propertyBefore = propertyRepository.findById(id);
+        Property property = propertyMapper.dtoToProperty(p, propertyBefore);
+        var propertyLog = propertyMapper.logPorperty(propertyBefore);
+        property.getPropertyLogs().add(propertyLog);
+        var propertyNew = propertyRepository.updateProperty(property);
 
-        var prop = propertyRepository.findById(id);
-        Property property = propertyMapper.dtoToProperty(p, prop);
-
-        var test = propertyMapper.logPorperty(prop);
-        property.getPropertyLogs().add(test);
-        var newP = propertyRepository.updateProperty(property);
-
-
-        return propertyMapper.propertyToDTO(newP);
+       return propertyMapper.propertyToDTO(propertyNew);
     }
 
 

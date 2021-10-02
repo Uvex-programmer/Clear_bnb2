@@ -14,7 +14,7 @@ public class Address {
     private String zipcode;
     private String city;
     @JsonBackReference
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private Property property;
     
