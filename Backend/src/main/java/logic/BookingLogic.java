@@ -23,12 +23,12 @@ public class BookingLogic {
         return new Transaction(price, giver, receiver);
     }
 
-    private Boolean isDateBooked(java.sql.Date start, java.sql.Date end) {
-        return bookingRepository.checkIfBooked(start, end);
+    private Boolean isDateBooked(java.sql.Date start, java.sql.Date end, int propertyId) {
+        return bookingRepository.checkIfBooked(start, end, propertyId);
     }
 
     public Optional<Booking> createBooking(BookingDTO bookDTO, int propertyId, int userId) {
-        if (!isDateBooked(bookDTO.getStartDate(), bookDTO.getEndDate())) return Optional.empty();
+        if (!isDateBooked(bookDTO.getStartDate(), bookDTO.getEndDate(), propertyId)) return Optional.empty();
         Optional<User> receiver = propertyRepository.findByIdReturnUserId(propertyId);
         Optional<Property> property = propertyRepository.findById(propertyId);
         Optional<User> buyer = userRepository.findById(userId);
