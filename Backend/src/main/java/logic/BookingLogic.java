@@ -1,6 +1,7 @@
 package logic;
 
 import DTO.BookingDTO;
+import DTO.ReviewDTO;
 import mapper.BookingMapper;
 import models.*;
 import repositories.BankAccountRepository;
@@ -32,6 +33,7 @@ public class BookingLogic {
         Optional<User> receiver = propertyRepository.findByIdReturnUserId(propertyId);
         Optional<Property> property = propertyRepository.findById(propertyId);
         Optional<User> buyer = userRepository.findById(userId);
+
         Transaction transaction = createTransaction(bookDTO.getPropertyPrice(), buyer.get(), receiver.get());
         Booking booking = bookingMapper.bookingDTOToEntity(bookDTO, property, buyer, transaction);
         bookingRepository.save(booking);
@@ -68,7 +70,7 @@ public class BookingLogic {
     }
 
     public String checkCanReviewProperty(Integer num1, Integer num2) {
-        List<Booking> bookings = (List<Booking>) bookingRepository.findBookingByPropertyId(num1, num2);
+        List<Booking> bookings = bookingRepository.findBookingByPropertyId(num1, num2);
         ArrayList<BookingDTO> books = new ArrayList<>();
         for (Booking b : bookings) {
             books.add(bookingMapper.bookingToDTO(Optional.ofNullable(b)));

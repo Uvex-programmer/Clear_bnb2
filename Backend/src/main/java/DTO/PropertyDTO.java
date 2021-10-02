@@ -2,6 +2,7 @@ package DTO;
 import models.Address;
 import models.Amenity;
 import models.Image;
+import models.PropertyLog;
 
 import java.sql.Date;
 import java.util.List;
@@ -22,13 +23,31 @@ public class PropertyDTO {
     private Address address;
     private List<Image> images;
     private List<Amenity> amenities;
+    private List<PropertyLog> propertyLogs;
 
     public PropertyDTO() {
+    }
+    public PropertyDTO(int id, String title, String description, int beds, int bathrooms, int guests,
+                       Date createdAt, Date startDate, Date endDate, int dailyPrice,
+                       Address address, List<Image> images, List<Amenity> amenities) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.beds = beds;
+        this.bathrooms = bathrooms;
+        this.guests = guests;
+        this.createdAt = createdAt;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.dailyPrice = dailyPrice;
+        this.address = address;
+        this.images = images;
+        this.amenities = amenities;
     }
 
     public PropertyDTO(int id, int userId, String title, String description, int beds, int bathrooms, int guests,
                        Date createdAt, Date startDate, Date endDate, int dailyPrice,
-                       Address address, List<Image> images, List<Amenity> amenities) {
+                       Address address, List<Image> images, List<Amenity> amenities, List<PropertyLog> propertyLogs) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -43,6 +62,19 @@ public class PropertyDTO {
         this.address = address;
         this.images = images;
         this.amenities = amenities;
+        this.propertyLogs = propertyLogs;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public List<PropertyLog> getPropertyLogs() {
+        return propertyLogs;
+    }
+
+    public void setPropertyLogs(List<PropertyLog> propertyLogs) {
+        this.propertyLogs = propertyLogs;
     }
 
     public List<Amenity> getAmenities() {

@@ -1,6 +1,5 @@
 package logic;
 
-import DTO.PropertyDTO;
 import DTO.ReviewDTO;
 import mapper.ReviewMapper;
 import models.Review;
@@ -19,7 +18,7 @@ public class ReviewLogic {
     ReviewMapper reviewMapper = new ReviewMapper();
 
     public ArrayList<ReviewDTO> findReviewsOnProperty(Integer id){
-        List<Review> reviews = (List<Review>) reviewRepository.findAllReviewsByPropertyId(id);
+        List<Review> reviews = reviewRepository.findAllReviewsByPropertyId(id);
         ArrayList<ReviewDTO> revs = new ArrayList<>();
         for(Review rev : reviews){
             revs.add(reviewMapper.propertyReviewToDTO(Optional.ofNullable(rev)));
@@ -28,7 +27,7 @@ public class ReviewLogic {
     }
 
     public ArrayList<ReviewDTO> findReviewsOnUser(Integer id){
-        List<Review> reviews = (List<Review>) reviewRepository.findAllReviewsOnUserId(id);
+        List<Review> reviews = reviewRepository.findAllReviewsOnUserId(id);
         ArrayList<ReviewDTO> revs = new ArrayList<>();
         for(Review rev : reviews){
             revs.add(reviewMapper.userReviewToDTO(Optional.ofNullable(rev)));

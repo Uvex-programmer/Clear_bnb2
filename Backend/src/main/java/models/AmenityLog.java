@@ -1,23 +1,14 @@
 package models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-enum Amenities {
-    dishwasher,
-    ac,
-    wifi,
-    fridge,
-    iron,
-    microwave
-}
 @Entity
-@Table(name = "amenities")
-public class Amenity {
+@Table(name = "amenities_log")
+public class AmenityLog {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -27,23 +18,17 @@ public class Amenity {
     @JsonBackReference
     @ManyToMany(mappedBy = "amenities", cascade = {
             CascadeType.ALL}, fetch = FetchType.EAGER)
-    private List<Property> properties = new ArrayList<>();
+    private List<PropertyLog> properties = new ArrayList<>();
 
-    public Amenity() {
+    public int getId() {
+        return id;
     }
 
-    public Amenity(Amenities amenity, List<Property> properties) {
-        this.amenity = amenity;
-        this.properties = properties;
-    }
-
-    public Amenity(int id, Amenities amenity, List<Property> properties) {
+    public void setId(int id) {
         this.id = id;
-        this.amenity = amenity;
-        this.properties = properties;
     }
 
-    public void addProperty (Property property) {
+    public void addProperty (PropertyLog property) {
         properties.add(property);
     }
 
@@ -55,18 +40,20 @@ public class Amenity {
         this.amenity = amenity;
     }
 
-    public List<Property> getProperties() {
+    public List<PropertyLog> getProperties() {
         return properties;
     }
 
-    public void setProperties(List<Property> properties) {
+    public void setProperties(List<PropertyLog> properties) {
         this.properties = properties;
     }
 
     @Override
     public String toString() {
-        return "Amenity{" +
+        return "AmenityLog{" +
                 "id=" + id +
+                ", amenity=" + amenity +
+                ", properties=" + properties +
                 '}';
     }
 }
