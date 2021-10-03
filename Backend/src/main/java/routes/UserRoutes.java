@@ -3,6 +3,10 @@ import express.Express;
 import logic.UserLogic;
 import models.Transaction;
 import models.User;
+import util.CookieCreater;
+import util.UUIDCreater;
+
+import java.util.UUID;
 
 public class UserRoutes {
 
@@ -43,7 +47,7 @@ public class UserRoutes {
         app.get("/api/logout-user", (req, res) -> {
             userLogic.logoutUser(req.cookie("current-user"));
             res.clearCookie("current-user", "/").clearCookie("JSESSIONID", "/");
-            res.status(201).json("Successfully Logged out!").redirect("/");
+            res.status(201).json("Successfully Logged out!");
         });
 
         app.get("/api/get-user/:id", (req, res) -> {
@@ -52,9 +56,13 @@ public class UserRoutes {
 
 
         app.get("/api/whoami", (req, res) -> {
-            res.json(userLogic.whoAmI(req.cookie("current-user")));
-        });
+            UUIDCreater uuid = new UUIDCreater();
+            CookieCreater creator = new CookieCreater();
 
+            res.cookie(creator.create("id", uuid.getUUID()));
+         //   res.json(userLogic.whoAmI(req.cookie("current-user")));
+            res.send(201);
+        });
     }
 }
 
