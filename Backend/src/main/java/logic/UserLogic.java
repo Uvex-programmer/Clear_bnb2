@@ -38,8 +38,12 @@ public class UserLogic {
             return null;
         }
         Optional <Session> session = sessionRepository.findById(Integer.parseInt(sessionId));
-        Optional <User> user = userRepository.findById(session.get().getUser_id());
-        return userMapper.userToDTO(user);
+        if(session.isPresent()) {
+            Optional <User> user = userRepository.findById(session.get().getUser_id());
+            return userMapper.userToDTO(user);
+        }
+
+        return session;
     }
 
     public UserDTO registerUser (User user) {
