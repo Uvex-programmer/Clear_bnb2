@@ -22,6 +22,7 @@ public class Booking {
     private int id;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "property_id", referencedColumnName = "id")
+    @JsonBackReference(value = "Property - Bookings")
     private Property property;
     @Column(name = "start_date")
     private Date startDate;
@@ -31,9 +32,9 @@ public class Booking {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User buyer;
-
+    
     @JsonManagedReference(value = "Booking - Transaction")
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Transaction transaction;
     @CreationTimestamp
     @Column(name = "created_at")
@@ -47,23 +48,23 @@ public class Booking {
         this.startDate = startDate;
         this.endDate = endDate;
     }
-
-    public Booking( Property property, Date startDate, Date endDate, User user, Transaction transaction) {
+    
+    public Booking(Property property, Date startDate, Date endDate, User user, Transaction transaction) {
         this.property = property;
         this.startDate = startDate;
         this.endDate = endDate;
         this.buyer = user;
         this.transaction = transaction;
     }
-
+    
     public Booking(BookingDTO bookDTO) {
     }
-
-
+    
+    
     public Transaction getTransaction() {
         return transaction;
     }
-
+    
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
     }
@@ -71,33 +72,35 @@ public class Booking {
     public int getId() {
         return id;
     }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
     
     public void setId(int id) {
         this.id = id;
     }
     
-    public User getUser() { return buyer; }
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+    
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+    
+    public User getUser() {
+        return buyer;
+    }
     
     public void setUser(User user) {
         this.buyer = user;
     }
-
+    
     public Property getProperty() {
         return property;
     }
-
+    
     public void setProperty(Property property) {
         this.property = property;
     }
-
+    
     public Date getStartDate() {
         return startDate;
     }
@@ -113,11 +116,11 @@ public class Booking {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-
+    
     public User getBuyer() {
         return buyer;
     }
-
+    
     @Override
     public String toString() {
         return "Booking{" +

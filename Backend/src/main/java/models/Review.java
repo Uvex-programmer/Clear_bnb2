@@ -16,11 +16,11 @@ public class Review {
     private User reviewUser;
     private int rating;
     private String comment;
-    @JsonBackReference
+    @JsonBackReference(value = "Property - Reviews")
     @ManyToOne
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private Property property;
-    @JsonBackReference (value="User - Review")
+    @JsonBackReference(value = "User - Review")
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
@@ -59,16 +59,16 @@ public class Review {
 //    public void setPropertyId(int propertyId) {
 //        this.propertyId = propertyId;
 //    }
-
-
+    
+    
     public User getReviewUser() {
         return reviewUser;
     }
-
+    
     public void setReviewUser(User reviewUser) {
         this.reviewUser = reviewUser;
     }
-
+    
     public Property getProperty() {
         return property;
     }
