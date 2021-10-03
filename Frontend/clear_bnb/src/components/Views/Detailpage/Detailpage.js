@@ -27,7 +27,6 @@ const Detailpage = () => {
     fetch(`/api/get-property/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
         setProperty(data)
       })
   }, [id])
@@ -81,7 +80,7 @@ const Detailpage = () => {
     <div className={classes['detailpage-container']}>
       {property && (
         <>
-          {/* {images} */}
+          {images}
           <img src='https://i.imgur.com/k9W5G.jpeg' alt='test' />
           <h1>{property.title}</h1>
           <p>{property.description}</p>
