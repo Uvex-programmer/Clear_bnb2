@@ -7,10 +7,7 @@ import repositories.SessionRepository;
 import repositories.UserRepository;
 import models.*;
 import repositories.*;
-import routes.BookingRoutes;
-import routes.PropertyRoutes;
-import routes.ReviewRoutes;
-import routes.UserRoutes;
+import routes.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -30,7 +27,8 @@ public class Main {
         new PropertyRoutes(app, mapper, propertyRepository);
         new BookingRoutes(app);
         new ReviewRoutes(app);
-
+        new SocketRoutes(app);
+        new AdminRoutes(app);
 
         app.listen(4000);
     }
