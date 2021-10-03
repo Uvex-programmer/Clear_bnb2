@@ -3,7 +3,7 @@ import UserHouse from './components/UserHouses'
 import UserBookings from './components/UserBookings'
 import NewCard from '../../UI/CardOld/DanneRörInteDettaCard'
 import ReviewPostUser from '../../Review/ReviewPostUser'
-import { useParams } from 'react-router'
+import { useParams, useHistory } from 'react-router'
 import { MessageWindow } from '../../Review/ReviewMsgWindow'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
@@ -16,11 +16,16 @@ export default function ProfilePage() {
   const [userProfile, setUserProfile] = useState()
   const [userHouses, setUserHouses] = useState()
   const dispatch = useDispatch()
+  const history = useHistory()
 
   useEffect(() => {
     fetch(`/api/get-user/${id}`)
       .then((res) => res.json())
       .then((data) => {
+        if (data == null) {
+          history.push('/')
+          return
+        }
         setUserProfile(data)
       })
     fetch(`/api/get-user-properties/${id}`)

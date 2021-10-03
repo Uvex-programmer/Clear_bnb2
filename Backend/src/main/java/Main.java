@@ -21,14 +21,14 @@ public class Main {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new Jdk8Module());
 
-        PropertyRepository propertyRepository = new PropertyRepository();
-
         new UserRoutes(app);
-        new PropertyRoutes(app, mapper, propertyRepository);
+        new PropertyRoutes(app);
         new BookingRoutes(app);
         new ReviewRoutes(app);
         new SocketRoutes(app);
         new AdminRoutes(app);
+        new AddressRoutes(app);
+
 
         app.listen(4000);
     }

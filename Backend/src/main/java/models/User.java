@@ -35,30 +35,30 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-    @JsonBackReference (value="User - Review")
+    @JsonBackReference(value = "User - Review")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
-    @JsonBackReference (value="User - Booking")
+    @JsonBackReference(value = "User - Booking")
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
-    @JsonBackReference (value="User - Transaction")
+    @JsonBackReference(value = "User - Transaction")
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
-    @JsonBackReference (value="User - ReceivedTransaction")
+    @JsonBackReference(value = "User - ReceivedTransaction")
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private List<Transaction> receivedTransactions;
-    @JsonManagedReference(value="User - Properties")
+    @JsonManagedReference(value = "User - Properties")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Property> properties = new ArrayList<>();
-    @JsonBackReference (value="User - Account")
+    @JsonBackReference(value = "User - Account")
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private BankAccount account;
     @CreationTimestamp
     private java.sql.Timestamp created_at;
-    
+
     public User() {
     }
-    
+
     public User(String firstName, String lastName, Integer sessionID, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -66,133 +66,133 @@ public class User {
         this.email = email;
         this.password = password;
     }
-    
+
     public void addProperty(Property property) {
         properties.add(property);
         property.setUser(this);
     }
-    
+
     public void addAccount(BankAccount account) {
         account.setUser(this);
         this.setAccount(account);
     }
-    
+
     public void addBooking(Booking booking) {
         bookings.add(booking);
         booking.setUser(this);
     }
-    
+
     public void addReview(Review review, Property property) {
         reviews.add(review);
         review.setUser(this);
         review.setProperty(property);
     }
-    
+
     public void addTransaction(Transaction transaction, User user, Booking booking) {
         transactions.add(transaction);
         transaction.setUser(this);
         user.receivedTransactions.add(transaction);
         transaction.setReceiver(user);
         booking.setTransaction(transaction);
-       // transaction.setBooking(booking);
+        // transaction.setBooking(booking);
     }
-    
+
     public List<Transaction> getTransactions() {
         return transactions;
     }
-    
+
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
     }
-    
+
     public List<Transaction> getReceivedTransactions() {
         return receivedTransactions;
     }
-    
+
     public void setReceivedTransactions(List<Transaction> receivedTransactions) {
         this.receivedTransactions = receivedTransactions;
     }
-    
+
     public List<Booking> getBookings() {
         return bookings;
     }
-    
+
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
     }
-    
+
     public BankAccount getAccount() {
         return account;
     }
-    
+
     public void setAccount(BankAccount account) {
         this.account = account;
     }
-    
+
     public List<Review> getReviews() {
         return reviews;
     }
-    
+
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
-    
+
     public List<Property> getProperties() {
         return properties;
     }
-    
+
     public void setProperties(List<Property> properties) {
         this.properties = properties;
     }
-    
+
     public Integer getId() {
         return id;
     }
-    
+
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
-    
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    
+
     public String getLastName() {
         return lastName;
     }
-    
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
+
     public String getEmail() {
         return email;
     }
-    
+
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public String getPassword() {
         return password;
     }
-    
+
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public java.sql.Timestamp getCreated_at() {
         return created_at;
     }
-    
+
     public void setCreated_at(java.sql.Timestamp created_at) {
         this.created_at = created_at;
     }
-    
+
     @Override
     public String toString() {
         return "User{" +

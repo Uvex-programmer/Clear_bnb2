@@ -81,12 +81,27 @@ public class PropertyRepository implements PropertyRepoInterface {
         return property != null ? Optional.of(property) : Optional.empty();
     }
     
-    public List<?> findByUserId(Integer id) {
-        return entityManager.createQuery("FROM Property p Where p.user.id = :id")
+    public List<Property> findByUserId(Integer id) {
+        return entityManager.createQuery("FROM Property p Where p.user.id = :id", Property.class)
                 .setParameter("id", id)
                 .getResultList();
     }
-    
+
+    public Optional<Property> updateProperty(Property p) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.createQuery("DELETE FROM Address a WHERE a.property = :id")
+                    .setParameter("id", p)
+                    .executeUpdate();
+            entityManager.merge(p);
+            entityManager.getTransaction().commit();
+            return Optional.of(p);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
     public Optional<Property> save(Property property) {
         try {
             entityManager.getTransaction().begin();
@@ -98,6 +113,4 @@ public class PropertyRepository implements PropertyRepoInterface {
         }
         return Optional.empty();
     }
-    
-    
 }

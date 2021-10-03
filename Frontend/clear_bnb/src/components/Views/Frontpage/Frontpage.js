@@ -9,7 +9,6 @@ function FrontPage() {
     fetch('/api/get-properties')
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
         setProperties(data)
       })
   }, [])

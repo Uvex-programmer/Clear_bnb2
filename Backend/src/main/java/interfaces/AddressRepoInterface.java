@@ -11,5 +11,6 @@ public interface AddressRepoInterface {
 
     Optional<Address> findById(Integer id);
 
-    List findAll();
+    Optional<Address> updateAddress(Address address);
+
 }
