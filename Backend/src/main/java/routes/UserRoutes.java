@@ -6,20 +6,21 @@ import models.User;
 import util.CookieCreater;
 import util.UUIDCreater;
 
+import javax.servlet.http.Cookie;
+import java.util.Optional;
 import java.util.UUID;
 
 public class UserRoutes {
 
     private final Express app;
     UserLogic userLogic = new UserLogic();
-
+    UUIDCreater uuid = new UUIDCreater();
+    CookieCreater creator = new CookieCreater();
 
     public UserRoutes(Express app) {
         this.app = app;
         this.userMethods();
     }
-
-
 
     public void userMethods() {
         app.post("/api/login-user", (req, res) -> {
@@ -46,8 +47,7 @@ public class UserRoutes {
 
         app.get("/api/logout-user", (req, res) -> {
             userLogic.logoutUser(req.cookie("current-user"));
-            res.clearCookie("current-user", "/").clearCookie("JSESSIONID", "/");
-            res.status(201).json("Successfully Logged out!");
+            res.clearCookie("current-user", "/").json("Successfully Logged out!");
         });
 
         app.get("/api/get-user/:id", (req, res) -> {
@@ -56,12 +56,13 @@ public class UserRoutes {
 
 
         app.get("/api/whoami", (req, res) -> {
-            UUIDCreater uuid = new UUIDCreater();
-            CookieCreater creator = new CookieCreater();
+            Object user = userLogic.whoAmI(req.cookie("current-user"));
 
-            res.cookie(creator.create("id", uuid.getUUID()));
-         //   res.json(userLogic.whoAmI(req.cookie("current-user")));
-            res.send(201);
+            if(user == null) {
+                res.cookie(creator.create("id", uuid.getUUID())).send("Not logged in.");
+            } else {
+                res.json(user);
+            }
         });
     }
 }
