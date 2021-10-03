@@ -24,6 +24,21 @@ public class LogMapper {
         return aList;
     }
 
+    public ArrayList<ImageLog> imageToLogList(List<Image> image){
+        ArrayList<ImageLog> imgList = new ArrayList<>();
+        for(Image img : image){
+            imgList.add(imageToLogImage(img));
+        }
+        return imgList;
+    }
+
+    public ImageLog imageToLogImage(Image image){
+        ImageLog imageLog = new ImageLog();
+        imageLog.setPrimaryId(image.getPrimaryImage());
+        imageLog.setUrl(image.getUrl());
+        return imageLog;
+    }
+
     public AmenityLog amenityToLogAmenity(Amenity amenity){
         AmenityLog amenity1 = new AmenityLog();
         amenity1.setAmenity(amenity.getAmenity());
@@ -33,6 +48,7 @@ public class LogMapper {
     public PropertyLog propertyToLog(Optional<Property> property){
         var address = addressToLog(property.get().getAddress());
         var amenity = amenityToLogList(property.get().getAmenities());
+        var images = imageToLogList(property.get().getImages());
         PropertyLog propertyLog = new PropertyLog();
         propertyLog.addProperty(property.get());
         propertyLog.setBathrooms(property.get().getBathrooms());
@@ -46,6 +62,7 @@ public class LogMapper {
         propertyLog.setTitle(property.get().getTitle());
         propertyLog.addAddress(address);
         propertyLog.addAmenities(amenity);
+        propertyLog.addImages(images);
         return propertyLog;
     }
 }

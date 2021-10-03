@@ -71,9 +71,16 @@ const Detailpage = () => {
     history.push(`/booking/${id}`)
   }
 
-  if (property?.images?.length > 0) {
-    images = property.images.map((image) => {
-      return <img src={image.img_url} alt={image.id} />
+  if (property?.images.length > 0) {
+    images = property.images.map((image, index) => {
+      return (
+        <img
+          style={{ width: '200px' }}
+          key={index}
+          src={image.url}
+          alt={image.id}
+        />
+      )
     })
   }
 
@@ -104,6 +111,13 @@ const Detailpage = () => {
           <p>Description: {log.description}</p>
           <p>Max guests: {log.guests}</p>
           <p>Title: {log.title}</p>
+          {log.images.map((url, num) => {
+            return (
+              <div key={num}>
+                <img style={{ width: '200px' }} src={url.url} alt={url} />
+              </div>
+            )
+          })}
         </Card>
       )
     })
@@ -113,8 +127,7 @@ const Detailpage = () => {
     <div className={classes['detailpage-container']}>
       {property && (
         <>
-          {/* {images} */}
-          <img src='https://i.imgur.com/k9W5G.jpeg' alt='test' />
+          {images}
           <h1>{property.title}</h1>
           <p>{property.description}</p>
           <div className={classes['date-controls']}>

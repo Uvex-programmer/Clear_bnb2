@@ -29,6 +29,7 @@ public class PropertyMapper {
         p.addAmenities(dto.getAmenities());
         p.addAddress(dto.getAddress());
         p.setPropertyLogs(property.get().getPropertyLogs());
+        p.addImages(dto.getImages());
         return p;
     }
 }
