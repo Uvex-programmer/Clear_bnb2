@@ -1,17 +1,7 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import express.Express;
-import repositories.AmenityRepository;
-import repositories.PropertyRepository;
-import repositories.SessionRepository;
-import repositories.UserRepository;
-import models.*;
-import repositories.*;
 import routes.*;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 public class Main {
     
@@ -26,7 +16,7 @@ public class Main {
         new BookingRoutes(app);
         new ReviewRoutes(app);
         new SocketRoutes(app);
-        new AdminRoutes(app);
+        new WorkerRoutes(app);
         new AddressRoutes(app);
 
 
