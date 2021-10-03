@@ -2,7 +2,7 @@ import './App.css'
 import Navbar from './components/Navbar/Navbar'
 import Login from './components/Login/Login'
 import AddProperty from './components/AddProperty/AddProperty'
-import FrontPage from './components/Views/Frontpage/Frontpage'
+import FrontPage from './components/Views/Frontpage/FrontPage'
 import ProfilePage from './components/Views/ProfilePage/ProfilePage'
 import Detailpage from './components/Views/Detailpage/Detailpage'
 import SearchPage from './components/Views/Searchpage/Searchpage'
@@ -34,7 +34,10 @@ function App() {
         dispatch(login(userLoggedIn))
         console.log('user logged in: ', user)
         setDone(true)
-        console.log(done)
+      })
+      .catch((error) => {
+        console.log('Didnt work: ' + error)
+        setDone(true)
       })
   }, [dispatch])
 
@@ -54,21 +57,22 @@ function App() {
     return ''
   }
 
+  console.log(done)
+
   const isSupport = () => {
     let user = checkCookie()
-    if (user != '') {
+    if (user !== '') {
       return true
     } else {
       return false
     }
   }
-  let customerChat = done ? <CustomerChat /> : ''
-  let chat = done ? <Chat /> : ''
+
   return (
     <div id='App'>
       <Navbar />
       <div className='app-container'>
-        {isSupport() ? customerChat : chat}
+        {isSupport() && done ? <CustomerChat /> : <Chat />}
         <Switch>
           <Route exact path='/' component={FrontPage} />
           <Route path='/login' component={Login} />
