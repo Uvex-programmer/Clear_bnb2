@@ -18,16 +18,16 @@ public class PropertyRepository implements PropertyRepoInterface {
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
     EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-    public PropertyRepository() {
+    
+    public PropertyRepository( ) {
 
     }
-
+    
     public Optional<Property> findById(Integer id) {
         Property property = entityManager.find(Property.class, id);
         return property != null ? Optional.of(property) : Optional.empty();
     }
-
+    
     public List<PropertyView> findAll() {
         return entityManager.createQuery("SELECT v FROM PropertyView v", PropertyView.class).getResultList();
     }
@@ -42,13 +42,12 @@ public class PropertyRepository implements PropertyRepoInterface {
     
     public List<Property> findAvailableObjects() {
         Date currentTime = new Date();
-        return entityManager.createQuery("FROM Property P WHERE P.startDate < :currentTime AND P.endDate > :currentTime", Property.class)
-                .setParameter("currentTime", currentTime)
+        return entityManager.createQuery("SELECT P FROM Property P", Property.class)
+             // För att kolla ifall amenities kommer med på senaste requesten   .setParameter("currentTime", currentTime)  WHERE P.startDate <= :currentTime AND P.endDate > :currentTime
                 .getResultList();
     }
 
-    //    , Date startDate, Date endDate
-    public List<?> findObjectsBySearch(String freeSearch, int beds, int bathrooms, int minGuests, int maxPrice, Date startDate, java.sql.Timestamp endDate) {
+    public List<?> findObjectsBySearch(String freeSearch, int beds, int bathrooms, int minGuests, int maxPrice, java.sql.Timestamp startDate, java.sql.Timestamp endDate) {
         Session session = entityManager.unwrap(Session.class);
         Filter bedroomFilter = session.enableFilter("bedroomFilter");
         Filter bathroomFilter = session.enableFilter("bathroomFilter");
@@ -74,18 +73,33 @@ public class PropertyRepository implements PropertyRepoInterface {
         session.disableFilter("freeSearchFilter");
         return views;
     }
-
+    
     public Optional<Property> findByName(String name) {
         Property property = entityManager.createQuery("FROM Property P WHERE P.title = :name", Property.class)
                 .setParameter("name", name)
                 .getSingleResult();
         return property != null ? Optional.of(property) : Optional.empty();
     }
-
-    public List<?> findByUserId(Integer id) {
-        return entityManager.createQuery("FROM Property p Where p.user.id = :id")
+    
+    public List<Property> findByUserId(Integer id) {
+        return entityManager.createQuery("FROM Property p Where p.user.id = :id", Property.class)
                 .setParameter("id", id)
                 .getResultList();
+    }
+
+    public Optional<Property> updateProperty(Property p) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.createQuery("DELETE FROM Address a WHERE a.property = :id")
+                    .setParameter("id", p)
+                    .executeUpdate();
+            entityManager.merge(p);
+            entityManager.getTransaction().commit();
+            return Optional.of(p);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 
     public Optional<Property> save(Property property) {
@@ -99,6 +113,4 @@ public class PropertyRepository implements PropertyRepoInterface {
         }
         return Optional.empty();
     }
-
-
 }

@@ -25,6 +25,7 @@ public class UserLogic {
             Cookie cookie = new Cookie("current-user", String.valueOf(session.getId()));
             cookie.setMaxAge(3600);
             cookie.setHttpOnly(true);
+            cookie.setSecure(true);
             return Optional.of(cookie);
 
         } else {
@@ -86,7 +87,9 @@ public class UserLogic {
     }
 
     public UserDTO findUser(Integer id){
-        return userMapper.userToDTO(userRepository.findById(id));
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) return null;
+        return userMapper.userToDTO(user);
     }
 
     public String checkIfUserExist(String email){

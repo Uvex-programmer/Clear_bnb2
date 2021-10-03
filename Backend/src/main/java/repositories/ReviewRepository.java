@@ -22,14 +22,14 @@ public class ReviewRepository implements ReviewRepoInterface {
         return review != null ? Optional.of(review) : Optional.empty();
     }
 
-    public List<?> findAllReviewsByPropertyId(Integer id){
-        return entityManager.createQuery("from Review WHERE property.id = :id")
+    public List<Review> findAllReviewsByPropertyId(Integer id){
+        return entityManager.createQuery("from Review WHERE property.id = :id", Review.class)
                 .setParameter("id", id)
                 .getResultList();
     }
 
-    public List<?> findAllReviewsOnUserId(Integer id){
-        return entityManager.createQuery("from Review WHERE reviewUser.id = :id")
+    public List<Review> findAllReviewsOnUserId(Integer id){
+        return entityManager.createQuery("from Review WHERE reviewUser.id = :id", Review.class)
                 .setParameter("id", id)
                 .getResultList();
     }

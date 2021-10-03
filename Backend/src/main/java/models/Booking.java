@@ -2,6 +2,7 @@ package models;
 
 import DTO.BookingDTO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -30,6 +31,8 @@ public class Booking {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User buyer;
+
+    @JsonManagedReference(value = "Booking - Transaction")
     @OneToOne(cascade=CascadeType.ALL)
     private Transaction transaction;
     @CreationTimestamp
@@ -123,7 +126,6 @@ public class Booking {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", buyer=" + buyer +
-                ", transaction=" + transaction +
                 ", createdAt=" + createdAt +
                 '}';
     }

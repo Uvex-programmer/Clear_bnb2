@@ -2,10 +2,12 @@ package repositories;
 
 import interfaces.BookingRepoInterface;
 import models.Booking;
+import models.Property;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.awt.print.Book;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +19,24 @@ public class BookingRepository implements BookingRepoInterface {
     public BookingRepository() {
 
     }
-    
+
+    public Boolean checkIfBooked(java.sql.Date startDate, java.sql.Date endDate, int propertyId) {
+        System.out.println(startDate);
+        System.out.println(endDate);
+        List<Booking> bookings = entityManager.createQuery("FROM Booking p WHERE p.property.id = :id AND :start <= p.endDate AND p.startDate <= :end", Booking.class)
+                .setParameter("start", startDate)
+                .setParameter("end", endDate)
+                .setParameter("id", propertyId)
+                .getResultList();
+        System.out.println(bookings);
+        return bookings.isEmpty();
+    }
+
     public Optional<Booking> findById(Integer id) {
         Booking booking = entityManager.find(Booking.class, id);
         return booking != null ? Optional.of(booking) : Optional.empty();
     }
-    
+
     public List<?> findAll() {
         return entityManager.createQuery("from Booking").getResultList();
     }
@@ -32,15 +46,16 @@ public class BookingRepository implements BookingRepoInterface {
                 .setParameter("id", id)
                 .getResultList();
     }
-    public List<?> findBookingByPropertyId(Integer num1, Integer num2) {
-        return entityManager.createQuery("from Booking b WHERE b.property.id = :id AND b.buyer.id = :id2")
+    public List<Booking> findBookingByPropertyId(Integer num1, Integer num2) {
+        return entityManager.createQuery("from Booking b WHERE b.property.id = :id AND b.buyer.id = :id2", Booking.class)
                 .setParameter("id", num1)
                 .setParameter("id2", num2)
                 .getResultList();
     }
+
     public List<?> findBookingByUser(Integer num1, Integer num2) {
         return entityManager.createQuery("FROM Booking b INNER JOIN Property p " +
-                "ON b.property.id = p.id WHERE b.buyer.id = :id AND p.user.id = :id2")
+                        "ON b.property.id = p.id WHERE b.buyer.id = :id AND p.user.id = :id2")
                 .setParameter("id", num1)
                 .setParameter("id2", num2)
                 .getResultList();

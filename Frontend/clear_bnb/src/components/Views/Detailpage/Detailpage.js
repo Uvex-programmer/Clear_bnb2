@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory, Link } from 'react-router-dom'
 import { setChosenObject } from '../../../slicers/UserSlicer'
 import classes from './Detailpage.module.css'
 import { MessageWindow } from '../../Review/ReviewMsgWindow'
 import ReviewPost from '../../Review/ReviewPostProperty'
 import { setReviews } from '../../../slicers/PropertyReviewsSlicer'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import Card from '../../UI/CardOld/DanneRörInteDettaCard'
+import AddProperty from '../UpdateProperty/UpdateProperty'
 
 const Detailpage = () => {
   const [property, setProperty] = useState()
+  const [checkUpdate, setCheckUpdate] = useState(false)
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const { id } = useParams()
@@ -21,15 +23,20 @@ const Detailpage = () => {
 
   let notSelected = startDate.length > 0 && endDate.length > 0 ? true : false
   let images = ''
+  let amenities = 'No amenities'
+  let logs = 'No older versions'
 
   useEffect(() => {
     fetch(`/api/get-property/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        if (data === null) {
+          history.push('/')
+          return
+        }
         setProperty(data)
       })
-  }, [id])
+  }, [id, checkUpdate])
 
   useEffect(() => {
     fetch(`/api/get-reviews-on-property/${id}`)
@@ -45,10 +52,10 @@ const Detailpage = () => {
 
     const diffTime = Math.abs(new Date(startDate) - new Date(endDate))
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-    const price = property.dailyPrice
+
+    const totalPrice = property.dailyPrice
       ? property.dailyPrice * diffDays
-      : 150 * diffDays
-    const totalPrice = diffDays * price
+      : 450 * diffDays
     return [diffDays, totalPrice]
   }
 
@@ -67,6 +74,38 @@ const Detailpage = () => {
   if (property?.images?.length > 0) {
     images = property.images.map((image) => {
       return <img src={image.img_url} alt={image.id} />
+    })
+  }
+
+  if (property?.amenities.length) {
+    amenities = property.amenities.map((amenity, index) => {
+      return <li key={index}>{amenity.amenity}</li>
+    })
+  }
+
+  if (property?.propertyLogs.length) {
+    logs = property.propertyLogs.map((log, index) => {
+      return (
+        <Card key={index}>
+          <h2>Version: {index + 1}</h2>
+          <p>Street: {log.addressLog.street}</p>
+          <p>City: {log.addressLog.city}</p>
+          <p>Zipcode: {log.addressLog.zipcode}</p>
+          <ul>
+            Amenities:
+            {log.amenities.map((a, index) => {
+              return <li key={index}>{a.amenity}</li>
+            })}
+          </ul>
+
+          <p>Bathrooms: {log.bathrooms}</p>
+          <p>Beds: {log.beds}</p>
+          <p>Price per day: {log.dailyPrice}</p>
+          <p>Description: {log.description}</p>
+          <p>Max guests: {log.guests}</p>
+          <p>Title: {log.title}</p>
+        </Card>
+      )
     })
   }
 
@@ -101,10 +140,11 @@ const Detailpage = () => {
             <h2>Details:</h2>
             <p>Bathrooms: {property.bathrooms}</p>
             <p>Beds: {property.beds}</p>
-            <p>Created at: {property.createdAt}</p>
-            <p>Start at: {property.startDate}</p>
-            <p>Ending at: {property.endDate}</p>
+            <p>Start at: {Date(property.startDate * 1000)}</p>
+            <p>Ending at: {Date(property.endDate * 1000)}</p>
             <p>Max guests: {property.guests}</p>
+            <p>Amenities: </p>
+            <ul className={classes['amenities-container']}>{amenities}</ul>
           </div>
           <Link to={`/profile-page/${property.userId}`}>
             <div className='user'>User: {property.userId}</div>
@@ -139,6 +179,17 @@ const Detailpage = () => {
             <MessageWindow reviews={reviews} />
             <ReviewPost userOnline={userOnline} property={property} />
           </div>
+          <Card>
+            Update property!
+            <Card>
+              <AddProperty
+                property={property}
+                setCheckUpdate={setCheckUpdate}
+                value={checkUpdate}
+              />
+            </Card>
+          </Card>
+          <div style={{}}>{logs}</div>
         </>
       )}
     </div>

@@ -1,6 +1,8 @@
 import './AddProperty.css'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import Amenities from '../Amenities/Amenities'
 
 export default function AddProperty() {
   const [title, setTitle] = useState('')
@@ -16,9 +18,12 @@ export default function AddProperty() {
   const [price, setPrice] = useState('')
 
   const userOnline = useSelector((state) => state.loginUser.user)
+  let amenitiesAdd = []
+  let history = useHistory()
 
   const submitHandler = async (e) => {
     e.preventDefault()
+
     let propertyObj = {
       description: description,
       title: title,
@@ -39,12 +44,29 @@ export default function AddProperty() {
         lastName: userOnline.lastName,
         email: userOnline.email,
       },
+      amenities: amenitiesAdd,
     }
+
     console.log(`propertyObj`, propertyObj)
+
     await fetch('/api/add-property', {
       method: 'POST',
       body: JSON.stringify(propertyObj),
-    })
+    }).then(
+      setTimeout(() => {
+        history.push('/')
+      }, 1000)
+    )
+  }
+
+  const pushOrDelete = (type) => {
+    if (amenitiesAdd.some((e) => e.amenity === type)) {
+      return (amenitiesAdd = amenitiesAdd.filter(
+        (item) => item.amenity !== type
+      ))
+    } else {
+      amenitiesAdd.push({ amenity: type })
+    }
   }
 
   return (
@@ -57,56 +79,48 @@ export default function AddProperty() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-
           <label>Small description</label>
           <input
             type='text'
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-
           <label>Address</label>
           <input
             type='text'
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
-
           <label>Zipcode</label>
           <input
             type='text'
             value={zipcode}
             onChange={(e) => setZipcode(e.target.value)}
           />
-
           <label>City</label>
           <input
             type='text'
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
-
           <label>Number of beds</label>
           <input
             type='text'
             value={beds}
             onChange={(e) => setBeds(e.target.value)}
           />
-
           <label>Number of bathrooms</label>
           <input
             type='text'
             value={bathrooms}
             onChange={(e) => setBathrooms(e.target.value)}
           />
-
           <label>Max guests</label>
           <input
             type='text'
             value={guests}
             onChange={(e) => setGuests(e.target.value)}
           />
-
           <label>Start date</label>
           <input
             type='date'
@@ -115,7 +129,6 @@ export default function AddProperty() {
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
-
           <label>End date</label>
           <input
             type='date'
@@ -124,13 +137,13 @@ export default function AddProperty() {
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
-
           <label>Price per night</label>
           <input
             type='text'
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
+          <Amenities pushOrDelete={pushOrDelete} />
           <button onClick={(e) => submitHandler(e)}>Save</button>
         </form>
       </div>
