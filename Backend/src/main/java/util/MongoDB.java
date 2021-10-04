@@ -40,8 +40,7 @@ public class MongoDB {
     public static List<Property> checkIfCached(List<Property> properties, PropertyRepository propertyRepository) {
         FindIterable<Property> mongoCollection = collection.find();
         List<Property> mongoDbProperties = convertToList(mongoCollection);
-        
-        if (properties.stream().anyMatch(p -> idNumbers.contains(p.getId())) && idNumbers.size() == properties.size()) {
+        if (mongoDbProperties.size() == properties.size()) {
             System.out.println("From mongo");
             return mongoDbProperties;
         } else {
@@ -50,7 +49,6 @@ public class MongoDB {
             return properties;
         }
     }
-    
     
     public static void populateCache(PropertyRepository propertyRepository) {
         collection.deleteMany(new Document());
