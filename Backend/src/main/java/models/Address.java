@@ -13,7 +13,7 @@ public class Address {
     private String street;
     private String zipcode;
     private String city;
-    @JsonBackReference
+    @JsonBackReference(value = "Property - Address")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private Property property;

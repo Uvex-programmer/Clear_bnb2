@@ -19,8 +19,8 @@ public class PropertyRepository implements PropertyRepoInterface {
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
     EntityManager entityManager = entityManagerFactory.createEntityManager();
     
-    public PropertyRepository( ) {
-
+    public PropertyRepository() {
+    
     }
     
     public Optional<Property> findById(Integer id) {
