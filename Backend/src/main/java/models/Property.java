@@ -2,6 +2,7 @@ package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -33,29 +34,37 @@ public class Property {
     @Column(name = "guest_max")
     private int guests;
     @CreationTimestamp
+    @BsonIgnore
     @Column(name = "created_at")
     private Date createdAt;
     @Column(name = "start_date")
+    @BsonIgnore
     private Date startDate;
     @Column(name = "end_date")
+    @BsonIgnore
     private Date endDate;
     @Column(name = "daily_price")
     private int dailyPrice;
     @JsonManagedReference(value = "Property - Address")
     @OneToOne(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @BsonIgnore
     private Address address;
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "Property-Images")
+    @BsonIgnore
     private List<Image> images = new ArrayList<>();
     @JsonManagedReference(value = "Property - Reviews")
     @OneToMany(mappedBy = "property")
+    @BsonIgnore
     private List<Review> reviews;
     @JsonBackReference(value = "Property - Bookings")
     @OneToMany(mappedBy = "property")
+    @BsonIgnore
     private List<Booking> bookings;
     @JsonBackReference(value = "User - Properties")
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @BsonIgnore
     private User user;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -63,12 +72,14 @@ public class Property {
             joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
     )
+    @BsonIgnore
     private List<Amenity> amenities = new ArrayList<>();
     
     @JsonManagedReference(value = "property-propertyLogs")
     @OneToMany(mappedBy = "property", cascade = {
             CascadeType.ALL
     })
+    @BsonIgnore
     private List<PropertyLog> propertyLogs = new ArrayList<>();
     
     public Property() {
