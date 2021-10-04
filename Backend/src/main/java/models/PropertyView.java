@@ -7,7 +7,6 @@ import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
 @Immutable
@@ -18,7 +17,7 @@ import java.util.Date;
         @Filter(name = "guestFilter", condition = "guest_max >= :minGuests"),
         @Filter(name = "priceFilter", condition = "daily_price <= :maxPrice"),
         @Filter(name = "freeSearchFilter", condition = "city LIKE '%' :city '%'")
-
+    
 })
 public class PropertyView {
     @Id
@@ -47,10 +46,10 @@ public class PropertyView {
     @Column
     public String city;
     @Column(name = "start_date")
-    public Date startDate;
+    public java.sql.Timestamp startDate;
     @Column(name = "end_date")
     private java.sql.Timestamp endDate;
-
+    
     @Override
     public String toString() {
         return "PropertyView{" +
@@ -69,55 +68,55 @@ public class PropertyView {
                 ", city='" + city + '\'' +
                 '}';
     }
-
+    
     public int getId() {
         return id;
     }
-
+    
     public int getUserId() {
         return userId;
     }
-
+    
     public String getTitle() {
         return title;
     }
-
+    
     public String getDescription() {
         return description;
     }
-
+    
     public int getBeds() {
         return beds;
     }
-
+    
     public int getBaths() {
         return baths;
     }
-
+    
     public int getGuests() {
         return guests;
     }
-
+    
     public int getDailyPrice() {
         return dailyPrice;
     }
-
-    public Date getStartDate() {
+    
+    public java.sql.Timestamp getStartDate() {
         return startDate;
     }
-
+    
     public Timestamp getEndDate() {
         return endDate;
     }
-
+    
     public String getStreet() {
         return street;
     }
-
+    
     public String getZipcode() {
         return zipcode;
     }
-
+    
     public String getCity() {
         return city;
     }
