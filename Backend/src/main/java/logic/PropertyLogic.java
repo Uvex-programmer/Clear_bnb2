@@ -1,6 +1,7 @@
 package logic;
 
 import DTO.PropertyDTO;
+import DTO.PropertyHomeDTO;
 import mapper.LogMapper;
 import mapper.PropertyMapper;
 import models.Property;
@@ -31,11 +32,21 @@ public class PropertyLogic {
         return property;
     }
     
-    public List<PropertyDTO> getProperties() {
+    public List<PropertyHomeDTO> getHomeProperties() {
         //mongo db
-        System.out.println(propertyRepository.findAvailableObjects());
         List<Property> properties = MongoDB.checkIfCached(propertyRepository.findAvailableObjects(), propertyRepository);
 //        List<Property> properties = propertyRepository.findAvailableObjects();
+        if (properties.isEmpty()) return null;
+        ArrayList<PropertyHomeDTO> propertiesHomeDTOs = new ArrayList<>();
+        for (Property p : properties) {
+            propertiesHomeDTOs.add(propertyMapper.propertyHomeToDTO(Optional.ofNullable(p)));
+        }
+        return propertiesHomeDTOs;
+    }
+    
+    public List<PropertyDTO> getProperties() {
+        System.out.println(propertyRepository.findAvailableObjects());
+        List<Property> properties = propertyRepository.findAvailableObjects();
         if (properties.isEmpty()) return null;
         ArrayList<PropertyDTO> propertiesDTOs = new ArrayList<>();
         for (Property p : properties) {
