@@ -5,11 +5,6 @@ import express.Express;
 import logic.PropertyLogic;
 import models.Property;
 import models.PropertyView;
-import repositories.PropertyRepository;
-import util.MongoDB;
-
-import java.util.List;
-import java.util.Optional;
 
 public class PropertyRoutes {
     
@@ -25,9 +20,13 @@ public class PropertyRoutes {
         app.post("/api/add-property", (req, res) -> {
             res.json(propertyLogic.addProperty(req.body(Property.class)));
         });
-
+        
         app.post("/api/property/update/:id", (req, res) -> {
-           propertyLogic.updateProperty(req.body(PropertyDTO.class), Integer.parseInt(req.params("id")));
+            propertyLogic.updateProperty(req.body(PropertyDTO.class), Integer.parseInt(req.params("id")));
+        });
+        
+        app.get("/api/get-home-properties", (req, res) -> {
+            res.json(propertyLogic.getHomeProperties());
         });
         
         app.get("/api/get-properties", (req, res) -> {
