@@ -67,7 +67,7 @@ public class Property {
 
     @JsonManagedReference(value = "property-propertyLogs")
     @OneToMany(mappedBy = "property", cascade = {
-            CascadeType.ALL
+            CascadeType.MERGE
     })
     private List<PropertyLog> propertyLogs = new ArrayList<>();
     
@@ -121,9 +121,11 @@ public class Property {
         address.setProperty(this);
     }
     
-    public void addImage(Image image) {
-        images.add(image);
-        image.setProperty(this);
+    public void addImages(List<Image> images) {
+        this.setImages(images);
+        for(Image img: images) {
+            img.setProperty(this);
+        }
     }
     
     public void addAmenities(List<Amenity> amenities) {

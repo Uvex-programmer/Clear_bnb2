@@ -1,6 +1,8 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.mysql.cj.log.Log;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -44,6 +46,9 @@ public class PropertyLog {
             inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
     )
     private List<AmenityLog> amenities = new ArrayList<>();
+    @JsonManagedReference(value = "PropertyLog-Images")
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    private List<ImageLog> images = new ArrayList<>();
 
     public void addAddress(AddressLog address) {
         this.setAddressLog(address);
@@ -55,6 +60,23 @@ public class PropertyLog {
             amenity.addProperty(this);
         }
     }
+
+    public void addImages(List<ImageLog> imageLog){
+        this.setImages(imageLog);
+        for(ImageLog img : imageLog){
+            img.setProperty(this);
+        }
+    }
+
+    public List<ImageLog> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ImageLog> images) {
+        this.images = images;
+    }
+
+
 
     public int getId() {
         return id;
@@ -178,6 +200,7 @@ public class PropertyLog {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", dailyPrice=" + dailyPrice +
+                ", property=" + property +
                 '}';
     }
 }

@@ -1,19 +1,21 @@
 package models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "address_log")
-public class AddressLog {
+@Table(name = "images_log")
+public class ImageLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String street;
-    private String zipcode;
-    private String city;
-    @JsonBackReference
-    @OneToOne
+    @Column(name = "img_url")
+    private String url;
+    @Column(name = "primary_image")
+    private int primaryId;
+    @ManyToOne
+    @JsonBackReference(value = "PropertyLog-Images")
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private PropertyLog property;
 
@@ -25,16 +27,16 @@ public class AddressLog {
         this.id = id;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public String getUrl() {
+        return url;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setPrimaryId(int primaryId) {
+        this.primaryId = primaryId;
     }
 
     public PropertyLog getProperty() {
@@ -47,11 +49,11 @@ public class AddressLog {
 
     @Override
     public String toString() {
-        return "AddressLog{" +
+        return "ImageLog{" +
                 "id=" + id +
-                ", street='" + street + '\'' +
-                ", zipcode='" + zipcode + '\'' +
-                ", city='" + city + '\'' +
+                ", url='" + url + '\'' +
+                ", primaryId=" + primaryId +
+                ", property=" + property +
                 '}';
     }
 }

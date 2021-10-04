@@ -87,19 +87,21 @@ public class PropertyRepository implements PropertyRepoInterface {
                 .getResultList();
     }
 
-    public Optional<Property> updateProperty(Property p) {
+    public void updateProperty(Property p) {
         try {
             entityManager.getTransaction().begin();
             entityManager.createQuery("DELETE FROM Address a WHERE a.property = :id")
                     .setParameter("id", p)
                     .executeUpdate();
+            entityManager.createQuery("DELETE FROM Image i WHERE i.property = :id")
+                    .setParameter("id", p)
+                    .executeUpdate();
             entityManager.merge(p);
             entityManager.getTransaction().commit();
-            return Optional.of(p);
+            entityManager.clear();
         }catch(Exception e){
             e.printStackTrace();
         }
-        return Optional.empty();
     }
 
     public Optional<Property> save(Property property) {

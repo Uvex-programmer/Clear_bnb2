@@ -11,6 +11,8 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
   const [beds, setBeds] = useState(property.beds)
   const [bathrooms, setBathrooms] = useState(property.bathrooms)
   const [guests, setGuests] = useState(property.guests)
+  const [imgUrl, setImgUrl] = useState('')
+  const [imgUrls, setImgUrls] = useState(property.images)
   const [startDate, setStartDate] = useState(
     new Date(property.startDate)
       .toLocaleDateString('en-GB')
@@ -26,6 +28,7 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
       .join('-')
   )
   let amenitiesAdd = []
+  let urls = []
   const [price, setPrice] = useState(property.dailyPrice)
 
   const submitHandler = async (e) => {
@@ -40,12 +43,14 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
       endDate: endDate,
       dailyPrice: price,
       amenities: amenitiesAdd,
+      images: imgUrls,
       address: {
         street: street,
         zipcode: zipcode,
         city: city,
       },
     }
+    console.log(propertyObj)
     await fetch(`/api/property/update/${property.id}`, {
       method: 'POST',
       body: JSON.stringify(propertyObj),
@@ -61,6 +66,26 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
     } else {
       amenitiesAdd.push({ amenity: type })
     }
+  }
+
+  if (imgUrls.length > 0) {
+    urls = imgUrls.map((url, index) => {
+      return (
+        <div key={index} style={{ display: 'flex' }}>
+          <img className='image-url' src={url.url} alt={url} />
+          <button
+            style={{ width: '20px', height: '20px', alignSelf: 'center' }}
+            type='button'
+            onClick={() => {
+              let filter = imgUrls.filter((img, indexx) => indexx !== index)
+              setImgUrls(filter)
+            }}
+          >
+            X
+          </button>
+        </div>
+      )
+    })
   }
 
   return (
@@ -148,11 +173,35 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
             />
-            <button onClick={(e) => submitHandler(e)}>Save</button>
           </form>
         </div>
+        <div className='img-urls'>{urls}</div>
+        <label>Add image</label>
+        <input
+          type='text'
+          value={imgUrl}
+          onChange={(e) => {
+            setImgUrl(e.target.value)
+          }}
+        />
+        <button
+          type='button'
+          onClick={() => {
+            setImgUrls([
+              ...imgUrls,
+              {
+                url: imgUrl,
+                primaryImage: 0,
+              },
+            ])
+            setImgUrl('')
+          }}
+        >
+          add img
+        </button>
 
         <Amenities pushOrDelete={pushOrDelete} />
+        <button onClick={(e) => submitHandler(e)}>Save</button>
       </Card>
     </>
   )

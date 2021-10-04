@@ -25,10 +25,10 @@ public class PropertyMapper {
         p.setEndDate(dto.getEndDate());
         p.setStartDate(dto.getStartDate());
         p.setTitle(dto.getTitle());
-        p.setUser(property.get().getUser());
         p.addAmenities(dto.getAmenities());
         p.addAddress(dto.getAddress());
         p.setPropertyLogs(property.get().getPropertyLogs());
+        p.addImages(dto.getImages());
         return p;
     }
 }

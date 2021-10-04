@@ -16,9 +16,12 @@ export default function AddProperty() {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [price, setPrice] = useState('')
+  const [imgUrl, setImgUrl] = useState('')
+  const [imgUrls, setImgUrls] = useState([])
 
   const userOnline = useSelector((state) => state.loginUser.user)
   let amenitiesAdd = []
+  let urls = []
   let history = useHistory()
 
   const submitHandler = async (e) => {
@@ -45,6 +48,7 @@ export default function AddProperty() {
         email: userOnline.email,
       },
       amenities: amenitiesAdd,
+      images: imgUrls,
     }
 
     console.log(`propertyObj`, propertyObj)
@@ -67,6 +71,27 @@ export default function AddProperty() {
     } else {
       amenitiesAdd.push({ amenity: type })
     }
+  }
+
+  if (imgUrls.length > 0) {
+    console.log(imgUrls)
+    urls = imgUrls.map((url, index) => {
+      return (
+        <div key={index} style={{ display: 'flex' }}>
+          <img className='image-url' src={url.url} alt={url} />
+          <button
+            style={{ width: '20px', height: '20px', alignSelf: 'center' }}
+            type='button'
+            onClick={() => {
+              let filter = imgUrls.filter((img, indexx) => indexx !== index)
+              setImgUrls(filter)
+            }}
+          >
+            X
+          </button>
+        </div>
+      )
+    })
   }
 
   return (
@@ -143,6 +168,29 @@ export default function AddProperty() {
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
+          <div className='img-urls'>{urls}</div>
+          <label>Add image</label>
+          <input
+            type='text'
+            value={imgUrl}
+            onChange={(e) => setImgUrl(e.target.value)}
+          />
+          <button
+            type='button'
+            onClick={() => {
+              setImgUrls([
+                ...imgUrls,
+                {
+                  url: imgUrl,
+                  primaryImage: 0,
+                },
+              ])
+              setImgUrl('')
+              console.log(urls)
+            }}
+          >
+            add img
+          </button>
           <Amenities pushOrDelete={pushOrDelete} />
           <button onClick={(e) => submitHandler(e)}>Save</button>
         </form>

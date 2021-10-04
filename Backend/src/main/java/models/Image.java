@@ -13,7 +13,7 @@ public class Image {
     @Column(name = "img_url")
     private String url;
     @Column(name = "primary_image")
-    private boolean primaryImage;
+    private int primaryImage;
     @ManyToOne
     @JsonBackReference(value = "Property-Images")
     @JoinColumn(name = "property_id", referencedColumnName = "id")
@@ -22,7 +22,7 @@ public class Image {
     public Image() {
     }
     
-    public Image(String url, boolean primaryImage) {
+    public Image(String url, int primaryImage) {
         this.url = url;
         this.primaryImage = primaryImage;
     }
@@ -50,12 +50,12 @@ public class Image {
     public void setUrl(String url) {
         this.url = url;
     }
-    
-    public boolean isPrimaryImage() {
+
+    public int getPrimaryImage() {
         return primaryImage;
     }
-    
-    public void setPrimaryImage(boolean primaryImage) {
+
+    public void setPrimaryImage(int primaryImage) {
         this.primaryImage = primaryImage;
     }
     
