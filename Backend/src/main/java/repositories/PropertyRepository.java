@@ -31,23 +31,23 @@ public class PropertyRepository implements PropertyRepoInterface {
     public List<PropertyView> findAll() {
         return entityManager.createQuery("SELECT v FROM PropertyView v", PropertyView.class).getResultList();
     }
-
+    
     public Optional<User> findByIdReturnUserId(Integer id) {
         User user = entityManager.createNamedQuery("Property.findByPropertyIdReturnUser", User.class)
                 .setParameter("id", id)
                 .getSingleResult();
         return user != null ? Optional.of(user) : Optional.empty();
     }
-
+    
     
     public List<Property> findAvailableObjects() {
         Date currentTime = new Date();
         return entityManager.createQuery("SELECT P FROM Property P", Property.class)
-             // För att kolla ifall amenities kommer med på senaste requesten   .setParameter("currentTime", currentTime)  WHERE P.startDate <= :currentTime AND P.endDate > :currentTime
+                // För att kolla ifall amenities kommer med på senaste requesten   .setParameter("currentTime", currentTime)  WHERE P.startDate <= :currentTime AND P.endDate > :currentTime
                 .getResultList();
     }
-
-    public List<?> findObjectsBySearch(String freeSearch, int beds, int bathrooms, int minGuests, int maxPrice, java.sql.Timestamp startDate, java.sql.Timestamp endDate) {
+    
+    public List<?> findObjectsBySearch(String freeSearch, int beds, int bathrooms, int minGuests, int maxPrice, Date startDate, java.sql.Timestamp endDate) {
         Session session = entityManager.unwrap(Session.class);
         Filter bedroomFilter = session.enableFilter("bedroomFilter");
         Filter bathroomFilter = session.enableFilter("bathroomFilter");
@@ -86,7 +86,7 @@ public class PropertyRepository implements PropertyRepoInterface {
                 .setParameter("id", id)
                 .getResultList();
     }
-
+    
     public void updateProperty(Property p) {
         try {
             entityManager.getTransaction().begin();
@@ -98,11 +98,11 @@ public class PropertyRepository implements PropertyRepoInterface {
                     .executeUpdate();
             entityManager.merge(p);
             entityManager.getTransaction().commit();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
     public Optional<Property> save(Property property) {
         try {
             entityManager.getTransaction().begin();
