@@ -30,7 +30,13 @@ public class WorkerRoutes {
         });
 
         app.post("/api/support/messages", (req, res) -> {
-            res.json(messageRepository.getMessagesFromChatroomId(req.body().get("id").toString()));
+           Object value = messageRepository.getMessagesFromChatroomId(req.body().get("id").toString());
+           if(value != null) {
+               res.json(value);
+           } else {
+               res.send("No");
+           }
+
         });
 
         app.get("/api/support/all-messages", (req, res) -> {
