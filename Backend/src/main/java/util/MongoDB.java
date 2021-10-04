@@ -20,14 +20,13 @@ public class MongoDB {
     
     static MongoCollection<Property> collection;
     static Set<Integer> idNumbers = new HashSet<>();
-    private final PropertyRepository propertyRepository;
+    PropertyRepository propertyRepository = new PropertyRepository();
     MongoDatabase database;
     
     
-    public MongoDB(PropertyRepository propertyRepository) {
-        this.propertyRepository = propertyRepository;
+    public MongoDB() {
         this.connectToMongoDB();
-        populateCache(propertyRepository);
+        populateCache(this.propertyRepository);
     }
     
     public static List<Property> convertToList(FindIterable<Property> mongoCollection) {
@@ -38,7 +37,7 @@ public class MongoDB {
         return list;
     }
     
-    public static List<Property> checkIfCached(List<Property> properties) {
+    public static List<Property> checkIfCached(List<Property> properties, PropertyRepository propertyRepository) {
         FindIterable<Property> mongoCollection = collection.find();
         List<Property> mongoDbProperties = convertToList(mongoCollection);
         
@@ -46,13 +45,16 @@ public class MongoDB {
             System.out.println("From mongo");
             return mongoDbProperties;
         } else {
+            populateCache(propertyRepository);
             System.out.println("From SQL");
             return properties;
         }
     }
     
+    
     public static void populateCache(PropertyRepository propertyRepository) {
         collection.deleteMany(new Document());
+        idNumbers.clear();
         List<Property> availableObjects = propertyRepository.findAvailableObjects();
         
         availableObjects.forEach(obj -> idNumbers.add(obj.getId()));

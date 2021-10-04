@@ -34,7 +34,7 @@ public class PropertyLogic {
     public List<PropertyDTO> getProperties() {
         //mongo db
         System.out.println(propertyRepository.findAvailableObjects());
-        MongoDB.checkIfCached(propertyRepository.findAvailableObjects());
+        MongoDB.checkIfCached(propertyRepository.findAvailableObjects(), propertyRepository);
         List<Property> properties = propertyRepository.findAvailableObjects();
         if (properties.isEmpty()) return null;
         ArrayList<PropertyDTO> propertiesDTOs = new ArrayList<>();
@@ -71,7 +71,7 @@ public class PropertyLogic {
         Property property = propertyMapper.dtoToProperty(p, propertyBefore);
         PropertyLog propertyLog = logMapper.propertyToLog(propertyBefore);
         property.getPropertyLogs().add(propertyLog);
-
+        
         propertyRepository.updateProperty(property);
     }
     
