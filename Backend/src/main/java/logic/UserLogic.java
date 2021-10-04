@@ -6,7 +6,9 @@ import models.Session;
 import models.User;
 import repositories.SessionRepository;
 import repositories.UserRepository;
+import util.CookieCreater;
 import util.PasswordHash;
+import util.UUIDCreater;
 
 import javax.servlet.http.Cookie;
 import java.sql.Timestamp;
@@ -34,12 +36,17 @@ public class UserLogic {
     }
 
     public Object whoAmI(String sessionId){
+        System.out.println(sessionId);
         if(sessionId == null) {
             return null;
         }
+
         Optional <Session> session = sessionRepository.findById(Integer.parseInt(sessionId));
-        Optional <User> user = userRepository.findById(session.get().getUser_id());
-        return userMapper.userToDTO(user);
+        if(session.isPresent()) {
+            Optional <User> user = userRepository.findById(session.get().getUser_id());
+            return userMapper.userToDTO(user);
+        }
+        return session;
     }
 
     public UserDTO registerUser (User user) {
