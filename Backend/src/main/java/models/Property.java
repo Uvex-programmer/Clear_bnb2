@@ -1,14 +1,14 @@
 package models;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -34,28 +34,37 @@ public class Property {
     @Column(name = "guest_max")
     private int guests;
     @CreationTimestamp
+    @BsonIgnore
     @Column(name = "created_at")
     private Date createdAt;
     @Column(name = "start_date")
+    @BsonIgnore
     private Date startDate;
     @Column(name = "end_date")
+    @BsonIgnore
     private Date endDate;
     @Column(name = "daily_price")
     private int dailyPrice;
+    @JsonManagedReference(value = "Property - Address")
     @OneToOne(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @BsonIgnore
     private Address address;
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "Property-Images")
+    @BsonIgnore
     private List<Image> images = new ArrayList<>();
-    @JsonManagedReference
+    @JsonManagedReference(value = "Property - Reviews")
     @OneToMany(mappedBy = "property")
+    @BsonIgnore
     private List<Review> reviews;
-    @JsonBackReference
+    @JsonBackReference(value = "Property - Bookings")
     @OneToMany(mappedBy = "property")
+    @BsonIgnore
     private List<Booking> bookings;
     @JsonBackReference(value = "User - Properties")
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @BsonIgnore
     private User user;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -63,17 +72,19 @@ public class Property {
             joinColumns = @JoinColumn(name = "property_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "amenities_id", referencedColumnName = "id")
     )
+    @BsonIgnore
     private List<Amenity> amenities = new ArrayList<>();
-
+    
     @JsonManagedReference(value = "property-propertyLogs")
     @OneToMany(mappedBy = "property", cascade = {
             CascadeType.MERGE
     })
+    @BsonIgnore
     private List<PropertyLog> propertyLogs = new ArrayList<>();
     
     public Property() {
     }
-
+    
     public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice, Address address, List<Image> images, List<Review> reviews, List<Booking> bookings, User user, List<Amenity> amenities) {
         this.title = title;
         this.description = description;
@@ -90,7 +101,7 @@ public class Property {
         this.user = user;
         this.amenities = amenities;
     }
-
+    
     public Property(String title, String description, int beds, int bathrooms, int guests, Date startDate, Date endDate, int dailyPrice) {
         this.title = title;
         this.description = description;
@@ -100,22 +111,22 @@ public class Property {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyPrice = (int) Math.ceil(dailyPrice * 1.15);
-
+        
     }
-
+    
     public List<PropertyLog> getPropertyLogs() {
         return propertyLogs;
     }
-
+    
     public void setPropertyLogs(List<PropertyLog> propertyLogs) {
         this.propertyLogs = propertyLogs;
     }
-
+    
     public void addUser(User user) {
         user.getProperties().add(this);
         this.setUser(user);
     }
-
+    
     public void addAddress(Address address) {
         this.setAddress(address);
         address.setProperty(this);
@@ -130,10 +141,11 @@ public class Property {
     
     public void addAmenities(List<Amenity> amenities) {
         this.setAmenities(amenities);
-        for(Amenity amenity: amenities) {
+        for (Amenity amenity : amenities) {
             amenity.addProperty(this);
         }
     }
+    
     public User getUser() {
         return user;
     }
@@ -141,6 +153,7 @@ public class Property {
     public void setUser(User user) {
         this.user = user;
     }
+    
     public Address getAddress() {
         return address;
     }
@@ -260,7 +273,7 @@ public class Property {
     public void setDailyPrice(int dailyPrice) {
         this.dailyPrice = dailyPrice;
     }
-
+    
     @Override
     public String toString() {
         return "Property{" +

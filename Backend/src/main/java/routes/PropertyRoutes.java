@@ -5,6 +5,11 @@ import express.Express;
 import logic.PropertyLogic;
 import models.Property;
 import models.PropertyView;
+import repositories.PropertyRepository;
+import util.MongoDB;
+
+import java.util.List;
+import java.util.Optional;
 
 public class PropertyRoutes {
     
