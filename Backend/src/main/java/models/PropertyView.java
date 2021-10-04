@@ -1,5 +1,6 @@
 package models;
 
+import org.bson.codecs.pojo.annotations.BsonId;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Filters;
 import org.hibernate.annotations.Immutable;
@@ -20,33 +21,34 @@ import java.sql.Timestamp;
 })
 public class PropertyView {
     @Id
+    @BsonId
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
-    private int id;
+    public int id;
     @Column(name = "user_id")
-    private int userId;
+    public int userId;
     @Column
-    private String title;
+    public String title;
     @Column
-    private String description;
+    public String description;
     @Column(name = "bed_count")
-    private int beds;
+    public int beds;
     @Column(name = "bathroom_count")
-    private int baths;
+    public int baths;
     @Column(name = "guest_max")
-    private int guests;
+    public int guests;
     @Column(name = "daily_price")
-    private int dailyPrice;
+    public int dailyPrice;
+    @Column
+    public String street;
+    @Column
+    public String zipcode;
+    @Column
+    public String city;
     @Column(name = "start_date")
-    private java.sql.Timestamp startDate;
+    public java.sql.Timestamp startDate;
     @Column(name = "end_date")
     private java.sql.Timestamp endDate;
-    @Column
-    private String street;
-    @Column
-    private String zipcode;
-    @Column
-    private String city;
     
     @Override
     public String toString() {
@@ -99,7 +101,7 @@ public class PropertyView {
         return dailyPrice;
     }
     
-    public Timestamp getStartDate() {
+    public java.sql.Timestamp getStartDate() {
         return startDate;
     }
     

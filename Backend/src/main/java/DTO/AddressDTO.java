@@ -1,4 +1,5 @@
 package DTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Property;
 
 public class AddressDTO {
@@ -8,6 +9,7 @@ public class AddressDTO {
     private String zipcode;
     private String city;
     private Property property;
+
 
     public AddressDTO() {
     }

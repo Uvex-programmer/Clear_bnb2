@@ -5,48 +5,54 @@ import mapper.LogMapper;
 import mapper.PropertyMapper;
 import models.*;
 import repositories.PropertyRepository;
+import util.MongoDB;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class PropertyLogic {
-
+    
     PropertyRepository propertyRepository = new PropertyRepository();
     PropertyMapper propertyMapper = new PropertyMapper();
     LogMapper logMapper = new LogMapper();
-
-    public Property addProperty(Property property){
-        property.setDailyPrice((int) Math.ceil(property.getDailyPrice()*1.15));
+    
+    public Property addProperty(Property property) {
+        property.setDailyPrice((int) Math.ceil(property.getDailyPrice() * 1.15));
         property.addAddress(property.getAddress());
         property.addUser(property.getUser());
         property.addAmenities(property.getAmenities());
+        property.setImages(property.getImages());
         System.out.println(property);
         propertyRepository.save(property);
+        MongoDB.insertProperty(property);
         return property;
     }
-
-    public List<PropertyDTO> getProperties(){
+    
+    public List<PropertyDTO> getProperties() {
+        //mongo db
+        System.out.println(propertyRepository.findAvailableObjects());
+        MongoDB.checkIfCached(propertyRepository.findAvailableObjects(), propertyRepository);
         List<Property> properties = propertyRepository.findAvailableObjects();
-        if(properties.isEmpty()) return null;
+        if (properties.isEmpty()) return null;
         ArrayList<PropertyDTO> propertiesDTOs = new ArrayList<>();
-        for(Property p : properties){
+        for (Property p : properties) {
             propertiesDTOs.add(propertyMapper.propertyToDTO(Optional.ofNullable(p)));
         }
         return propertiesDTOs;
     }
-
-    public PropertyDTO getProperty(Integer id){
-       Optional<Property> property = propertyRepository.findById(id);
-       if(property.isEmpty()) return null;
-
+    
+    public PropertyDTO getProperty(Integer id) {
+        Optional<Property> property = propertyRepository.findById(id);
+        if (property.isEmpty()) return null;
+        
         return propertyMapper.propertyToDTO(property);
     }
-
-    public ArrayList<PropertyDTO> getUserProperties(Integer id){
+    
+    public ArrayList<PropertyDTO> getUserProperties(Integer id) {
         List<Property> properties = propertyRepository.findByUserId(id);
         ArrayList<PropertyDTO> propertiesDTO = new ArrayList<>();
-        for(Property p : properties){
+        for (Property p : properties) {
             propertiesDTO.add(propertyMapper.propertyToDTO(Optional.ofNullable(p)));
         }
         return propertiesDTO;
