@@ -50,6 +50,10 @@ public class MongoDB {
         }
     }
     
+    //todo Version nummer på propertytable som kollas mot mongo dbs
+    // räcker kanske med att edita i update logiken?
+    // ta bort det som inte behövs på frontpage i DTO?
+    
     public static void populateCache(PropertyRepository propertyRepository) {
         collection.deleteMany(new Document());
         idNumbers.clear();
@@ -66,6 +70,7 @@ public class MongoDB {
     }
     
     public void connectToMongoDB() {
+        
         CodecRegistry pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
                 fromProviders(PojoCodecProvider.builder().automatic(true).build()));
         String uri = "mongodb+srv://Slobban:1234@cluster0.q0kct.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
