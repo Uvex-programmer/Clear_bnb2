@@ -67,7 +67,7 @@ public class Property {
 
     @JsonManagedReference(value = "property-propertyLogs")
     @OneToMany(mappedBy = "property", cascade = {
-            CascadeType.ALL
+            CascadeType.MERGE
     })
     private List<PropertyLog> propertyLogs = new ArrayList<>();
     

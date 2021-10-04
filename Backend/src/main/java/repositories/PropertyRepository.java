@@ -98,6 +98,7 @@ public class PropertyRepository implements PropertyRepoInterface {
                     .executeUpdate();
             entityManager.merge(p);
             entityManager.getTransaction().commit();
+            entityManager.clear();
         }catch(Exception e){
             e.printStackTrace();
         }

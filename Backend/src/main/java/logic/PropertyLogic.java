@@ -64,7 +64,6 @@ public class PropertyLogic {
         Property property = propertyMapper.dtoToProperty(p, propertyBefore);
         PropertyLog propertyLog = logMapper.propertyToLog(propertyBefore);
         property.getPropertyLogs().add(propertyLog);
-
         propertyRepository.updateProperty(property);
     }
 
