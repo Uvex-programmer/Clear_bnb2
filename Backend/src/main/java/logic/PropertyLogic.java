@@ -24,6 +24,7 @@ public class PropertyLogic {
         property.addAddress(property.getAddress());
         property.addUser(property.getUser());
         property.addAmenities(property.getAmenities());
+        property.setImages(property.getImages());
         System.out.println(property);
         propertyRepository.save(property);
         MongoDB.insertProperty(property);
@@ -70,6 +71,7 @@ public class PropertyLogic {
         Property property = propertyMapper.dtoToProperty(p, propertyBefore);
         PropertyLog propertyLog = logMapper.propertyToLog(propertyBefore);
         property.getPropertyLogs().add(propertyLog);
+
         propertyRepository.updateProperty(property);
     }
     
