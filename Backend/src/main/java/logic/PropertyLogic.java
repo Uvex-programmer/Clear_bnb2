@@ -34,7 +34,7 @@ public class PropertyLogic {
     
     public List<PropertyHomeDTO> getHomeProperties() {
         
-        List<Property> properties = MongoDB.checkIfCached(propertyRepository.findAvailableObjects(), propertyRepository);
+        List<Property> properties = MongoDB.loadFromCache();
 //
         if (properties.isEmpty()) return null;
         ArrayList<PropertyHomeDTO> propertiesHomeDTOs = new ArrayList<>();

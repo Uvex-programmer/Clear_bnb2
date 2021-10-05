@@ -39,17 +39,17 @@ public class MongoDB {
         return list;
     }
     
-    public static List<Property> checkIfCached(List<Property> properties, PropertyRepository propertyRepository) {
+    public static List<Property> loadFromCache() {
         FindIterable<Property> mongoCollection = collection.find();
         List<Property> mongoDbProperties = convertToList(mongoCollection);
-        if (mongoDbProperties.size() == properties.size()) {
-            System.out.println("From mongo");
-            return mongoDbProperties;
-        } else {
-            populateCache(propertyRepository);
-            System.out.println("From SQL");
-            return properties;
-        }
+        
+        System.out.println("From mongo");
+        return mongoDbProperties;
+
+//            populateCache(propertyRepository);
+//            System.out.println("From SQL");
+//            return properties;
+    
     }
     
     public static void populateCache(PropertyRepository propertyRepository) {
