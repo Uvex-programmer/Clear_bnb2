@@ -16,11 +16,15 @@
   border-radius: 20px;
   background-color: #9acd32;
   margin-bottom: 0.1rem;
+  border: 2px solid transparent;
 }
 
-.user-symbol:hover,
-.user-symbol:active {
+.user-symbol:hover {
   background-color: #b1ee38;
+}
+
+.user-symbol:active {
+  background-color: #81ad27;
 }
 
 .user-symbol > p {
@@ -31,4 +35,9 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+.active {
+  border: 2px solid #b0b32a;
+  background-color: #ffffff;
 }
