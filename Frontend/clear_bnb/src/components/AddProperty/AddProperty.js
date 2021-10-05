@@ -35,7 +35,7 @@ export default function AddProperty() {
       guests: guests >= 0 ? guests : 0,
       startDate: startDate,
       endDate: endDate,
-      dailyPrice: price,
+      dailyPrice: price >= 0 ? price : 0,
       address: {
         street: address,
         zipcode: zipcode,
@@ -53,14 +53,14 @@ export default function AddProperty() {
 
     console.log(`propertyObj`, propertyObj)
 
-    // await fetch('/api/add-property', {
-    //   method: 'POST',
-    //   body: JSON.stringify(propertyObj),
-    // }).then(
-    //   setTimeout(() => {
-    //     history.push('/')
-    //   }, 1000)
-    // )
+    await fetch('/api/add-property', {
+      method: 'POST',
+      body: JSON.stringify(propertyObj),
+    }).then(
+      setTimeout(() => {
+        history.push('/')
+      }, 1000)
+    )
   }
 
   const pushOrDelete = (type) => {

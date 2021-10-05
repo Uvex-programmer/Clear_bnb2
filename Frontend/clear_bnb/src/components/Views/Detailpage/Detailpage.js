@@ -129,8 +129,11 @@ const Detailpage = () => {
       {property && (
         <>
           {images}
-          <h1>{property.title}</h1>
-          <p>{property.description}</p>
+          <h1>Title: {property.title}</h1>
+          <p>Description: {property.description}</p>
+          <p>City: {property.address.city}</p>
+          <p>Zipcode: {property.address.zipcode}</p>
+          <p>Street: {property.address.street}</p>
           <div className={classes['date-controls']}>
             <h3>Choose Date:</h3>
             <div className={classes['date-control']}>
