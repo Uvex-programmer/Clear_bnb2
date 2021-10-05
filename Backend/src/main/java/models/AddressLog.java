@@ -41,6 +41,18 @@ public class AddressLog {
         return property;
     }
 
+    public String getStreet() {
+        return street;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
     public void setProperty(PropertyLog property) {
         this.property = property;
     }

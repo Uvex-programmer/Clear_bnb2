@@ -24,6 +24,7 @@
             <property name="javax.persistence.jdbc.password" value="Earthair93"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="show_sql" value="true"/>
+            <property name="hibernate.event.merge.entity_copy_observer" value="allow"/>
             <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>

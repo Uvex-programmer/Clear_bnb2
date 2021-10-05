@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     fetch('/api/whoami')
-      .then(async (res) => await res.json())
+      .then(async (res) => res.json())
       .then((user) => {
         if (!user) return console.log('No user currently logged in.')
 

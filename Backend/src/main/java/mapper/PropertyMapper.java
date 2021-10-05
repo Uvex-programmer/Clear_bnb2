@@ -1,17 +1,30 @@
 package mapper;
 
 import DTO.PropertyDTO;
-import DTO.PropertyHomeDTO;
-import models.Property;
-
+import models.*;
 import java.util.Optional;
 
 public class PropertyMapper {
-    
-    public PropertyDTO propertyToDTO(Optional<Property> p) {
-        return new PropertyDTO(p.get().getId(), p.get().getUser().getId(), p.get().getTitle(), p.get().getDescription(), p.get().getBeds(),
-                p.get().getBathrooms(), p.get().getGuests(), p.get().getCreatedAt(), p.get().getStartDate(),
-                p.get().getEndDate(), p.get().getDailyPrice(), p.get().getAddress(), p.get().getImages(), p.get().getAmenities(), p.get().getPropertyLogs());
+
+    public PropertyDTO propertyToDTO(Optional<Property> property) {
+        var p = property.get();
+        PropertyDTO propertyDTO = new PropertyDTO();
+        propertyDTO.setId(p.getId());
+        propertyDTO.setUserId(p.getUser().getId());
+        propertyDTO.setDescription(p.getDescription());
+        propertyDTO.setImages(p.getImages());
+        propertyDTO.setStartDate(p.getStartDate());
+        propertyDTO.setEndDate(p.getEndDate());
+        propertyDTO.setGuests(p.getGuests());
+        propertyDTO.setDailyPrice(p.getDailyPrice());
+        propertyDTO.setBeds(p.getBeds());
+        propertyDTO.setCreatedAt(p.getCreatedAt());
+        propertyDTO.setBathrooms(p.getBathrooms());
+        propertyDTO.setAddress(p.getAddress());
+        propertyDTO.setTitle(p.getTitle());
+        propertyDTO.setPropertyLogs(p.getPropertyLogs());
+        propertyDTO.setAmenities(p.getAmenities());
+        return propertyDTO;
     }
     
     public Property dtoToProperty(PropertyDTO dto, Optional<Property> property) {
