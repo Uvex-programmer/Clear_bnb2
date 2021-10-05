@@ -80,6 +80,7 @@ public class PropertyLogic {
     public void updateProperty(PropertyDTO p, Integer id) {
         Optional<Property> propertyBefore = propertyRepository.findById(id);
         Property property = propertyMapper.dtoToProperty(p, propertyBefore);
+        property.setEdited(true);
         PropertyLog propertyLog = logMapper.propertyToLog(propertyBefore);
         property.getPropertyLogs().add(propertyLog);
         propertyRepository.updateProperty(property);
