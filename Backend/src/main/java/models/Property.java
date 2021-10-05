@@ -62,7 +62,7 @@ public class Property {
     @BsonIgnore
     private List<Booking> bookings;
     @JsonBackReference(value = "User - Properties")
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = {CascadeType.MERGE })
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @BsonIgnore
     private User user;

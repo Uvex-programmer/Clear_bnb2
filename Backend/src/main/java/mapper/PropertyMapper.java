@@ -28,10 +28,11 @@ public class PropertyMapper {
         return propertyDTO;
     }
     
-    public Property dtoToProperty(PropertyDTO dto, Optional<Property> property) {
+    public Property dtoToProperty(PropertyDTO dto, Optional<Property> property, User user) {
+        System.out.println(property.get().getUser());
         Property p = new Property();
         p.setId(property.get().getId());
-        p.setUser(property.get().getUser());
+        p.setUser(user);
         p.setCreatedAt(dto.getCreatedAt());
         p.setGuests(dto.getGuests());
         p.setDescription(dto.getDescription());
@@ -50,7 +51,6 @@ public class PropertyMapper {
     
     public PropertyHomeDTO propertyHomeToDTO(Optional<Property> property) {
         var p = property.get();
-        System.out.println(p.getAddress());
         PropertyHomeDTO propertyHomeDTO = new PropertyHomeDTO();
         propertyHomeDTO.setId(p.getId());
         propertyHomeDTO.setDailyPrice(p.getDailyPrice());

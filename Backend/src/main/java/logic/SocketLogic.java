@@ -57,7 +57,6 @@ public class SocketLogic {
             msg.setPayload(getPayload());
             supportWorkers.add(ctx);
         }
-        System.out.println("Connected");
         return msg;
     }
 

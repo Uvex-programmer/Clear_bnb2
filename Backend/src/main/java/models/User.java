@@ -31,7 +31,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JoinColumn(name = "session_id", referencedColumnName = "id")
     private Integer sessionID;
-
     @Column(unique = true)
     private String email;
     private String password;

@@ -34,7 +34,6 @@ public class UserLogic {
     }
     
     public Object whoAmI(String sessionId) {
-        System.out.println(sessionId + " sessionID");
         if (sessionId == null) {
             return null;
         }
@@ -79,7 +78,6 @@ public class UserLogic {
     public Cookie setupCookie(String email, int id) {
         Optional<Cookie> cookie = setupSession(email, id);
         if (cookie.isPresent()) {
-            System.out.println(cookie.get());
             return cookie.get();
         } else {
             return null;

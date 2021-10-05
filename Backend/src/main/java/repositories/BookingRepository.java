@@ -21,14 +21,11 @@ public class BookingRepository implements BookingRepoInterface {
     }
 
     public Boolean checkIfBooked(java.sql.Date startDate, java.sql.Date endDate, int propertyId) {
-        System.out.println(startDate);
-        System.out.println(endDate);
         List<Booking> bookings = entityManager.createQuery("FROM Booking p WHERE p.property.id = :id AND :start <= p.endDate AND p.startDate <= :end", Booking.class)
                 .setParameter("start", startDate)
                 .setParameter("end", endDate)
                 .setParameter("id", propertyId)
                 .getResultList();
-        System.out.println(bookings);
         return bookings.isEmpty();
     }
 
