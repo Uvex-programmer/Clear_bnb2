@@ -11,7 +11,6 @@ public class BookingLogic {
     PropertyRepository propertyRepository = new PropertyRepository();
     UserRepository userRepository = new UserRepository();
     BookingRepository bookingRepository = new BookingRepository();
-    ReviewRepository reviewRepository = new ReviewRepository();
     BookingMapper bookingMapper = new BookingMapper();
     BankAccountRepository bankAccountRepository = new BankAccountRepository();
 
