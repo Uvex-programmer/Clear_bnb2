@@ -46,10 +46,10 @@ public class BookingRepository implements BookingRepoInterface {
                 .setParameter("id", id)
                 .getResultList();
     }
-    public List<Booking> findBookingByPropertyId(Integer num1, Integer num2) {
+    public List<Booking> findBookingByPropertyId(Integer propertyId, Integer userId) {
         return entityManager.createQuery("from Booking b WHERE b.property.id = :id AND b.buyer.id = :id2", Booking.class)
-                .setParameter("id", num1)
-                .setParameter("id2", num2)
+                .setParameter("id", propertyId)
+                .setParameter("id2", userId)
                 .getResultList();
     }
 

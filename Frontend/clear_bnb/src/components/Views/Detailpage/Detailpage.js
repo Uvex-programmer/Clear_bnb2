@@ -10,21 +10,22 @@ import Card from '../../UI/CardOld/DanneRörInteDettaCard'
 import AddProperty from '../UpdateProperty/UpdateProperty'
 
 const Detailpage = () => {
-	const [property, setProperty] = useState()
-	const [checkUpdate, setCheckUpdate] = useState(false)
-	const [startDate, setStartDate] = useState('')
-	const [endDate, setEndDate] = useState('')
-	const { id } = useParams()
+  const [property, setProperty] = useState()
+  const [checkUpdate, setCheckUpdate] = useState(false)
+  const [startDate, setStartDate] = useState('')
+  const [showUpdate, setShowUpdate] = useState(false)
+  const [endDate, setEndDate] = useState('')
+  const { id } = useParams()
 
-	const userOnline = useSelector((state) => state.loginUser.user)
-	const reviews = useSelector((state) => state.propertyReviews.reviews)
-	let history = useHistory()
-	let dispatch = useDispatch()
+  const userOnline = useSelector((state) => state.loginUser.user)
+  const reviews = useSelector((state) => state.propertyReviews.reviews)
+  let history = useHistory()
+  let dispatch = useDispatch()
 
-	let notSelected = startDate.length > 0 && endDate.length > 0 ? true : false
-	let images = ''
-	let amenities = 'No amenities'
-	let logs = 'No older versions'
+  let notSelected = startDate.length > 0 && endDate.length > 0 ? true : false
+  let images = ''
+  let amenities = 'No amenities'
+  let logs = 'No older versions'
 
   useEffect(() => {
     fetch(`/api/get-property/${id}`)
@@ -53,9 +54,11 @@ const Detailpage = () => {
     const diffTime = Math.abs(new Date(startDate) - new Date(endDate))
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
-		const totalPrice = property.dailyPrice ? property.dailyPrice * diffDays : 450 * diffDays
-		return [diffDays, totalPrice]
-	}
+    const totalPrice = property.dailyPrice
+      ? property.dailyPrice * diffDays
+      : 450 * diffDays
+    return [diffDays, totalPrice]
+  }
 
   const bookHandler = () => {
     const info = {
@@ -190,16 +193,20 @@ const Detailpage = () => {
             <MessageWindow reviews={reviews} />
             <ReviewPost userOnline={userOnline} property={property} />
           </div>
-          <Card>
-            Update property!
+          {showUpdate ? (
             <Card>
-              <AddProperty
-                property={property}
-                setCheckUpdate={setCheckUpdate}
-                value={checkUpdate}
-              />
+              Update property!
+              <Card>
+                <AddProperty
+                  property={property}
+                  setCheckUpdate={setCheckUpdate}
+                  value={checkUpdate}
+                />
+              </Card>
             </Card>
-          </Card>
+          ) : (
+            ''
+          )}
           <div style={{}}>{logs}</div>
         </>
       )}

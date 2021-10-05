@@ -1,22 +1,17 @@
 package logic;
 
 import DTO.BookingDTO;
-import DTO.ReviewDTO;
 import mapper.BookingMapper;
 import models.*;
-import repositories.BankAccountRepository;
-import repositories.BookingRepository;
-import repositories.PropertyRepository;
-import repositories.UserRepository;
+import repositories.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class BookingLogic {
     PropertyRepository propertyRepository = new PropertyRepository();
     UserRepository userRepository = new UserRepository();
     BookingRepository bookingRepository = new BookingRepository();
+    ReviewRepository reviewRepository = new ReviewRepository();
     BookingMapper bookingMapper = new BookingMapper();
     BankAccountRepository bankAccountRepository = new BankAccountRepository();
 
@@ -67,24 +62,5 @@ public class BookingLogic {
             return true;
         }
         return false;
-    }
-
-    public String checkCanReviewProperty(Integer num1, Integer num2) {
-        List<Booking> bookings = bookingRepository.findBookingByPropertyId(num1, num2);
-        ArrayList<BookingDTO> books = new ArrayList<>();
-        for (Booking b : bookings) {
-            books.add(bookingMapper.bookingToDTO(Optional.ofNullable(b)));
-        }
-        if (books.isEmpty())
-            return "no";
-        return "yes";
-    }
-
-    public String checkCanReviewUser(Integer num1, Integer num2) {
-        var bookings = bookingRepository.findBookingByUser(num1, num2);
-        if (bookings.isEmpty()) {
-            return "no";
-        }
-        return "yes";
     }
 }

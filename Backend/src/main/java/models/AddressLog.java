@@ -3,7 +3,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "address_log")
+@Table(name = "addresses_log")
 public class AddressLog {
 
     @Id
