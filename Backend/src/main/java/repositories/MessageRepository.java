@@ -1,11 +1,14 @@
 package repositories;
 
-import routes.Message;
+import io.javalin.websocket.WsContext;
+import models.Message;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class MessageRepository {
@@ -27,6 +30,15 @@ public class MessageRepository {
             e.printStackTrace();
         }
         return Optional.empty();
+    }
+
+
+    public Map<String, List<WsContext>> fetchAllChatrooms () {
+        List<Message> entireList = (List<Message>) findAll();
+        List<String> keys = (List<String>) uniqueOpenThreads();
+        Map<String, List<WsContext>> complete = new HashMap<>();
+
+        return complete;
     }
 
 

@@ -3,19 +3,15 @@ package routes;
 import express.Express;
 import logic.WorkerLogic;
 import models.Worker;
-import org.hibernate.jdbc.Work;
 import repositories.MessageRepository;
-import util.CookieCreater;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import util.CookieCreator;
+
 import java.util.Optional;
-import util.PasswordHash;
 
 public class WorkerRoutes {
     private final Express app;
     MessageRepository messageRepository = new MessageRepository();
-    CookieCreater cookie = new CookieCreater();
+    CookieCreator cookie = new CookieCreator();
     WorkerLogic workerLogic = new WorkerLogic();
 
     public WorkerRoutes(Express app) {
