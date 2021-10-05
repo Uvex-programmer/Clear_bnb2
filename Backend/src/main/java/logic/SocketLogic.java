@@ -42,7 +42,9 @@ public class SocketLogic {
     public List<WsContext> getUsersFromRoom(String chatroom_id) {
         return chatRooms.get(chatroom_id);
     }
-    public void addToDatabase(Message msg) { messageRepository.save(msg); }
+    public void addToDatabase(Message msg) {
+        messageRepository.save(msg);
+    }
 
     public Boolean isWorker(String cookie) {
         return !(cookie == null) && cookie.equals("111");
@@ -69,6 +71,7 @@ public class SocketLogic {
         if(msg.getChatroom_id() == null){
             msg.setChatroom_id(ctx.cookie("id"));
         }
+        msg.setIs_support(false);
         addToDatabase(msg);
         return msg;
     }

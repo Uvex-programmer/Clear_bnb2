@@ -61,6 +61,7 @@ const Detailpage = () => {
   }
 
   const bookHandler = () => {
+    if (!userOnline) return
     const info = {
       days: getPriceFromDates()[0],
       totalPrice: getPriceFromDates()[1],
@@ -72,7 +73,7 @@ const Detailpage = () => {
     history.push(`/booking/${id}`)
   }
 
-  if (property?.images.length > 0) {
+  if (property?.images?.length > 0) {
     images = property.images.map((image, index) => {
       return (
         <img
@@ -85,13 +86,13 @@ const Detailpage = () => {
     })
   }
 
-  if (property?.amenities.length) {
+  if (property?.amenities?.length) {
     amenities = property.amenities.map((amenity, index) => {
       return <li key={index}>{amenity.amenity}</li>
     })
   }
 
-  if (property?.propertyLogs.length) {
+  if (property?.propertyLogs?.length) {
     logs = property.propertyLogs.map((log, index) => {
       return (
         <Card key={index}>

@@ -3,13 +3,13 @@ import express.Express;
 import logic.UserLogic;
 import models.User;
 import util.CookieCreator;
-import util.UUIDCreater;
+import util.UUIDCreator;
 
 public class UserRoutes {
 
     private final Express app;
     UserLogic userLogic = new UserLogic();
-    UUIDCreater uuid = new UUIDCreater();
+    UUIDCreator uuid = new UUIDCreator();
     CookieCreator creator = new CookieCreator();
 
     public UserRoutes(Express app) {
