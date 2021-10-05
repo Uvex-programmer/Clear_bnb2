@@ -41,15 +41,7 @@ public class MongoDB {
     
     public static List<Property> loadFromCache() {
         FindIterable<Property> mongoCollection = collection.find();
-        List<Property> mongoDbProperties = convertToList(mongoCollection);
-        
-        System.out.println("From mongo");
-        return mongoDbProperties;
-
-//            populateCache(propertyRepository);
-//            System.out.println("From SQL");
-//            return properties;
-    
+        return convertToList(mongoCollection);
     }
     
     public static void populateCache(PropertyRepository propertyRepository) {
@@ -69,7 +61,6 @@ public class MongoDB {
     }
     
     public void connectToMongoDB() {
-        
         CodecRegistry pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
                 fromProviders(PojoCodecProvider.builder().automatic(true).build()));
         String uri = "mongodb+srv://Slobban:1234@cluster0.q0kct.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
