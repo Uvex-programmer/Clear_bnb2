@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import classes from './Bookingpage.module.css'
 
 const Bookingpage = () => {
   const [storageHouse, setStorageHouse] = useState()
   const chosenProperty = useSelector((state) => state.userInfo.chosenObject)
   const userOnline = useSelector((state) => state.loginUser.user)
-  let dispatch = useDispatch()
-  dispatch()
 
   useEffect(() => {
     async function retrieveHouse() {

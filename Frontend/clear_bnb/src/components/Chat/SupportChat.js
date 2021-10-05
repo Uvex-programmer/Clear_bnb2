@@ -50,12 +50,6 @@ const SupportChat = () => {
     //fetchAllMessages()
   }, [])
 
-  const fetchAllMessages = () => {
-    fetch('/api/support/all-messages')
-      .then(async (res) => await res.json())
-      .then((data) => setChatRooms(data))
-  }
-
   const typeHandler = (e) => {
     e.stopPropagation()
     setSupportReply(e.target.value)

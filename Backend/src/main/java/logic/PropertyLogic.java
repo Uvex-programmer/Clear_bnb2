@@ -26,7 +26,6 @@ public class PropertyLogic {
         property.addUser(property.getUser());
         property.addAmenities(property.getAmenities());
         property.setImages(property.getImages());
-        System.out.println(property);
         propertyRepository.save(property);
         MongoDB.insertProperty(property);
         return property;
@@ -35,8 +34,9 @@ public class PropertyLogic {
     public List<PropertyHomeDTO> getHomeProperties() {
         
         List<Property> properties = MongoDB.loadFromCache();
-//
+
         if (properties.isEmpty()) return null;
+
         ArrayList<PropertyHomeDTO> propertiesHomeDTOs = new ArrayList<>();
         for (Property p : properties) {
             propertiesHomeDTOs.add(propertyMapper.propertyHomeToDTO(Optional.ofNullable(p)));

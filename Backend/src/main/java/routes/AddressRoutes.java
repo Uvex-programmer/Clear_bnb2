@@ -3,8 +3,6 @@ package routes;
 import DTO.AddressDTO;
 import express.Express;
 import logic.AddressLogic;
-import models.Address;
-import repositories.AddressRepository;
 
 public class AddressRoutes {
     private final Express app;
@@ -12,7 +10,6 @@ public class AddressRoutes {
     
     public AddressRoutes(Express app) {
         this.app = app;
-
         this.addressMethods();
     }
     

@@ -78,7 +78,7 @@ public class Address {
     
     @Override
     public String toString() {
-        return "AddressLogic{" +
+        return "Address{" +
                 "id=" + id +
                 ", street='" + street + '\'' +
                 ", zipcode='" + zipcode + '\'' +

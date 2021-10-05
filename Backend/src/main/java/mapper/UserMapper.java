@@ -1,7 +1,6 @@
 package mapper;
 import DTO.UserDTO;
 import models.User;
-
 import java.util.Optional;
 
 public class UserMapper {
