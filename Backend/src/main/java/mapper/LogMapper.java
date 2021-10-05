@@ -46,20 +46,21 @@ public class LogMapper {
     }
 
     public PropertyLog propertyToLog(Optional<Property> property){
-        var address = addressToLog(property.get().getAddress());
-        var amenity = amenityToLogList(property.get().getAmenities());
-        var images = imageToLogList(property.get().getImages());
+        var p = property.get();
+        var address = addressToLog(p.getAddress());
+        var amenity = amenityToLogList(p.getAmenities());
+        var images = imageToLogList(p.getImages());
         PropertyLog propertyLog = new PropertyLog();
-        propertyLog.addProperty(property.get());
-        propertyLog.setBathrooms(property.get().getBathrooms());
-        propertyLog.setCreatedAt(property.get().getCreatedAt());
-        propertyLog.setGuests(property.get().getGuests());
-        propertyLog.setDescription(property.get().getDescription());
-        propertyLog.setBeds(property.get().getBeds());
-        propertyLog.setDailyPrice(property.get().getDailyPrice());
-        propertyLog.setEndDate(property.get().getEndDate());
-        propertyLog.setStartDate(property.get().getStartDate());
-        propertyLog.setTitle(property.get().getTitle());
+        propertyLog.addProperty(p);
+        propertyLog.setBathrooms(p.getBathrooms());
+        propertyLog.setCreatedAt(p.getCreatedAt());
+        propertyLog.setGuests(p.getGuests());
+        propertyLog.setDescription(p.getDescription());
+        propertyLog.setBeds(p.getBeds());
+        propertyLog.setDailyPrice(p.getDailyPrice());
+        propertyLog.setEndDate(p.getEndDate());
+        propertyLog.setStartDate(p.getStartDate());
+        propertyLog.setTitle(p.getTitle());
         propertyLog.addAddress(address);
         propertyLog.addAmenities(amenity);
         propertyLog.addImages(images);
