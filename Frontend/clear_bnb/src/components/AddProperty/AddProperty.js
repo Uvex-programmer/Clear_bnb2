@@ -30,12 +30,12 @@ export default function AddProperty() {
     let propertyObj = {
       description: description,
       title: title,
-      beds: beds,
-      bathrooms: bathrooms,
-      guests: guests,
+      beds: beds >= 0 ? beds : 0,
+      bathrooms: bathrooms >= 0 ? bathrooms : 0,
+      guests: guests >= 0 ? guests : 0,
       startDate: startDate,
       endDate: endDate,
-      dailyPrice: price,
+      dailyPrice: price >= 0 ? price : 0,
       address: {
         street: address,
         zipcode: zipcode,
@@ -118,7 +118,9 @@ export default function AddProperty() {
           />
           <label>Zipcode</label>
           <input
-            type='text'
+            type='number'
+            min='0'
+            required
             value={zipcode}
             onChange={(e) => setZipcode(e.target.value)}
           />
@@ -130,19 +132,20 @@ export default function AddProperty() {
           />
           <label>Number of beds</label>
           <input
-            type='text'
+            type='number'
+            required
             value={beds}
             onChange={(e) => setBeds(e.target.value)}
           />
           <label>Number of bathrooms</label>
           <input
-            type='text'
+            type='number'
             value={bathrooms}
             onChange={(e) => setBathrooms(e.target.value)}
           />
           <label>Max guests</label>
           <input
-            type='text'
+            type='number'
             value={guests}
             onChange={(e) => setGuests(e.target.value)}
           />
@@ -164,7 +167,7 @@ export default function AddProperty() {
           />
           <label>Price per night</label>
           <input
-            type='text'
+            type='number'
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />

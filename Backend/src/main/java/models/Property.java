@@ -3,7 +3,7 @@ package models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
-import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -33,7 +33,7 @@ public class Property {
     private int bathrooms;
     @Column(name = "guest_max")
     private int guests;
-    @CreationTimestamp
+    @UpdateTimestamp
     @BsonIgnore
     @Column(name = "created_at")
     private Date createdAt;
@@ -134,7 +134,7 @@ public class Property {
     
     public void addImages(List<Image> images) {
         this.setImages(images);
-        for(Image img: images) {
+        for (Image img : images) {
             img.setProperty(this);
         }
     }

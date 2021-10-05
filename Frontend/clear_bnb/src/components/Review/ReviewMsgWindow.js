@@ -22,11 +22,7 @@ export const MessageWindow = ({ reviews }) => {
   return (
     <div className='window'>
       <div className='title'>Reviews! {rating}/5</div>
-      {userOnline ? (
-        <MessageList messages={reviews} userOnline={userOnline} />
-      ) : (
-        ''
-      )}
+      <MessageList messages={reviews} userOnline={userOnline} />
     </div>
   )
 }

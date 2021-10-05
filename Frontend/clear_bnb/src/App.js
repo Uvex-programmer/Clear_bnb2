@@ -3,7 +3,7 @@ import Navbar from './components/Navbar/Navbar'
 import Login from './components/Login/Login'
 import AddProperty from './components/AddProperty/AddProperty'
 import FrontPage from './components/Views/Frontpage/Frontpage'
-import ProfilePage from './components/Views/Profilepage/ProfilePage'
+import ProfilePage from './components/Views/ProfilePage/ProfilePage'
 import Detailpage from './components/Views/Detailpage/Detailpage'
 import SearchPage from './components/Views/Searchpage/Searchpage'
 import BookingPage from './components/Views/Bookingpage/Bookingpage'
@@ -21,7 +21,11 @@ function App() {
 
   useEffect(() => {
     fetch('/api/whoami')
+<<<<<<< HEAD
       .then(async (res) => await res.json())
+=======
+      .then(async (res) => res.json())
+>>>>>>> e6bbee46872e2783f6bf050e29ae0d078c573203
       .then((user) => {
         if (!user) return console.log('No user currently logged in.')
 

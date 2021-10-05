@@ -10,8 +10,14 @@ import java.util.Optional;
 
 public class BookingMapper {
 
-    public BookingDTO bookingToDTO(Optional<Booking> b) {
-        return new BookingDTO(b.get().getProperty().getId(), b.get().getStartDate(), b.get().getEndDate(), b.get().getBuyer().getId());
+    public BookingDTO bookingToDTO(Optional<Booking> booking) {
+        var b = booking.get();
+        BookingDTO bookingDTO = new BookingDTO();
+        bookingDTO.setPropertyId(b.getProperty().getId());
+        bookingDTO.setStartDate(b.getStartDate());
+        bookingDTO.setEndDate(b.getEndDate());
+        bookingDTO.setUserId(b.getBuyer().getId());
+        return bookingDTO;
     }
 
     public Booking bookingDTOToEntity(BookingDTO b, Optional<Property> property, Optional<User> user, Transaction transaction) {

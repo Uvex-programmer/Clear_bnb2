@@ -10,13 +10,27 @@ import java.util.Optional;
 public class ReviewMapper {
 
     public ReviewDTO propertyReviewToDTO(Optional<Review> review) {
-        return new ReviewDTO(review.get().getId(), review.get().getComment(), review.get().getRating(),
-                review.get().getUser().getId(), review.get().getUser().getFirstName(), review.get().getProperty().getId());
+        var r = review.get();
+        ReviewDTO reviewDTO = new ReviewDTO();
+        reviewDTO.setId(r.getId());
+        reviewDTO.setComment(r.getComment());
+        reviewDTO.setRating(r.getRating());
+        reviewDTO.setUserId(r.getUser().getId());
+        reviewDTO.setUsername(r.getUser().getFirstName());
+        reviewDTO.setReviewId(r.getProperty().getId());
+        return reviewDTO;
     }
 
     public ReviewDTO userReviewToDTO(Optional<Review> review) {
-        return new ReviewDTO(review.get().getId(), review.get().getComment(), review.get().getRating(),
-                review.get().getUser().getId(), review.get().getUser().getFirstName(), review.get().getReviewUser().getId());
+        var r = review.get();
+        ReviewDTO reviewDTO = new ReviewDTO();
+        reviewDTO.setId(r.getId());
+        reviewDTO.setComment(r.getComment());
+        reviewDTO.setRating(r.getRating());
+        reviewDTO.setUserId(r.getUser().getId());
+        reviewDTO.setUsername(r.getUser().getFirstName());
+        reviewDTO.setReviewId(r.getReviewUser().getId());
+        return reviewDTO;
     }
 
     public Review propertyReviewDTOtoEntity(ReviewDTO reviewDTO, Optional<User> user, Optional<Property> property){

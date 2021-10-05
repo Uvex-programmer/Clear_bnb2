@@ -1,9 +1,12 @@
 package logic;
 
 import DTO.PropertyDTO;
+import DTO.PropertyHomeDTO;
 import mapper.LogMapper;
 import mapper.PropertyMapper;
-import models.*;
+import models.Property;
+import models.PropertyLog;
+import models.PropertyView;
 import repositories.PropertyRepository;
 import util.MongoDB;
 
@@ -29,10 +32,20 @@ public class PropertyLogic {
         return property;
     }
     
+    public List<PropertyHomeDTO> getHomeProperties() {
+        
+        List<Property> properties = MongoDB.loadFromCache();
+//
+        if (properties.isEmpty()) return null;
+        ArrayList<PropertyHomeDTO> propertiesHomeDTOs = new ArrayList<>();
+        for (Property p : properties) {
+            propertiesHomeDTOs.add(propertyMapper.propertyHomeToDTO(Optional.ofNullable(p)));
+        }
+        return propertiesHomeDTOs;
+    }
+    
     public List<PropertyDTO> getProperties() {
-        //mongo db
         System.out.println(propertyRepository.findAvailableObjects());
-        MongoDB.checkIfCached(propertyRepository.findAvailableObjects(), propertyRepository);
         List<Property> properties = propertyRepository.findAvailableObjects();
         if (properties.isEmpty()) return null;
         ArrayList<PropertyDTO> propertiesDTOs = new ArrayList<>();
@@ -57,20 +70,20 @@ public class PropertyLogic {
         }
         return propertiesDTO;
     }
-
-    public List<?> searchProperties(PropertyView searchResult){
+    
+    public List<?> searchProperties(PropertyView searchResult) {
         return propertyRepository.findObjectsBySearch(searchResult.getCity(),
                 searchResult.getBeds(), searchResult.getBaths(), searchResult.getGuests(), searchResult.getDailyPrice(),
                 searchResult.getStartDate(), searchResult.getEndDate());
     }
-
-    public void updateProperty(PropertyDTO p, Integer id){
+    
+    public void updateProperty(PropertyDTO p, Integer id) {
         Optional<Property> propertyBefore = propertyRepository.findById(id);
         Property property = propertyMapper.dtoToProperty(p, propertyBefore);
         PropertyLog propertyLog = logMapper.propertyToLog(propertyBefore);
         property.getPropertyLogs().add(propertyLog);
         propertyRepository.updateProperty(property);
     }
-
-
+    
+    
 }
