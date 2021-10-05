@@ -33,9 +33,9 @@ public class PropertyLogic {
     }
     
     public List<PropertyHomeDTO> getHomeProperties() {
-        //mongo db
+        
         List<Property> properties = MongoDB.checkIfCached(propertyRepository.findAvailableObjects(), propertyRepository);
-//        List<Property> properties = propertyRepository.findAvailableObjects();
+//
         if (properties.isEmpty()) return null;
         ArrayList<PropertyHomeDTO> propertiesHomeDTOs = new ArrayList<>();
         for (Property p : properties) {
@@ -80,7 +80,6 @@ public class PropertyLogic {
     public void updateProperty(PropertyDTO p, Integer id) {
         Optional<Property> propertyBefore = propertyRepository.findById(id);
         Property property = propertyMapper.dtoToProperty(p, propertyBefore);
-        property.setEdited(true);
         PropertyLog propertyLog = logMapper.propertyToLog(propertyBefore);
         property.getPropertyLogs().add(propertyLog);
         propertyRepository.updateProperty(property);

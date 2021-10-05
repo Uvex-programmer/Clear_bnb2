@@ -52,9 +52,6 @@ public class MongoDB {
         }
     }
     
-    //todo Version nummer på propertytable som kollas mot mongo dbs
-    // räcker kanske med att edita i update logiken?
-    
     public static void populateCache(PropertyRepository propertyRepository) {
         collection.deleteMany(new Document());
         List<Property> availableObjects = propertyRepository.findAvailableObjects();

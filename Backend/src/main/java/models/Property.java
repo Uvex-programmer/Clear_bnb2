@@ -33,7 +33,6 @@ public class Property {
     private int bathrooms;
     @Column(name = "guest_max")
     private int guests;
-    private boolean edited;
     @CreationTimestamp
     @BsonIgnore
     @Column(name = "created_at")
@@ -92,7 +91,6 @@ public class Property {
         this.beds = beds;
         this.bathrooms = bathrooms;
         this.guests = guests;
-        this.edited = false;
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyPrice = (int) Math.ceil(dailyPrice * 1.15);
@@ -110,19 +108,10 @@ public class Property {
         this.beds = beds;
         this.bathrooms = bathrooms;
         this.guests = guests;
-        this.edited = false;
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyPrice = (int) Math.ceil(dailyPrice * 1.15);
         
-    }
-    
-    public boolean isEdited() {
-        return edited;
-    }
-    
-    public void setEdited(boolean edited) {
-        this.edited = edited;
     }
     
     public List<PropertyLog> getPropertyLogs() {

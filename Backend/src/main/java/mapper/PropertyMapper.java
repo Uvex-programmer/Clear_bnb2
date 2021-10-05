@@ -38,10 +38,10 @@ public class PropertyMapper {
         return new PropertyHomeDTO(
                 p.get().getId(),
                 p.get().getTitle(),
-                p.get().getDescription()
-                , p.get().getBeds(),
-                p.get().getBathrooms()
-                , p.get().getGuests(),
+                p.get().getDescription(),
+                p.get().getBeds(),
+                p.get().getBathrooms(),
+                p.get().getGuests(),
                 p.get().getCreatedAt(),
                 p.get().getStartDate(),
                 p.get().getEndDate(),
