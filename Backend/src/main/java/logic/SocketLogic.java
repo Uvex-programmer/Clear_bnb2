@@ -2,7 +2,6 @@ package logic;
 
 import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
-import org.hibernate.boot.jaxb.hbm.spi.SubEntityInfo;
 import repositories.MessageRepository;
 import models.Message;
 import java.sql.Timestamp;
@@ -11,10 +10,39 @@ import java.util.*;
 public class SocketLogic {
     //private final List<WsContext> clients = new ArrayList<>(); /17. this.clients.remove(client); /45. clients.add(ctx);
     private final MessageRepository messageRepository = new MessageRepository();
-    CustomerSupport supportWorker = new CustomerSupport();
-    public void addToDatabase(Message msg) {
-        messageRepository.save(msg);
+    private final Map<String, List<WsContext>> chatRooms = messageRepository.fetchAllChatrooms();
+
+    public List<WsContext> getSupportWorkers() {
+        return supportWorkers;
     }
+
+    private final List<WsContext> supportWorkers = new ArrayList<>();
+
+    public List<WsContext> createChatRoom(WsContext ctx, Message msg) {
+        List<WsContext> participants = new ArrayList<>();
+        participants.add(ctx);
+        chatRooms.put(msg.getChatroom_id(), participants);
+        return notifyWorkers(msg);
+    }
+
+    public List<WsContext> notifyWorkers(Message msg) {
+        List<WsContext> workers = getSupportWorkers();
+        msg.setPayload(getPayload());
+        return workers;
+    }
+
+    public void addToRoom(String room, WsContext worker) {
+        chatRooms.get(room).add(worker);
+    }
+
+    public Map<String, List<WsContext>> getChatRooms() {
+        return chatRooms;
+    }
+
+    public List<WsContext> getUsersFromRoom(String chatroom_id) {
+        return chatRooms.get(chatroom_id);
+    }
+    public void addToDatabase(Message msg) { messageRepository.save(msg); }
 
     public Boolean isWorker(String cookie) {
         return !(cookie == null) && cookie.equals("111");
