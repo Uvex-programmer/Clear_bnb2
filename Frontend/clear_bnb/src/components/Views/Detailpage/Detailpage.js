@@ -93,6 +93,7 @@ const Detailpage = () => {
 
   if (property?.propertyLogs.length) {
     logs = property.propertyLogs.map((log, index) => {
+      console.log(log)
       return (
         <Card key={index}>
           <h2>Version: {index + 1}</h2>
