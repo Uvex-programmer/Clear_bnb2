@@ -47,8 +47,9 @@ public class MongoDB {
     public static void populateCache(PropertyRepository propertyRepository) {
         collection.deleteMany(new Document());
         List<Property> availableObjects = propertyRepository.findAvailableObjects();
-        
-        collection.insertMany(availableObjects);
+        if (availableObjects.size() > 0) {
+            collection.insertMany(availableObjects);
+        }
     }
     
     public static void insertProperty(Property property) {
@@ -64,7 +65,6 @@ public class MongoDB {
         CodecRegistry pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
                 fromProviders(PojoCodecProvider.builder().automatic(true).build()));
         String uri = "mongodb+srv://Slobban:1234@cluster0.q0kct.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-        
         MongoClient mongoClient = MongoClients.create(uri);
         database = mongoClient.getDatabase("bnb-cache").withCodecRegistry(pojoCodecRegistry);
         collection = database.getCollection("Property", Property.class);
