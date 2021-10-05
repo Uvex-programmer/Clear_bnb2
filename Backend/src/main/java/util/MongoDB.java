@@ -6,6 +6,7 @@ import models.Property;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.bson.conversions.Bson;
 import repositories.PropertyRepository;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.mongodb.client.model.Filters.eq;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
@@ -52,21 +54,21 @@ public class MongoDB {
     
     //todo Version nummer på propertytable som kollas mot mongo dbs
     // räcker kanske med att edita i update logiken?
-    // ta bort det som inte behövs på frontpage i DTO?
     
     public static void populateCache(PropertyRepository propertyRepository) {
         collection.deleteMany(new Document());
-        idNumbers.clear();
         List<Property> availableObjects = propertyRepository.findAvailableObjects();
-        
-        availableObjects.forEach(obj -> idNumbers.add(obj.getId()));
         
         collection.insertMany(availableObjects);
     }
     
     public static void insertProperty(Property property) {
-        idNumbers.add(property.getId());
         collection.insertOne(property);
+    }
+    
+    public static void updateProperty(Property property) {
+        Bson filter = eq("_id", property.getId());
+        collection.findOneAndReplace(filter, property);
     }
     
     public void connectToMongoDB() {
