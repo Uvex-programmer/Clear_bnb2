@@ -14,7 +14,7 @@ const Review = ({ userOnline, property }) => {
 
   useEffect(() => {
     if (!userOnline) return
-    fetch(`/api/get-property-bookings/${id}/${userOnline.id}`)
+    fetch(`/api/check-permission-review-property/${id}/${userOnline.id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.isAllowed) {

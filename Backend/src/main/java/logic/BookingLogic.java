@@ -63,28 +63,4 @@ public class BookingLogic {
         }
         return false;
     }
-
-    public Map<String, Boolean> checkCanReviewProperty(Integer propertyId, Integer userId) {
-        Map<String, Boolean> isAllowed = new HashMap<>();
-        List<Booking> bookings = bookingRepository.findBookingByPropertyId(propertyId, userId);
-        if(bookings.size() < 1) {
-            isAllowed.put("isAllowed", false);
-        }else{
-            List<Review> reviews = reviewRepository.findUserReviewsOnProperty(propertyId, userId);
-            if(reviews.size() < 1) {
-                isAllowed.put("isAllowed", true);
-            }else{
-                isAllowed.put("isAllowed", false);
-            }
-        }
-        return isAllowed;
-    }
-
-    public String checkCanReviewUser(Integer num1, Integer num2) {
-        var bookings = bookingRepository.findBookingByUser(num1, num2);
-        if (bookings.isEmpty()) {
-            return "no";
-        }
-        return "yes";
-    }
 }

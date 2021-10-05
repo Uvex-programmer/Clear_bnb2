@@ -25,14 +25,6 @@ public class BookingRoutes {
         app.get("/api/getUserBookings/:id", (req, res) -> {
         });
 
-        app.get("/api/get-property-bookings/:id/:id2", (req, res) -> {
-            res.json(logic.checkCanReviewProperty(Integer.parseInt(req.params("id")), Integer.parseInt(req.params("id2"))));
-        });
-
-        app.get("/api/get-user-bookings/:id/:id2", (req, res) -> {
-            res.json(logic.checkCanReviewUser(Integer.parseInt(req.params("id")), Integer.parseInt(req.params("id2"))));
-        });
-
         app.post("/api/purchase-booking", (req, res) -> {
             boolean gotCoverage = logic.gotCoverage(req.body(BookingDTO.class), Integer.parseInt(req.body().get("userId").toString()));
             

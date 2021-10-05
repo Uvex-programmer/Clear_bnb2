@@ -37,7 +37,7 @@ const Detailpage = () => {
         }
         setProperty(data)
       })
-  }, [id, checkUpdate, reviews])
+  }, [id, checkUpdate])
 
   useEffect(() => {
     fetch(`/api/get-reviews-on-property/${id}`)

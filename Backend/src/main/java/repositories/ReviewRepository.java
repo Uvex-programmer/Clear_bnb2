@@ -35,6 +35,13 @@ public class ReviewRepository implements ReviewRepoInterface {
                 .getResultList();
     }
 
+    public List<Review> findUserReviewsOnUser(Integer userReviewId, Integer userId){
+        return entityManager.createQuery("from Review WHERE reviewUser.id = :id AND user.id = :id2", Review.class)
+                .setParameter("id", userReviewId)
+                .setParameter("id2", userId)
+                .getResultList();
+    }
+
     public List<Review> findAllReviewsOnUserId(Integer id){
         return entityManager.createQuery("from Review WHERE reviewUser.id = :id", Review.class)
                 .setParameter("id", id)

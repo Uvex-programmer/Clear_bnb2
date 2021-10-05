@@ -38,5 +38,13 @@ public class ReviewRoutes {
         app.delete("/api/delete-review/:id", (req, res) -> {
             reviewRepository.delete(Integer.parseInt(req.params("id")));
         });
+
+        app.get("/api/check-permission-review-property/:id/:id2", (req, res) -> {
+            res.json(reviewLogic.checkCanReviewProperty(Integer.parseInt(req.params("id")), Integer.parseInt(req.params("id2"))));
+        });
+
+        app.get("/api/check-permission-review-user/:id/:id2", (req, res) -> {
+            res.json(reviewLogic.checkCanReviewUser(Integer.parseInt(req.params("id")), Integer.parseInt(req.params("id2"))));
+        });
     }
 }
