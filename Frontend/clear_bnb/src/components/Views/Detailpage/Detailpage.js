@@ -13,6 +13,7 @@ const Detailpage = () => {
   const [property, setProperty] = useState()
   const [checkUpdate, setCheckUpdate] = useState(false)
   const [startDate, setStartDate] = useState('')
+  const [showUpdate, setShowUpdate] = useState(false)
   const [endDate, setEndDate] = useState('')
   const { id } = useParams()
 
@@ -36,7 +37,7 @@ const Detailpage = () => {
         }
         setProperty(data)
       })
-  }, [id, checkUpdate])
+  }, [id, checkUpdate, reviews])
 
   useEffect(() => {
     fetch(`/api/get-reviews-on-property/${id}`)
@@ -192,16 +193,20 @@ const Detailpage = () => {
             <MessageWindow reviews={reviews} />
             <ReviewPost userOnline={userOnline} property={property} />
           </div>
-          <Card>
-            Update property!
+          {showUpdate ? (
             <Card>
-              <AddProperty
-                property={property}
-                setCheckUpdate={setCheckUpdate}
-                value={checkUpdate}
-              />
+              Update property!
+              <Card>
+                <AddProperty
+                  property={property}
+                  setCheckUpdate={setCheckUpdate}
+                  value={checkUpdate}
+                />
+              </Card>
             </Card>
-          </Card>
+          ) : (
+            ''
+          )}
           <div style={{}}>{logs}</div>
         </>
       )}

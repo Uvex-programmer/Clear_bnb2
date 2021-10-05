@@ -5,6 +5,8 @@ import express.Express;
 import logic.BookingLogic;
 import models.Booking;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class BookingRoutes {

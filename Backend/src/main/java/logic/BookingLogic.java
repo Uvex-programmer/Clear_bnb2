@@ -1,22 +1,17 @@
 package logic;
 
 import DTO.BookingDTO;
-import DTO.ReviewDTO;
 import mapper.BookingMapper;
 import models.*;
-import repositories.BankAccountRepository;
-import repositories.BookingRepository;
-import repositories.PropertyRepository;
-import repositories.UserRepository;
+import repositories.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class BookingLogic {
     PropertyRepository propertyRepository = new PropertyRepository();
     UserRepository userRepository = new UserRepository();
     BookingRepository bookingRepository = new BookingRepository();
+    ReviewRepository reviewRepository = new ReviewRepository();
     BookingMapper bookingMapper = new BookingMapper();
     BankAccountRepository bankAccountRepository = new BankAccountRepository();
 
@@ -69,15 +64,20 @@ public class BookingLogic {
         return false;
     }
 
-    public String checkCanReviewProperty(Integer num1, Integer num2) {
-        List<Booking> bookings = bookingRepository.findBookingByPropertyId(num1, num2);
-        ArrayList<BookingDTO> books = new ArrayList<>();
-        for (Booking b : bookings) {
-            books.add(bookingMapper.bookingToDTO(Optional.ofNullable(b)));
+    public Map<String, Boolean> checkCanReviewProperty(Integer propertyId, Integer userId) {
+        Map<String, Boolean> isAllowed = new HashMap<>();
+        List<Booking> bookings = bookingRepository.findBookingByPropertyId(propertyId, userId);
+        if(bookings.size() < 1) {
+            isAllowed.put("isAllowed", false);
+        }else{
+            List<Review> reviews = reviewRepository.findUserReviewsOnProperty(propertyId, userId);
+            if(reviews.size() < 1) {
+                isAllowed.put("isAllowed", true);
+            }else{
+                isAllowed.put("isAllowed", false);
+            }
         }
-        if (books.isEmpty())
-            return "no";
-        return "yes";
+        return isAllowed;
     }
 
     public String checkCanReviewUser(Integer num1, Integer num2) {

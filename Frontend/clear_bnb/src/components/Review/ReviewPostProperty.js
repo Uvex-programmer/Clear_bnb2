@@ -1,10 +1,11 @@
 import './ReviewPostProperty.css'
 import { useState, useEffect } from 'react'
 import { addReview } from '../../slicers/PropertyReviewsSlicer'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 
 const Review = ({ userOnline, property }) => {
+  const reviews = useSelector((state) => state.propertyReviews.reviews)
   const [reviewText, setReviewText] = useState('')
   const [rating, setRating] = useState(1)
   const [check, setcheck] = useState(false)
@@ -16,11 +17,13 @@ const Review = ({ userOnline, property }) => {
     fetch(`/api/get-property-bookings/${id}/${userOnline.id}`)
       .then((res) => res.json())
       .then((data) => {
-        if (data === 'no') {
+        if (data.isAllowed) {
+          setcheck(true)
+        } else {
           setcheck(false)
-        } else setcheck(true)
+        }
       })
-  }, [id, userOnline])
+  }, [id, userOnline, reviews])
 
   const sendReview = async (e) => {
     e.preventDefault()
@@ -39,6 +42,7 @@ const Review = ({ userOnline, property }) => {
     })
     var reviewPost = await res.json()
     dispatch(addReview(reviewPost))
+    setcheck(false)
   }
 
   return (
