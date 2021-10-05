@@ -36,12 +36,12 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
     let propertyObj = {
       description: description,
       title: title,
-      beds: beds,
-      bathrooms: bathrooms,
-      guests: guests,
+      beds: beds >= 0 ? beds : 0,
+      bathrooms: bathrooms >= 0 ? bathrooms : 0,
+      guests: guests >= 0 ? guests : 0,
       startDate: startDate,
       endDate: endDate,
-      dailyPrice: price,
+      dailyPrice: price >= 0 ? price : 0,
       amenities: amenitiesAdd,
       images: imgUrls,
       address: {
@@ -116,7 +116,7 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
 
             <label>Zipcode</label>
             <input
-              type='text'
+              type='number'
               value={zipcode}
               onChange={(e) => setZipcode(e.target.value)}
             />
@@ -130,21 +130,21 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
 
             <label>Number of beds</label>
             <input
-              type='text'
+              type='number'
               value={beds}
               onChange={(e) => setBeds(e.target.value)}
             />
 
             <label>Number of bathrooms</label>
             <input
-              type='text'
+              type='number'
               value={bathrooms}
               onChange={(e) => setBathrooms(e.target.value)}
             />
 
             <label>Max guests</label>
             <input
-              type='text'
+              type='number'
               value={guests}
               onChange={(e) => setGuests(e.target.value)}
             />
@@ -169,7 +169,7 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
 
             <label>Price per night</label>
             <input
-              type='text'
+              type='number'
               value={price}
               onChange={(e) => setPrice(e.target.value)}
             />
