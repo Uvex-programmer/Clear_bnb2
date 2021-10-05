@@ -1,6 +1,7 @@
 package mapper;
 
 import DTO.PropertyDTO;
+import DTO.PropertyHomeDTO;
 import models.*;
 import java.util.Optional;
 
