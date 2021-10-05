@@ -60,6 +60,7 @@ const Chat = () => {
   }, [])
 
   const sendToServer = () => {
+    if (!userMessage.trim()) return
     const message = {
       msg: userMessage,
       time_sent: new Date().getTime(),
@@ -78,7 +79,11 @@ const Chat = () => {
       <p onClick={resizeChat}>
         Support Chat <span className={toggleSymbol}>{open ? '-' : '+'}</span>
       </p>
-      <ChatConversation messages={conversation} />
+      <ChatConversation
+        messages={conversation}
+        server='public_server-color'
+        user='public_user-color'
+      />
       <div className={classes['input-container']}>
         <input
           type='text'
