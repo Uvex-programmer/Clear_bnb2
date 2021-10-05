@@ -193,7 +193,7 @@ const Detailpage = () => {
             <MessageWindow reviews={reviews} />
             <ReviewPost userOnline={userOnline} property={property} />
           </div>
-          {showUpdate ? (
+          {userOnline?.id === property?.userId ? (
             <Card>
               Update property!
               <Card>
