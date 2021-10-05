@@ -6,9 +6,7 @@ import models.Session;
 import models.User;
 import repositories.SessionRepository;
 import repositories.UserRepository;
-import util.CookieCreater;
 import util.PasswordHash;
-import util.UUIDCreater;
 
 import javax.servlet.http.Cookie;
 import java.sql.Timestamp;
