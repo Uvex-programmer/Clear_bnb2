@@ -6,7 +6,7 @@ function FrontPage() {
   let cards = ''
 
   useEffect(() => {
-    fetch('/api/get-properties')
+    fetch('/api/get-home-properties')
       .then((res) => res.json())
       .then((data) => {
         setProperties(data)
