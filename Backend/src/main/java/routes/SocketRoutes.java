@@ -16,8 +16,8 @@ public class SocketRoutes {
         app.ws("/websockets/chat", ws -> {
             ws.onConnect(ctx -> ctx.send(socketLogic.onConnectHandler(ctx, ctx.cookie("current-user"))));
             ws.onMessage(ctx -> {
-                socketLogic.onMessageHandler(ctx).forEach((msg, list) -> {
-                    list.forEach(participant -> participant.send(msg));
+                socketLogic.onMessageHandler(ctx).forEach((msg, participant) -> {
+                    participant.forEach(p -> p.send(msg));
                 });
             });
             ws.onBinaryMessage(ctx -> System.out.println("Message"));
