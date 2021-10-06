@@ -26,7 +26,8 @@ public class SocketLogic {
         if(isWorker(cookie)) {
             msg.setMsg("Welcome for another day of work!");
             msg.setPayload(uniqueRooms());
-            if(!supportWorkers.contains(ctx)) supportWorkers.add(ctx);
+            supportWorkers.clear();
+            supportWorkers.add(0, ctx);
         }
         userRefreshedPage(ctx);
         return msg;
@@ -63,8 +64,15 @@ public class SocketLogic {
         Message msg = createMessage(ctx);
 
          if (!chatRoomExists(chatRooms, ctx)) msg = createChatRoom(ctx, msg);
+        if(msg.getIs_support()) {
+            chatRooms.forEach((id, list) -> {
+                if(chatRooms.get(id).size() < 2) {
+                    chatRooms.get(id).add(ctx);
+                }
+            });
+        }
 
-        delivery.put(msg, getChatRooms().get(chatRoomId == null ? ctx.cookie("id") : chatRoomId));
+        delivery.put(msg, getChatRooms().get(chatRoomId != null ? chatRoomId : ctx.cookie("id")));
         return delivery;
         };
 
