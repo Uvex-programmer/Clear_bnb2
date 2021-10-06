@@ -1,9 +1,10 @@
-package routes;
+package models;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table( name = "messages" )
@@ -21,17 +22,20 @@ public class Message {
     private String chatroom_id;
     @CreationTimestamp
     private java.sql.Timestamp created_at;
+    @Transient
+    private List<?> payload;
 
 
     public Message() {
 
     }
 
-    public Message(String msg, java.sql.Timestamp time_sent, String userId, String chatroom_id) {
+    public Message(String msg, java.sql.Timestamp time_sent, String userId, String chatroom_id, Boolean is_support) {
         this.msg = msg;
         this.time_sent = time_sent;
         this.userId = userId;
         this.chatroom_id = chatroom_id;
+        this.is_support = is_support;
     }
 
     @Override
@@ -40,6 +44,16 @@ public class Message {
                 "msg='" + msg + '\'' +
                 " }";
     }
+
+
+    public List<?> getPayload() {
+        return payload;
+    }
+
+    public void setPayload(List<?> payload) {
+        this.payload = payload;
+    }
+
 
     public String getMsg() {
         return msg;

@@ -2,7 +2,6 @@ export const getSocket = (function () {
   let instance
 
   function createInstance() {
-    console.log('Creating socket..')
     const webSocket = new WebSocket('ws://localhost:4000/websockets/chat')
     return webSocket
   }
@@ -43,7 +42,6 @@ export const SendMessageToServer = (msg, socket) => {
 
 export const createAndConnect = (callback) => {
   const socket = getSocket.getInstance()
-  console.log('Connecting...')
   addSocketEventListeners(socket, callback)
   return socket
 }

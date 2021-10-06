@@ -1,5 +1,5 @@
 import classes from './Chat.module.css'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { createAndConnect } from '../../utils/Socket'
 import { useSelector } from 'react-redux'
 import { ChatConversation } from './ChatConversation'
@@ -25,6 +25,21 @@ const Chat = () => {
     setHover(false)
     setCTimeout(true)
   }
+
+  // useEffect(() => {
+  //   console.log('SupportChat component booted up..')
+  //   fetch('/api/support/messages', {
+  //     method: 'POST',
+  //     body: JSON.stringify({ id: chatroom_id }),
+  //   })
+  //     .then(async (res) => await res.json())
+  //     .then((data) => {
+  //       if (data?.payload) {
+  //       }
+
+  //       setConversation(data)
+  //     })
+  // }, [])
 
   const resizeChatWhenHover = () => {
     if (open) return setHover(false)
@@ -60,6 +75,7 @@ const Chat = () => {
   }, [])
 
   const sendToServer = () => {
+    if (!userMessage.trim()) return
     const message = {
       msg: userMessage,
       time_sent: new Date().getTime(),
@@ -78,7 +94,11 @@ const Chat = () => {
       <p onClick={resizeChat}>
         Support Chat <span className={toggleSymbol}>{open ? '-' : '+'}</span>
       </p>
-      <ChatConversation messages={conversation} />
+      <ChatConversation
+        messages={conversation}
+        server='public_server-color'
+        user='public_user-color'
+      />
       <div className={classes['input-container']}>
         <input
           type='text'

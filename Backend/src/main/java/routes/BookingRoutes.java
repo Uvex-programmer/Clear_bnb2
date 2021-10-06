@@ -4,9 +4,6 @@ import DTO.BookingDTO;
 import express.Express;
 import logic.BookingLogic;
 import models.Booking;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 public class BookingRoutes {
@@ -19,7 +16,6 @@ public class BookingRoutes {
         this.bookingMethods();
     }
 
-
     public void bookingMethods() {
 
         app.post("/api/purchase-booking", (req, res) -> {
@@ -29,7 +25,7 @@ public class BookingRoutes {
             Optional<Booking> booking = logic.createBooking(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString()));
                 if(booking.isPresent()){
                     logic.transferHandler(req.body(BookingDTO.class), Integer.parseInt(req.body().get("propertyId").toString()), Integer.parseInt(req.body().get("userId").toString()));
-                    res.json(booking.get()).type("application/json ");
+                    res.json(booking.get());
                 }else{
                     res.json("Date already booked!");
                 }

@@ -3,61 +3,116 @@ package logic;
 import io.javalin.websocket.WsContext;
 import io.javalin.websocket.WsMessageContext;
 import repositories.MessageRepository;
-import routes.Message;
-
-
+import models.Message;
 import java.sql.Timestamp;
 import java.util.*;
 
 public class SocketLogic {
-
-    public List<WsContext> getClients() { return clients; }
-    public void addClients(WsContext client) { this.clients.add(client); }
-    public String removeClient(WsContext client, String returnMessage) {
-        this.clients.remove(client);
-        return returnMessage;
-    }
-    public Map<String, List<WsContext>> getChatRooms() { return chatRooms; }
-    public void setChatRooms(Map<String, List<WsContext>> chatRooms) { this.chatRooms = chatRooms; }
-
-    private List<WsContext> clients = new ArrayList<>();
-    private Map<String, List<WsContext>> chatRooms =  new HashMap<>();
     private final MessageRepository messageRepository = new MessageRepository();
+    private final Map<String, List<WsContext>> chatRooms = new HashMap<>();
+    private final List<WsContext> supportWorkers = new ArrayList<>();
+
+
     public void addToDatabase(Message msg) {
-        messageRepository.save(msg);
+        if(msg.getChatroom_id() != null) messageRepository.save(msg);
+    }
+
+    public List<?> uniqueRooms() {
+        return messageRepository.uniqueRooms();
+    }
+
+    public Message onConnectHandler(WsContext ctx, String cookie) {
+        Message msg = new Message("Hello! My name is Mary and I work as a customer relations expert. How may I be of service?", new Timestamp(new Date().getTime()),"support_message", "none", true);
+        if(isWorker(cookie)) {
+            msg.setMsg("Welcome for another day of work!");
+            msg.setPayload(uniqueRooms());
+            supportWorkers.add(ctx);
+        }
+        userRefreshedPage(ctx);
+        return msg;
+    }
+
+    public void userRefreshedPage(WsContext ctx) {
+        String userId = ctx.cookie("id");
+        List<WsContext> chatRoom = chatRooms.get(userId);
+        if(chatRoom != null){
+            chatRoom.removeIf(context -> Objects.equals(context.cookie("id"), userId));
+            chatRoom.add(ctx);
+        }
+    }
+
+    public void removeUserFromRoom(WsContext ctx){
+        String userId = ctx.cookie("id");
+        List<WsContext> chatRoom = chatRooms.get(userId);
+        if(chatRoom != null) chatRoom.removeIf(context -> Objects.equals(context.cookie("id"), userId));
+    }
+
+    public Message createMessage(WsMessageContext ctx) {
+        Message msg = ctx.message(Message.class);
+        msg.setIs_support(ctx.cookie("is_support") != null );
+        if(msg.getChatroom_id() == null) msg.setChatroom_id(ctx.cookie("id"));
+
+        addToDatabase(msg);
+        return msg;
+    }
+
+
+    public HashMap <Message, List<WsContext>> onMessageHandler(WsMessageContext ctx) {
+        Message msg = createMessage(ctx);
+        String roomId = ctx.message(Message.class).getChatroom_id();
+        HashMap <Message, List<WsContext>> delivery = new HashMap<>();
+
+        if(fromWorker(roomId)) {
+            if(!getUsersFromRoom(roomId).contains(ctx)) addToRoom(roomId, ctx);
+        }
+        else if (!chatRoomExists(chatRooms, ctx)){
+            msg.setPayload(uniqueRooms());
+            createChatRoom(ctx, msg).forEach(worker -> worker.send(msg));
+        }
+
+        delivery.put(msg, getChatRooms().get(roomId == null ? ctx.cookie("id") : roomId));
+        return delivery;
+        };
+
+
+    public List<WsContext> createChatRoom(WsContext ctx, Message msg) {
+        List<WsContext> participants = new ArrayList<>();
+        participants.add(ctx);
+        participants.add(supportWorkers.get(0));
+        chatRooms.put(msg.getChatroom_id(), participants);
+        return notifyWorkers();
+    }
+
+    public List<WsContext> notifyWorkers() {
+        List<WsContext> workers = getSupportWorkers();
+        return workers;
+    }
+
+    public Map<String, List<WsContext>> getChatRooms() {
+        return chatRooms;
+    }
+
+    public List<WsContext> getSupportWorkers() {
+        return supportWorkers;
+    }
+
+    public void addToRoom(String room, WsContext ctx) {
+        chatRooms.get(room).add(ctx);
+    }
+
+    public List<WsContext> getUsersFromRoom(String chatroom_id) {
+        return chatRooms.get(chatroom_id);
     }
 
     public Boolean isWorker(String cookie) {
         return !(cookie == null) && cookie.equals("111");
     }
 
-    public Message connectedMessage(WsContext ctx, String cookie) {
-        addClients(ctx);
-        Message msg = new Message("Hello! My name is Mary and I work as a customer relations expert. How may I be of service?", new Timestamp(new Date().getTime()),  "support", "");
-        if(isWorker(cookie)) {
-            msg.setMsg("Welcome for another day of work!");
-        } else {
-            msg.setMsg("Hello! My name is Mary and I work as a customer relations expert. How may I be of service?");
-        }
-        return msg;
+    public static Boolean fromWorker(String room_id) {
+        return room_id != null;
     }
 
-    public Message onMessageHandler(WsMessageContext ctx) {
-        Message msg = ctx.message(Message.class);
-        msg.setIs_support(isWorker(ctx.cookie("current-user")));
-        if(msg.getChatroom_id() == null) msg.setChatroom_id(ctx.cookie("id"));
-        addToDatabase(msg);
-        return msg;
-    }
-
-    public void createChatRoom(WsContext ctx, Message msg) {
-        List<WsContext> participants = new ArrayList<>();
-        participants.add(ctx);
-        clients.forEach(client -> {
-            if(client.cookie("id").equals(msg.getChatroom_id())) {
-                participants.add(client);
-            }
-        });
-        chatRooms.put(msg.getChatroom_id(), participants);
+    public static Boolean chatRoomExists(Map<String, List<WsContext>> chatRooms, WsContext ctx) {
+        return chatRooms.containsKey(ctx.cookie("id"));
     }
  }

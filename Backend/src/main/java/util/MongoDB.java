@@ -21,7 +21,6 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 public class MongoDB {
     
     static MongoCollection<Property> collection;
-    static Set<Integer> idNumbers = new HashSet<>();
     PropertyRepository propertyRepository = new PropertyRepository();
     MongoDatabase database;
     

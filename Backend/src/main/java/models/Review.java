@@ -44,23 +44,6 @@ public class Review {
         this.id = id;
     }
 
-//    public int getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(int userId) {
-//        this.userId = userId;
-//    }
-//
-//    public int getPropertyId() {
-//        return propertyId;
-//    }
-//
-//    public void setPropertyId(int propertyId) {
-//        this.propertyId = propertyId;
-//    }
-    
-    
     public User getReviewUser() {
         return reviewUser;
     }

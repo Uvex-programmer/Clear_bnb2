@@ -2,21 +2,16 @@ package routes;
 import DTO.UserDTO;
 import express.Express;
 import logic.UserLogic;
-import models.Transaction;
 import models.User;
-import util.CookieCreater;
-import util.UUIDCreater;
-
-import javax.servlet.http.Cookie;
-import java.util.Optional;
-import java.util.UUID;
+import util.CookieCreator;
+import util.UUIDCreator;
 
 public class UserRoutes {
 
     private final Express app;
     UserLogic userLogic = new UserLogic();
-    UUIDCreater uuid = new UUIDCreater();
-    CookieCreater creator = new CookieCreater();
+    UUIDCreator uuid = new UUIDCreator();
+    CookieCreator creator = new CookieCreator();
 
     public UserRoutes(Express app) {
         this.app = app;

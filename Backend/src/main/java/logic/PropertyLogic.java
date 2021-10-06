@@ -7,7 +7,9 @@ import mapper.PropertyMapper;
 import models.Property;
 import models.PropertyLog;
 import models.PropertyView;
+import models.User;
 import repositories.PropertyRepository;
+import repositories.UserRepository;
 import util.MongoDB;
 
 import java.util.ArrayList;
@@ -15,7 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class PropertyLogic {
-    
+    UserRepository userRepository = new UserRepository();
+    UserLogic userLogic = new UserLogic();
     PropertyRepository propertyRepository = new PropertyRepository();
     PropertyMapper propertyMapper = new PropertyMapper();
     LogMapper logMapper = new LogMapper();
@@ -40,7 +43,7 @@ public class PropertyLogic {
         }
         return propertiesHomeDTOs;
     }
-    
+
     public PropertyDTO getProperty(Integer id) {
         Optional<Property> property = propertyRepository.findById(id);
         if (property.isEmpty()) return null;
@@ -65,7 +68,9 @@ public class PropertyLogic {
     
     public void updateProperty(PropertyDTO p, Integer id) {
         Optional<Property> propertyBefore = propertyRepository.findById(id);
-        Property property = propertyMapper.dtoToProperty(p, propertyBefore);
+        Optional<User> user = userRepository.findById(propertyBefore.get().getUser().getId());
+        User user1 =  userLogic.userMapper.userOptionalToUser(user);
+        Property property = propertyMapper.dtoToProperty(p, propertyBefore, user1);
         PropertyLog propertyLog = logMapper.propertyToLog(propertyBefore);
         property.getPropertyLogs().add(propertyLog);
         propertyRepository.updateProperty(property);

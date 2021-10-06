@@ -2,17 +2,18 @@ package routes;
 
 import express.Express;
 import logic.WorkerLogic;
+import models.Message;
 import models.Worker;
-import org.hibernate.jdbc.Work;
 import repositories.MessageRepository;
-import util.CookieCreater;
+import util.CookieCreator;
+import java.util.List;
 import java.util.Optional;
 
 
 public class WorkerRoutes {
     private final Express app;
     MessageRepository messageRepository = new MessageRepository();
-    CookieCreater cookie = new CookieCreater();
+    CookieCreator cookie = new CookieCreator();
     WorkerLogic workerLogic = new WorkerLogic();
 
     public WorkerRoutes(Express app) {
@@ -26,17 +27,16 @@ public class WorkerRoutes {
         });
 
         app.post("/api/support/messages", (req, res) -> {
-           Object value = messageRepository.getMessagesFromChatroomId(req.body().get("id").toString());
-           if(value != null) {
-               res.json(value);
+            List<Message> conversation = messageRepository.getMessagesFromChatroomId(req.body().get("id").toString());
+           if(conversation != null) {
+               res.json(conversation);
            } else {
-               res.send("No");
+               res.send("No results found.");
            }
-
         });
 
         app.get("/api/support/all-messages", (req, res) -> {
-            res.json(messageRepository.uniqueOpenThreads());
+            res.json(messageRepository.uniqueRooms());
         });
 
         app.post("/api/support/login", (req, res) -> {

@@ -1,12 +1,9 @@
 package repositories;
-
-import routes.Message;
-
+import models.Message;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class MessageRepository {
 
@@ -14,7 +11,21 @@ public class MessageRepository {
     EntityManager entityManager = entityManagerFactory.createEntityManager();
 
     public MessageRepository( ) {
+    }
 
+    public List<String> uniqueRooms() {
+        List<String> rooms = entityManager.createQuery("select DISTINCT(m.chatroom_id) FROM Message m", String.class).getResultList();
+        return rooms.isEmpty() ?  new ArrayList<>() : rooms;
+    }
+
+    public List <Message> getMessagesFromChatroomId(String chatroom_id) {
+        return entityManager.createQuery("SELECT m FROM Message m WHERE m.chatroom_id = :chat_id ORDER BY time_sent ASC", Message.class)
+                .setParameter("chat_id", chatroom_id)
+                .getResultList();
+    }
+
+    public List<Message> findAll() {
+        return entityManager.createQuery("from Message", Message.class).getResultList();
     }
 
     public Optional<Message> save(Message msg) {
@@ -27,22 +38,6 @@ public class MessageRepository {
             e.printStackTrace();
         }
         return Optional.empty();
-    }
-
-
-    public List<?> uniqueOpenThreads() {
-        return entityManager.createQuery("select DISTINCT(m.chatroom_id) FROM Message m")
-                .getResultList();
-    }
-
-    public List <?> getMessagesFromChatroomId(String chatroom_id) {
-        return entityManager.createQuery("SELECT m FROM Message m WHERE m.chatroom_id = :chat_id ORDER BY time_sent ASC", Message.class)
-                .setParameter("chat_id", chatroom_id)
-                .getResultList();
-    }
-
-    public List<?> findAll() {
-        return entityManager.createQuery("from Message").getResultList();
     }
 
 }

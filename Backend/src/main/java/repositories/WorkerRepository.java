@@ -9,6 +9,7 @@ import javax.persistence.Persistence;
 import java.util.Optional;
 
 public class WorkerRepository {
+
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bnb");
     EntityManager entityManager = entityManagerFactory.createEntityManager();
     PasswordHash passwordHash = new PasswordHash();

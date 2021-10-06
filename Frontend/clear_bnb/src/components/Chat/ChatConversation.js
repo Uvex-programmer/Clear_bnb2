@@ -1,10 +1,12 @@
 import classes from './ChatConversation.module.css'
 
-export const ChatConversation = ({ messages }) => {
+export const ChatConversation = ({
+  messages,
+  user = 'user-color',
+  server = 'server-color',
+}) => {
   let conversation = messages.map((message, index) => {
-    let color = message.is_support
-      ? classes['server-color']
-      : classes['user-color']
+    let color = message.is_support ? classes[server] : classes[user]
     return (
       <li key={index} className={classes['message-bubble'] + ' ' + color}>
         <p>{message.msg}</p>
