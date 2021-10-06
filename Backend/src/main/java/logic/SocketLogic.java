@@ -60,14 +60,16 @@ public class SocketLogic {
     public HashMap <Message, List<WsContext>> onMessageHandler(WsMessageContext ctx) {
         Message msg = createMessage(ctx);
         String roomId = ctx.message(Message.class).getChatroom_id();
+        HashMap <Message, List<WsContext>> delivery = new HashMap<>();
 
         if(fromWorker(roomId)) {
             if(!getUsersFromRoom(roomId).contains(ctx)) addToRoom(roomId, ctx);
         }
         else if (!chatRoomExists(chatRooms, ctx)){
-            createChatRoom(ctx, msg).forEach(worker ->  worker.send(msg));
+            msg.setPayload(uniqueRooms());
+            createChatRoom(ctx, msg).forEach(worker -> worker.send(msg));
         }
-        HashMap <Message, List<WsContext>> delivery = new HashMap<>();
+
         delivery.put(msg, getChatRooms().get(roomId == null ? ctx.cookie("id") : roomId));
         return delivery;
         };
@@ -78,7 +80,6 @@ public class SocketLogic {
         participants.add(ctx);
         participants.add(supportWorkers.get(0));
         chatRooms.put(msg.getChatroom_id(), participants);
-        msg.setPayload(uniqueRooms());
         return notifyWorkers();
     }
 
