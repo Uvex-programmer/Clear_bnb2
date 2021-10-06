@@ -29,10 +29,6 @@ public class PropertyRoutes {
             res.json(propertyLogic.getHomeProperties());
         });
         
-        app.get("/api/get-properties", (req, res) -> {
-            res.json(propertyLogic.getProperties());
-        });
-        
         app.get("/api/get-property/:id", (req, res) -> {
             res.json(propertyLogic.getProperty(Integer.parseInt(req.params("id"))));
         });

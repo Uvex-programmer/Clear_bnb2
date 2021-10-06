@@ -34,7 +34,6 @@ public class UserLogic {
     }
     
     public Object whoAmI(String sessionId) {
-        System.out.println(sessionId + " sessionID");
         if (sessionId == null) {
             return null;
         }
@@ -54,7 +53,7 @@ public class UserLogic {
         if (userRepository.save(user).isPresent()) {
             Optional<Cookie> cookie = setupSession(user.getEmail(), user.getId());
             if (cookie.isPresent()) {
-                var findUser = userRepository.findById(user.getId());
+                Optional<User> findUser = userRepository.findById(user.getId());
                 return userMapper.userToDTO(findUser);
             } else {
                 return null;
@@ -69,7 +68,7 @@ public class UserLogic {
             return null;
         }
         if (passwordHash.authenticate(user.get().getPassword().toCharArray(), password)) {
-            var findUser = userRepository.findById(user.get().getId());
+            Optional<User> findUser = userRepository.findById(user.get().getId());
             return userMapper.userToDTO(findUser);
         } else {
             return null;

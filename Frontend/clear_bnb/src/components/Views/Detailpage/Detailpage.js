@@ -13,7 +13,6 @@ const Detailpage = () => {
   const [property, setProperty] = useState()
   const [checkUpdate, setCheckUpdate] = useState(false)
   const [startDate, setStartDate] = useState('')
-  const [showUpdate, setShowUpdate] = useState(false)
   const [endDate, setEndDate] = useState('')
   const { id } = useParams()
 

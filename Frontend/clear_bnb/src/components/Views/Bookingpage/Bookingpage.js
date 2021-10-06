@@ -6,8 +6,6 @@ const Bookingpage = () => {
   const [storageHouse, setStorageHouse] = useState()
   const chosenProperty = useSelector((state) => state.userInfo.chosenObject)
   const userOnline = useSelector((state) => state.loginUser.user)
-  let dispatch = useDispatch()
-  dispatch()
 
   useEffect(() => {
     async function retrieveHouse() {
@@ -17,7 +15,6 @@ const Bookingpage = () => {
     retrieveHouse()
   }, [chosenProperty])
 
-  console.log(storageHouse)
   const submitHandler = () => {
     const payment = {
       propertyId: storageHouse.id,
@@ -31,9 +28,6 @@ const Bookingpage = () => {
       body: JSON.stringify(payment),
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-      })
       .catch((error) => console.log(error))
   }
 

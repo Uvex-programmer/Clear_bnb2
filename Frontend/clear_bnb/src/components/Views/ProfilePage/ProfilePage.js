@@ -1,6 +1,5 @@
 import UserInfo from './components/UserInfo'
 import UserHouse from './components/UserHouses'
-import UserBookings from './components/UserBookings'
 import NewCard from '../../UI/CardOld/DanneRörInteDettaCard'
 import ReviewPostUser from '../../Review/ReviewPostUser'
 import { useParams, useHistory } from 'react-router'
@@ -33,7 +32,7 @@ export default function ProfilePage() {
       .then((data) => {
         setUserHouses(data)
       })
-  }, [id])
+  }, [id, history])
 
   useEffect(() => {
     fetch(`/api/get-reviews-on-user/${id}`)
@@ -57,20 +56,6 @@ export default function ProfilePage() {
           </label>
           <div className='user-container' style={{ display: 'flex' }}>
             {userHouses ? <UserHouse properties={userHouses} /> : ''}
-          </div>
-        </NewCard>
-        <NewCard>
-          <label
-            style={{
-              fontWeight: '700',
-              fontSize: '25px',
-              marginLeft: '10px',
-            }}
-          >
-            Your bookings:
-          </label>
-          <div className='user-bookings' style={{ display: 'flex' }}>
-            <UserBookings />
           </div>
         </NewCard>
         <NewCard>

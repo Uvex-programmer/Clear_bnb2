@@ -6,11 +6,8 @@ import models.Worker;
 import org.hibernate.jdbc.Work;
 import repositories.MessageRepository;
 import util.CookieCreater;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.Optional;
-import util.PasswordHash;
+
 
 public class WorkerRoutes {
     private final Express app;
@@ -25,7 +22,6 @@ public class WorkerRoutes {
 
     public void userMethods() {
         app.post("/api/support/register-user", (req, res) -> {
-           // res.json(registerUser(req.body(Worker.class)));
             res.status(500).send("Service unavailable.");
         });
 

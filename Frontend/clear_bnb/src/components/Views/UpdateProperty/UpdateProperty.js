@@ -50,7 +50,6 @@ export const AddProperty = ({ property, setCheckUpdate, value }) => {
         city: city,
       },
     }
-    console.log(propertyObj)
     await fetch(`/api/property/update/${property.id}`, {
       method: 'POST',
       body: JSON.stringify(propertyObj),

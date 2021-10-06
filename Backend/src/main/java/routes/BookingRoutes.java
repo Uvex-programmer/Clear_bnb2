@@ -22,9 +22,6 @@ public class BookingRoutes {
 
     public void bookingMethods() {
 
-        app.get("/api/getUserBookings/:id", (req, res) -> {
-        });
-
         app.post("/api/purchase-booking", (req, res) -> {
             boolean gotCoverage = logic.gotCoverage(req.body(BookingDTO.class), Integer.parseInt(req.body().get("userId").toString()));
             

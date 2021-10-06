@@ -2,7 +2,6 @@ package repositories;
 
 import interfaces.ReviewRepoInterface;
 import models.Review;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -55,7 +54,7 @@ public class ReviewRepository implements ReviewRepoInterface {
     public void delete(Integer id){
         try {
             entityManager.getTransaction().begin();
-            var review = entityManager.find(Review.class, id);
+            Review review = entityManager.find(Review.class, id);
             entityManager.remove(review);
             entityManager.getTransaction().commit();
         } catch (Exception e) {

@@ -31,17 +31,14 @@ public class MessageRepository {
 
 
     public List<?> uniqueOpenThreads() {
-        List<?> msgs = entityManager.createQuery("select DISTINCT(m.chatroom_id) FROM Message m")
+        return entityManager.createQuery("select DISTINCT(m.chatroom_id) FROM Message m")
                 .getResultList();
-        msgs.forEach(System.out::println);
-        return msgs;
     }
 
     public List <?> getMessagesFromChatroomId(String chatroom_id) {
-        List<?> msgs = entityManager.createQuery("SELECT m FROM Message m WHERE m.chatroom_id = :chat_id ORDER BY time_sent ASC", Message.class)
+        return entityManager.createQuery("SELECT m FROM Message m WHERE m.chatroom_id = :chat_id ORDER BY time_sent ASC", Message.class)
                 .setParameter("chat_id", chatroom_id)
                 .getResultList();
-        return msgs;
     }
 
     public List<?> findAll() {

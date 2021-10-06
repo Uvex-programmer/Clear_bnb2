@@ -99,7 +99,6 @@ public final class PasswordHash
         for (int idx = 0; idx < check.length; ++idx) {
             zero |= hash[salt.length + idx] ^ check[idx];
         }
-        System.out.println("Password Confirmed: " + (zero == 0));
         return zero == 0;
     }
 

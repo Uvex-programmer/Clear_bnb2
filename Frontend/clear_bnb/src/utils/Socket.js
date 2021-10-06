@@ -27,7 +27,6 @@ export function addSocketEventListeners(socket, callback) {
   }
 
   socket.onmessage = (event) => {
-    console.log('Message from server:', event.data)
     callback(event.data, 'onmessage')
   }
 

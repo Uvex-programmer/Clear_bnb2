@@ -3,7 +3,6 @@ package repositories;
 import interfaces.UserRepoInterface;
 import models.BankAccount;
 import models.User;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

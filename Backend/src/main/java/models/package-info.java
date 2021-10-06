@@ -8,16 +8,13 @@
         ,
         @FilterDef(name = "guestFilter", parameters = @ParamDef(name = "minGuests", type = "int")),
         @FilterDef(name = "priceFilter", parameters = @ParamDef(name = "maxPrice", type = "int")),
-        @FilterDef(name = "freeSearchFilter", parameters = {
+        @FilterDef(name = "cityFilter", parameters = {
                 @ParamDef(name = "city", type = "string"),
-                //@ParamDef(name = "description", type = "string"),
-               // @ParamDef(name = "street", type = "string")
         })
 })
 
 
 package models;
-
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.FilterDefs;
 import org.hibernate.annotations.ParamDef;
