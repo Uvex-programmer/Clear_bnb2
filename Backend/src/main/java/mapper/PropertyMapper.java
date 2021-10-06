@@ -28,10 +28,10 @@ public class PropertyMapper {
         return propertyDTO;
     }
     
-    public Property dtoToProperty(PropertyDTO dto, Optional<Property> property) {
+    public Property dtoToProperty(PropertyDTO dto, Optional<Property> property, User user) {
         Property p = new Property();
         p.setId(property.get().getId());
-        p.setUser(property.get().getUser());
+        p.setUser(user);
         p.setCreatedAt(dto.getCreatedAt());
         p.setGuests(dto.getGuests());
         p.setDescription(dto.getDescription());
@@ -47,7 +47,7 @@ public class PropertyMapper {
         p.addImages(dto.getImages());
         return p;
     }
-    
+
     public PropertyHomeDTO propertyHomeToDTO(Optional<Property> property) {
         var p = property.get();
         PropertyHomeDTO propertyHomeDTO = new PropertyHomeDTO();
