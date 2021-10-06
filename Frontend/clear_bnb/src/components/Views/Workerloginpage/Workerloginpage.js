@@ -25,7 +25,7 @@ export default function WorkerLoginpage() {
       .then((data) => {
         console.log(data)
         dispatch(login(data))
-        history.push('/')
+        history.go('/')
       })
   }
 
