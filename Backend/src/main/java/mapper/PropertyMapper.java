@@ -28,10 +28,11 @@ public class PropertyMapper {
         return propertyDTO;
     }
     
-    public Property dtoToProperty(PropertyDTO dto, Optional<Property> property) {
+    public Property dtoToProperty(PropertyDTO dto, Optional<Property> property, User user) {
+        System.out.println(property.get().getUser());
         Property p = new Property();
         p.setId(property.get().getId());
-        p.setUser(property.get().getUser());
+        p.setUser(user);
         p.setCreatedAt(dto.getCreatedAt());
         p.setGuests(dto.getGuests());
         p.setDescription(dto.getDescription());
@@ -48,32 +49,13 @@ public class PropertyMapper {
         return p;
     }
     
-    public PropertyHomeDTO propertyHomeToDTO(Optional<Property> p) {
-        return new PropertyHomeDTO(
-                p.get().getId(),
-                p.get().getTitle(),
-                p.get().getDescription(),
-                p.get().getBeds(),
-                p.get().getBathrooms(),
-                p.get().getGuests(),
-                p.get().getCreatedAt(),
-                p.get().getStartDate(),
-                p.get().getEndDate(),
-                p.get().getDailyPrice());
-    }
-    
-    public Property dtoToPropertyHome(PropertyDTO dto, Optional<Property> property) {
-        Property p = new Property();
-        p.setId(property.get().getId());
-        p.setCreatedAt(dto.getCreatedAt());
-        p.setGuests(dto.getGuests());
-        p.setDescription(dto.getDescription());
-        p.setBeds(dto.getBeds());
-        p.setBathrooms(dto.getBathrooms());
-        p.setDailyPrice(dto.getDailyPrice());
-        p.setEndDate(dto.getEndDate());
-        p.setStartDate(dto.getStartDate());
-        p.setTitle(dto.getTitle());
-        return p;
+    public PropertyHomeDTO propertyHomeToDTO(Optional<Property> property) {
+        var p = property.get();
+        PropertyHomeDTO propertyHomeDTO = new PropertyHomeDTO();
+        propertyHomeDTO.setId(p.getId());
+        propertyHomeDTO.setDailyPrice(p.getDailyPrice());
+        propertyHomeDTO.setTitle(p.getTitle());
+        propertyHomeDTO.setDescription(p.getDescription());
+        return propertyHomeDTO;
     }
 }

@@ -22,10 +22,6 @@ public class WorkerRoutes {
     }
 
     public void userMethods() {
-        app.post("/api/support/register-user", (req, res) -> {
-           // res.json(registerUser(req.body(Worker.class)));
-            res.status(500).send("Service unavailable.");
-        });
 
         app.post("/api/support/messages", (req, res) -> {
             List<Message> conversation = messageRepository.getMessagesFromChatroomId(req.body().get("id").toString());

@@ -10,7 +10,5 @@ public interface BookingRepoInterface {
 
     List<?> findAll();
 
-    List<?> findByUserId(Integer id);
-
     Optional<Booking> save(Booking booking);
 }

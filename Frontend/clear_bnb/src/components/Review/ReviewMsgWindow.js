@@ -45,7 +45,7 @@ const MessageList = ({ messages, userOnline }) => {
               Rating: {message.rating}/5 - {message.username}
             </div>
             <div>{message.comment}</div>
-            {userOnline.id === message.userId ? (
+            {userOnline?.id === message.userId ? (
               <button onClick={() => deleteReview(message.id)}>X</button>
             ) : (
               ''

@@ -40,26 +40,24 @@ public class BookingLogic {
         return buyerFunds >= propertyPrice;
     }
 
-    public boolean transferHandler(BookingDTO bookDTO, int propertyId, int userId) {
+    public void transferHandler(BookingDTO bookDTO, int propertyId, int userId) {
         Optional<User> buyer = userRepository.findById(userId);
         Optional<User> receiver = propertyRepository.findByIdReturnUserId(propertyId);
         int price = bookDTO.getPropertyPrice();
-        return transferMoney(buyer.get(), receiver.get(), price);
+        transferMoney(buyer.get(), receiver.get(), price);
     }
-//0,8695652173913043
-    public boolean transferMoney(User buyer, User receiver, int propertyPrice) {
+
+    public void transferMoney(User buyer, User receiver, int propertyPrice) {
         double buyerFunds = buyer.getAccount().getFunds();
         double receiverFunds = receiver.getAccount().getFunds();
         Optional<BankAccount> adminAccount = bankAccountRepository.findById(1);
         if (buyerFunds >= propertyPrice) {
             buyer.getAccount().setFunds(buyerFunds - propertyPrice);
-            receiver.getAccount().setFunds(receiverFunds + Math.floor(propertyPrice * 0.8695652173913043));
+            receiver.getAccount().setFunds(receiverFunds + Math.floor(propertyPrice / 1.15));
             adminAccount.get().setFunds(adminAccount.get().getFunds() + Math.ceil(propertyPrice * 0.15));
             bankAccountRepository.save(buyer.getAccount());
             bankAccountRepository.save(receiver.getAccount());
             bankAccountRepository.save(adminAccount.get());
-            return true;
         }
-        return false;
     }
 }

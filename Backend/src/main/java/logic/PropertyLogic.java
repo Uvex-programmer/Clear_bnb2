@@ -7,7 +7,9 @@ import mapper.PropertyMapper;
 import models.Property;
 import models.PropertyLog;
 import models.PropertyView;
+import models.User;
 import repositories.PropertyRepository;
+import repositories.UserRepository;
 import util.MongoDB;
 
 import java.util.ArrayList;
@@ -15,7 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class PropertyLogic {
-    
+    UserRepository userRepository = new UserRepository();
+    UserLogic userLogic = new UserLogic();
     PropertyRepository propertyRepository = new PropertyRepository();
     PropertyMapper propertyMapper = new PropertyMapper();
     LogMapper logMapper = new LogMapper();
@@ -26,7 +29,6 @@ public class PropertyLogic {
         property.addUser(property.getUser());
         property.addAmenities(property.getAmenities());
         property.setImages(property.getImages());
-        System.out.println(property);
         propertyRepository.save(property);
         MongoDB.insertProperty(property);
         return property;
@@ -35,8 +37,9 @@ public class PropertyLogic {
     public List<PropertyHomeDTO> getHomeProperties() {
         
         List<Property> properties = MongoDB.loadFromCache();
-//
+
         if (properties.isEmpty()) return null;
+
         ArrayList<PropertyHomeDTO> propertiesHomeDTOs = new ArrayList<>();
         for (Property p : properties) {
             propertiesHomeDTOs.add(propertyMapper.propertyHomeToDTO(Optional.ofNullable(p)));
@@ -45,7 +48,6 @@ public class PropertyLogic {
     }
     
     public List<PropertyDTO> getProperties() {
-        System.out.println(propertyRepository.findAvailableObjects());
         List<Property> properties = propertyRepository.findAvailableObjects();
         if (properties.isEmpty()) return null;
         ArrayList<PropertyDTO> propertiesDTOs = new ArrayList<>();
@@ -79,7 +81,9 @@ public class PropertyLogic {
     
     public void updateProperty(PropertyDTO p, Integer id) {
         Optional<Property> propertyBefore = propertyRepository.findById(id);
-        Property property = propertyMapper.dtoToProperty(p, propertyBefore);
+        Optional<User> user = userRepository.findById(propertyBefore.get().getUser().getId());
+        User user1 =  userLogic.userMapper.userOptionalToUser(user);
+        Property property = propertyMapper.dtoToProperty(p, propertyBefore, user1);
         PropertyLog propertyLog = logMapper.propertyToLog(propertyBefore);
         property.getPropertyLogs().add(propertyLog);
         propertyRepository.updateProperty(property);

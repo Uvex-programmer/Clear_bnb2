@@ -3,7 +3,7 @@ import Navbar from './components/Navbar/Navbar'
 import Login from './components/Login/Login'
 import AddProperty from './components/AddProperty/AddProperty'
 import FrontPage from './components/Views/Frontpage/Frontpage'
-import ProfilePage from './components/Views/Profilepage/ProfilePage'
+import ProfilePage from './components/Views/ProfilePage/ProfilePage'
 import Detailpage from './components/Views/Detailpage/Detailpage'
 import SearchPage from './components/Views/Searchpage/Searchpage'
 import BookingPage from './components/Views/Bookingpage/Bookingpage'
@@ -39,7 +39,7 @@ function App() {
         console.log('Didnt work: ' + error)
         setDone(true)
       })
-  }, [])
+  }, [dispatch])
 
   //KOLLA IFALL COOKIESEN ÄR SATT TILL IS_SUPPORT, VILKEN GES IFALL EN SUPPORT/ADMIN LOGGAR IN!
   const checkCookie = () => {

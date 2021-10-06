@@ -13,7 +13,6 @@ const Detailpage = () => {
   const [property, setProperty] = useState()
   const [checkUpdate, setCheckUpdate] = useState(false)
   const [startDate, setStartDate] = useState('')
-  const [showUpdate, setShowUpdate] = useState(false)
   const [endDate, setEndDate] = useState('')
   const { id } = useParams()
 
@@ -25,7 +24,7 @@ const Detailpage = () => {
   let notSelected = startDate.length > 0 && endDate.length > 0 ? true : false
   let images = ''
   let amenities = 'No amenities'
-  let logs = 'No older versions'
+  let logs = []
 
   useEffect(() => {
     fetch(`/api/get-property/${id}`)
@@ -37,7 +36,7 @@ const Detailpage = () => {
         }
         setProperty(data)
       })
-  }, [id, checkUpdate])
+  }, [id, checkUpdate, history])
 
   useEffect(() => {
     fetch(`/api/get-reviews-on-property/${id}`)
@@ -211,7 +210,7 @@ const Detailpage = () => {
           ) : (
             ''
           )}
-          <div style={{}}>{logs}</div>
+          <div style={{}}>{logs.reverse()}</div>
         </>
       )}
     </div>

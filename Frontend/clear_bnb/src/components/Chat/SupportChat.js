@@ -45,6 +45,11 @@ const SupportChat = () => {
 
   // -------------------------------
 
+  useEffect(() => {
+    console.log('SupportChat component booted up..')
+    //fetchAllMessages()
+  }, [])
+
   const typeHandler = (e) => {
     e.stopPropagation()
     setSupportReply(e.target.value)

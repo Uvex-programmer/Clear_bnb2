@@ -23,14 +23,8 @@ import javax.crypto.spec.PBEKeySpec;
 public final class PasswordHash
 {
 
-    /**
-     * Each token produced by this class uses this identifier as a prefix.
-     */
     public static final String ID = "$31$";
 
-    /**
-     * The minimum recommended cost, used by default
-     */
     public static final int DEFAULT_COST = 16;
 
     private static final String ALGORITHM = "PBKDF2WithHmacSHA1";
@@ -99,7 +93,6 @@ public final class PasswordHash
         for (int idx = 0; idx < check.length; ++idx) {
             zero |= hash[salt.length + idx] ^ check[idx];
         }
-        System.out.println("Password Confirmed: " + (zero == 0));
         return zero == 0;
     }
 

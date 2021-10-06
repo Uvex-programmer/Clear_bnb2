@@ -17,8 +17,6 @@ public interface PropertyRepoInterface {
     List<?> findObjectsBySearch(String freeSearch, int beds, int bathrooms, int minGuests,
                                 int maxPrice, java.sql.Timestamp startDate, java.sql.Timestamp endDate);
     
-    Optional<Property> findByName(String name);
-    
     List<?> findByUserId(Integer id);
     
     Optional<Property> save(Property property);
