@@ -1,5 +1,5 @@
 import classes from './Chat.module.css'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { createAndConnect } from '../../utils/Socket'
 import { useSelector } from 'react-redux'
 import { ChatConversation } from './ChatConversation'

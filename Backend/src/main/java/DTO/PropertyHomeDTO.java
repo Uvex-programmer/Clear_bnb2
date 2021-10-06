@@ -1,5 +1,4 @@
 package DTO;
-import models.Address;
 
 public class PropertyHomeDTO {
     
@@ -17,7 +16,7 @@ public class PropertyHomeDTO {
         this.description = description;
         this.dailyPrice = dailyPrice;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -41,7 +40,6 @@ public class PropertyHomeDTO {
     public void setDescription(String description) {
         this.description = description;
     }
-
     
     public int getDailyPrice() {
         return dailyPrice;

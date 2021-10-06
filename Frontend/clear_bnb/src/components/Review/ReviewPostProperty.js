@@ -34,7 +34,6 @@ const Review = ({ userOnline, property }) => {
       reviewId: property.id,
       userId: userOnline.id,
     }
-    console.log(reviewObj)
 
     let res = await fetch('/api/add-property-review', {
       method: 'POST',

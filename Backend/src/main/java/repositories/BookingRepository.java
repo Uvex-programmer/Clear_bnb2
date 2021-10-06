@@ -2,12 +2,9 @@ package repositories;
 
 import interfaces.BookingRepoInterface;
 import models.Booking;
-import models.Property;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.awt.print.Book;
 import java.util.List;
 import java.util.Optional;
 

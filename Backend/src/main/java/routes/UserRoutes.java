@@ -1,4 +1,5 @@
 package routes;
+import DTO.UserDTO;
 import express.Express;
 import logic.UserLogic;
 import models.User;
@@ -19,25 +20,25 @@ public class UserRoutes {
 
     public void userMethods() {
         app.post("/api/login-user", (req, res) -> {
-            var user = userLogic.loginUser(req.body().get("email").toString(),
+            UserDTO userDTO = userLogic.loginUser(req.body().get("email").toString(),
                     req.body().get("password").toString());
-            if(user != null){
-                res.json(user);
-                res.cookie(userLogic.setupCookie(user.getEmail(), user.getId()));
+            if(userDTO != null){
+                res.json(userDTO);
+                res.cookie(userLogic.setupCookie(userDTO.getEmail(), userDTO.getId()));
                 return;
             }
             res.json("Wrong login");
         });
         
         app.post("/api/register-user", (req, res) -> {
-            var test = userLogic.checkIfUserExist(req.body().get("email").toString());
-            if(test == null) {
+            var userCheck = userLogic.checkIfUserExist(req.body().get("email").toString());
+            if(userCheck == null) {
                 res.json("User already exists.");
                 return;
             }
-            var user = userLogic.registerUser(req.body(User.class));
-            res.cookie(userLogic.setupCookie(user.getEmail(), user.getId()));
-            res.json(user);
+            UserDTO userDTO = userLogic.registerUser(req.body(User.class));
+            res.cookie(userLogic.setupCookie(userDTO.getEmail(), userDTO.getId()));
+            res.json(userDTO);
            });
 
         app.get("/api/logout-user", (req, res) -> {

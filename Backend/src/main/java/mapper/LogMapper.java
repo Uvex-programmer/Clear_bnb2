@@ -45,10 +45,10 @@ public class LogMapper {
     }
 
     public PropertyLog propertyToLog(Optional<Property> property){
-        var p = property.get();
-        var address = addressToLog(p.getAddress());
-        var amenity = amenityToLogList(p.getAmenities());
-        var images = imageToLogList(p.getImages());
+        Property p = property.get();
+        AddressLog addressLog = addressToLog(p.getAddress());
+        ArrayList<AmenityLog> amenityLogs = amenityToLogList(p.getAmenities());
+        ArrayList<ImageLog> imageLogs = imageToLogList(p.getImages());
         PropertyLog propertyLog = new PropertyLog();
         propertyLog.addProperty(p);
         propertyLog.setBathrooms(p.getBathrooms());
@@ -60,9 +60,9 @@ public class LogMapper {
         propertyLog.setEndDate(p.getEndDate());
         propertyLog.setStartDate(p.getStartDate());
         propertyLog.setTitle(p.getTitle());
-        propertyLog.addAddress(address);
-        propertyLog.addAmenities(amenity);
-        propertyLog.addImages(images);
+        propertyLog.addAddress(addressLog);
+        propertyLog.addAmenities(amenityLogs);
+        propertyLog.addImages(imageLogs);
         return propertyLog;
     }
 }

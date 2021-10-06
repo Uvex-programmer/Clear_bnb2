@@ -3,7 +3,9 @@ package logic;
 import DTO.ReviewDTO;
 import mapper.ReviewMapper;
 import models.Booking;
+import models.Property;
 import models.Review;
+import models.User;
 import repositories.BookingRepository;
 import repositories.PropertyRepository;
 import repositories.ReviewRepository;
@@ -37,16 +39,16 @@ public class ReviewLogic {
     }
 
     public ReviewDTO addPropertyReview(ReviewDTO reviewDTO) {
-        var user = userRepository.findById(reviewDTO.getUserId());
-        var property = propertyRepository.findById(reviewDTO.getReviewId());
-        var review = reviewRepository.save(reviewMapper.propertyReviewDTOtoEntity(reviewDTO, user, property));
+        Optional<User> user = userRepository.findById(reviewDTO.getUserId());
+        Optional<Property> property = propertyRepository.findById(reviewDTO.getReviewId());
+        Optional<Review> review = reviewRepository.save(reviewMapper.propertyReviewDTOtoEntity(reviewDTO, user, property));
         return reviewMapper.propertyReviewToDTO(review);
     }
     public ReviewDTO addUserReview(ReviewDTO reviewDTO) {
-        var user = userRepository.findById(reviewDTO.getUserId());
-        var userReviewed = userRepository.findById(reviewDTO.getReviewId());
-        var review = reviewRepository.save(reviewMapper.userReviewDTOtoEntity(reviewDTO, user, userReviewed));
-       return reviewMapper.userReviewToDTO(review);
+        Optional<User> user = userRepository.findById(reviewDTO.getUserId());
+        Optional<User> userReviewed = userRepository.findById(reviewDTO.getReviewId());
+        Optional<Review> review = reviewRepository.save(reviewMapper.userReviewDTOtoEntity(reviewDTO, user, userReviewed));
+        return reviewMapper.userReviewToDTO(review);
     }
 
     public Map<String, Boolean> checkCanReviewProperty(Integer propertyId, Integer userId) {

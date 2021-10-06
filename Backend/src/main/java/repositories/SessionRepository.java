@@ -2,7 +2,6 @@ package repositories;
 
 import interfaces.SessionRepoInterface;
 import models.Session;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -28,11 +27,6 @@ public class SessionRepository implements SessionRepoInterface {
             }
             return Optional.empty();
         }
-
-    public Optional<Integer> findUserBySessionId(Integer id) {
-        Session session = entityManager.find(Session.class, id);
-        return session != null ? Optional.of(session.getId()) : Optional.empty();
-    }
 
         public Optional<Session> findById(Integer id) {
             Session session = entityManager.find(Session.class, id);

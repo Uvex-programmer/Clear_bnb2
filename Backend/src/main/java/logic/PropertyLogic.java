@@ -35,28 +35,15 @@ public class PropertyLogic {
     }
     
     public List<PropertyHomeDTO> getHomeProperties() {
-        
         List<Property> properties = MongoDB.loadFromCache();
-
         if (properties.isEmpty()) return null;
-
         ArrayList<PropertyHomeDTO> propertiesHomeDTOs = new ArrayList<>();
         for (Property p : properties) {
             propertiesHomeDTOs.add(propertyMapper.propertyHomeToDTO(Optional.ofNullable(p)));
         }
         return propertiesHomeDTOs;
     }
-    
-    public List<PropertyDTO> getProperties() {
-        List<Property> properties = propertyRepository.findAvailableObjects();
-        if (properties.isEmpty()) return null;
-        ArrayList<PropertyDTO> propertiesDTOs = new ArrayList<>();
-        for (Property p : properties) {
-            propertiesDTOs.add(propertyMapper.propertyToDTO(Optional.ofNullable(p)));
-        }
-        return propertiesDTOs;
-    }
-    
+
     public PropertyDTO getProperty(Integer id) {
         Optional<Property> property = propertyRepository.findById(id);
         if (property.isEmpty()) return null;
@@ -73,7 +60,7 @@ public class PropertyLogic {
         return propertiesDTO;
     }
     
-    public List<?> searchProperties(PropertyView searchResult) {
+    public List<PropertyView> searchProperties(PropertyView searchResult) {
         return propertyRepository.findObjectsBySearch(searchResult.getCity(),
                 searchResult.getBeds(), searchResult.getBaths(), searchResult.getGuests(), searchResult.getDailyPrice(),
                 searchResult.getStartDate(), searchResult.getEndDate());

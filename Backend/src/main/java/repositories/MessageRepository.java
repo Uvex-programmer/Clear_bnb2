@@ -1,9 +1,5 @@
 package repositories;
-
-import io.javalin.websocket.WsContext;
 import models.Message;
-import models.PropertyView;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -43,4 +39,5 @@ public class MessageRepository {
         }
         return Optional.empty();
     }
+
 }

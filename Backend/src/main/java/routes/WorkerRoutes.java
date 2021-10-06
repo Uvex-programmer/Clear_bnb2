@@ -6,9 +6,9 @@ import models.Message;
 import models.Worker;
 import repositories.MessageRepository;
 import util.CookieCreator;
-
 import java.util.List;
 import java.util.Optional;
+
 
 public class WorkerRoutes {
     private final Express app;
@@ -22,6 +22,9 @@ public class WorkerRoutes {
     }
 
     public void userMethods() {
+        app.post("/api/support/register-user", (req, res) -> {
+            res.status(500).send("Service unavailable.");
+        });
 
         app.post("/api/support/messages", (req, res) -> {
             List<Message> conversation = messageRepository.getMessagesFromChatroomId(req.body().get("id").toString());

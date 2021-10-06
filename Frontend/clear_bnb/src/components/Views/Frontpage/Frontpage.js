@@ -18,7 +18,7 @@ function FrontPage() {
       return (
         <CardOld key={property.id} id={property.id}>
           <p>{property.title}</p>
-          <p>{}</p>
+          <p>{property.description}</p>
           <p>Price: {property.dailyPrice} kr</p>
         </CardOld>
       )

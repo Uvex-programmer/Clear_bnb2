@@ -51,8 +51,6 @@ export default function AddProperty() {
       images: imgUrls,
     }
 
-    console.log(`propertyObj`, propertyObj)
-
     await fetch('/api/add-property', {
       method: 'POST',
       body: JSON.stringify(propertyObj),
@@ -74,7 +72,6 @@ export default function AddProperty() {
   }
 
   if (imgUrls.length > 0) {
-    console.log(imgUrls)
     urls = imgUrls.map((url, index) => {
       return (
         <div key={index} style={{ display: 'flex' }}>
@@ -189,7 +186,6 @@ export default function AddProperty() {
                 },
               ])
               setImgUrl('')
-              console.log(urls)
             }}
           >
             add img
