@@ -1,5 +1,5 @@
 import classes from './Chat.module.css'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { createAndConnect } from '../../utils/Socket'
 import { useSelector } from 'react-redux'
 import { ChatConversation } from './ChatConversation'
@@ -25,6 +25,21 @@ const Chat = () => {
     setHover(false)
     setCTimeout(true)
   }
+
+  // useEffect(() => {
+  //   console.log('SupportChat component booted up..')
+  //   fetch('/api/support/messages', {
+  //     method: 'POST',
+  //     body: JSON.stringify({ id: chatroom_id }),
+  //   })
+  //     .then(async (res) => await res.json())
+  //     .then((data) => {
+  //       if (data?.payload) {
+  //       }
+
+  //       setConversation(data)
+  //     })
+  // }, [])
 
   const resizeChatWhenHover = () => {
     if (open) return setHover(false)

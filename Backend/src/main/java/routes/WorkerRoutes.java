@@ -2,10 +2,12 @@ package routes;
 
 import express.Express;
 import logic.WorkerLogic;
+import models.Message;
 import models.Worker;
 import repositories.MessageRepository;
 import util.CookieCreator;
 
+import java.util.List;
 import java.util.Optional;
 
 public class WorkerRoutes {
@@ -22,16 +24,16 @@ public class WorkerRoutes {
     public void userMethods() {
 
         app.post("/api/support/messages", (req, res) -> {
-           Object value = messageRepository.getMessagesFromChatroomId(req.body().get("id").toString());
-           if(value != null) {
-               res.json(value);
+            List<Message> conversation = messageRepository.getMessagesFromChatroomId(req.body().get("id").toString());
+           if(conversation != null) {
+               res.json(conversation);
            } else {
-               res.send("No");
+               res.send("No results found.");
            }
         });
 
         app.get("/api/support/all-messages", (req, res) -> {
-            res.json(messageRepository.uniqueOpenThreads());
+            res.json(messageRepository.uniqueRooms());
         });
 
         app.post("/api/support/login", (req, res) -> {
