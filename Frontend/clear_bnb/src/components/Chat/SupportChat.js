@@ -13,7 +13,7 @@ const SupportChat = () => {
   const [conversation, setConversation] = useState([])
   const [chatRooms, setChatRooms] = useState([])
   const [supportReply, setSupportReply] = useState('')
-  const [activeRoom, setActiveRoom] = useState('')
+  const [activeRoom, setActiveRoom] = useState(0)
   let toggleSize = open
     ? [classes['chat-container'], classes.open].join(' ')
     : classes['chat-container']
@@ -45,17 +45,6 @@ const SupportChat = () => {
 
   // -------------------------------
 
-  useEffect(() => {
-    console.log('SupportChat component booted up..')
-    //fetchAllMessages()
-  }, [])
-
-  const fetchAllMessages = () => {
-    fetch('/api/support/all-messages')
-      .then(async (res) => await res.json())
-      .then((data) => setChatRooms(data))
-  }
-
   const typeHandler = (e) => {
     e.stopPropagation()
     setSupportReply(e.target.value)
@@ -64,12 +53,10 @@ const SupportChat = () => {
   const fromSocketHandlers = (data, type) => {
     if (type === 'onmessage') {
       let parsed = JSON.parse(data)
-      console.log(parsed)
-      if (!parsed?.msg) {
-        return setChatRooms(parsed)
-      }
-      if (parsed?.payload) {
+
+      if (parsed?.payload?.length) {
         setChatRooms(parsed.payload)
+        fetchChatRoomMsg(parsed.payload[0], 0)
       }
       setConversation((prevState) => [...prevState, parsed])
     }

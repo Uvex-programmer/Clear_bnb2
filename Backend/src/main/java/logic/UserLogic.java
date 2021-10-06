@@ -34,7 +34,6 @@ public class UserLogic {
     }
     
     public Object whoAmI(String sessionId) {
-        System.out.println(sessionId + " sessionID");
         if (sessionId == null) {
             return null;
         }
